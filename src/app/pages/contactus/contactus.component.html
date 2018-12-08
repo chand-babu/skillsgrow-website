@@ -1,0 +1,56 @@
+<div class="container">
+    <app-modal-popup *ngIf="modalBox" [modalData]="modalData"></app-modal-popup>
+    <div class="row">
+        <div class="col-12">
+            <h3>CONTACT <span>US</span></h3>
+        </div>
+        <div class="col-md-6 col-sm-12 contact-us-page">
+            <div *ngIf="false" class="alert alert-success">
+                <strong>Success!</strong> Your Mesage Sent Successfully!!!
+            </div>
+            <form autocomplete="off" #contactusForm="ngForm" (ngSubmit)="onSubmit();contactusForm.reset()">
+                <div class="form-group">
+                    <label>Full Name<span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter the Name"
+                    name="fullname" [(ngModel)]="contactusObj.name" #fullname="ngModel" required>
+                    <div class="error-message" *ngIf="fullname.invalid && fullname.touched">Name is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Email ID<span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter the Email ID"
+                    name="email" [(ngModel)]="contactusObj.emailId" #email="ngModel" required>
+                    <div class="error-message" *ngIf="email.invalid && email.touched">Email ID is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number<span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter the Mobile Number"
+                    name="mobileNumber" [(ngModel)]="contactusObj.phone" #mobileNumber="ngModel" required>
+                    <div class="error-message" *ngIf="mobileNumber.invalid && mobileNumber.touched">Mobile Number is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Subject<span class="asterisk">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter the Subject"
+                    name="subject" [(ngModel)]="contactusObj.subject" #subject="ngModel" required>
+                    <div class="error-message" *ngIf="subject.invalid && subject.touched">Subjectis required</div>
+                </div>
+                <div class="form-group">
+                    <label>Message<span class="asterisk">*</span></label>
+                    <textarea class="form-control" placeholder="Start Typing Your Message"
+                    name="message" [(ngModel)]="contactusObj.message" #message="ngModel" required></textarea>
+                    <div class="error-message" *ngIf="message.invalid && message.touched">Enter the message required</div>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" [disabled]="contactusForm.invalid">SEND MESSAGE</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-sm-12 address">
+            <h5>Address</h5>
+            <p>Bharath University Research Incubation Centre<br/>
+            <span># 173 Agharam Road, Selaiyur, Chennai - 600 073</span></p>
+            <div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d486.1248622953271!2d80.14015700307598!3d12.9077920516742!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xeff41b9ffdb92590!2sBharath+Institute+of+Higher+Education+and+Research!5e0!3m2!1sen!2sin!4v1536002294001" width="100%" height="325" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+app-navigation {
+    .container-fluid {
+        background-color: @white;
+
+        .image-container {
+            padding: 15px;
+
+            @media only screen and (max-width: 780px) {
+                text-align: center;
+            }
+        }
+        .navigation-container {
+            .top_nav {
+                padding: 15px 25px;
+            }
+        }
+        .nav-link {
+            color: @brand-primary;
+            transition: 0.5s;
+            cursor: pointer;
+            position: relative;
+            .profilePicInNav {
+                img {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                }
+            }
+        }
+        .nav-link-active {
+            background: @brand-primary;
+            color: @white !important;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 15px;
+            margin-top: 4px;
+            &:hover {
+                color: @white !important;
+            }
+            @media screen and (max-width: 466px) {
+                margin: 4px 0 10px 15px;
+            }
+        }
+
+        .bottom-nav {
+            .nav-link {
+                color: black;
+                transition: 0.1s;
+                cursor: pointer;
+                font-weight: 500 !important;
+                 
+                i {
+                    font-weight: bold;
+                }
+
+                &:hover, &:focus {
+                    color: @brand-primary;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .reponsive-search {
+        width: 100%;
+        .input-group {
+            flex-wrap: inherit;
+        }
+    }
+}
+
+.mega-menu{
+    position: absolute;
+    width: 100%;
+    top: 120px;
+    padding: 15px;
+    z-index: 999999;
+    background: #002d38;
+
+    .cancel-btn {
+
+        i{
+            position: absolute;
+            right: -4px;
+            top: -9px;
+            width: 20px;
+            text-align: center;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            padding: 1px;
+            cursor: pointer;
+        }
+    }
+
+    .col-8 {
+        margin-bottom: 20px;
+    }
+    .border-bottom-h3{
+
+        h3{
+            font-size: 15px;
+            text-transform: capitalize;
+            color: #bfe3ee;
+        }
+    }
+    a{
+        margin: 7px 0;
+        cursor: pointer;
+        font-size: 12px;
+        color: #b7b7b7 !important;
+        &:hover {
+            color: @white !important;
+        }
+    }
+}
+
+.dropdown-menu{
+    width: 100%;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+.profile-dropdown {
+    background: @white;
+    position: absolute;
+    width: 250px;
+    right: 0;
+    z-index: 99;
+    top: 60px;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid @brand-primary;
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%
+    }
+    .arrow-triangle {
+        i {
+            position: relative;
+            right: 6px;
+        &:after {
+            position: absolute;
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid #f7941d;
+            right: 1px;
+            top: -33px;
+        }
+       }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .mega-menu {
+        top: 233px;
+    }
+    .profile-dropdown {
+        right: unset;
+        .arrow-triangle {
+            i {
+                &:after {
+                    left: -219px;
+                }
+            }
+        }
+    }
+}

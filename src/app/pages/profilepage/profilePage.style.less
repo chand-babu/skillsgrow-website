@@ -1,0 +1,70 @@
+app-profile-page {
+    .container {
+        min-height: 70vh;
+    }
+    option[value=""] {
+        display: none;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    .custom-file-upload {
+        border: 1px solid @brand-primary;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        margin: 15px 0;
+        border-radius: 5px;
+    }
+    .profile-details {
+        background: #f1f1f1;
+        box-shadow: 0 1px 2px 0px;
+        border-radius: 5px;
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .profileTabContent {
+            padding: 20px;
+            label {
+                color: #002d38;
+            }
+            .form-control {
+                border: 1px solid @brand-primary;
+            }
+            h3 {
+                color: @brand-secondary;
+                margin-bottom: 15px;
+            }
+            button {
+                background: @brand-secondary;
+                color: @white;
+            }
+        }
+    }
+    .profile-page-side-menu {
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                list-style-type: none;
+                color: #337ab7;
+                padding: 10px;
+                cursor: pointer;
+                i {
+                    margin-right: 10px;
+                }
+                &:hover {
+                    background: #f1f1f1;
+                    border-radius: 5px;
+                }
+            }
+            .active {
+                background: @brand-primary !important;
+                color: white;
+                border-radius: 5px;
+            }
+        }
+    }
+}

@@ -1,0 +1,245 @@
+<div class="container-fluid padding-left-0" *ngFor="let x of courseDetails;let ind = index">
+    <div class="row course-details-container">
+        <div class="col-md-8">
+            <h2><b>{{ x.courseName }}</b></h2>
+            <p class="boost-text">{{x.boostText}}</p>
+            <div>
+                <button class="btn course-description-btn">Course Description</button>
+            </div>
+            <p>{{x.shortDescription}}</p>
+            <div *ngIf="x.authorDetails[0] != null">
+                <button class="btn enroll-btn">
+                    <span *ngIf="x.authorDetails[ind].coursePrice != 'Free'">
+                        <i class="fa fa-inr mr-1"></i>
+                    </span>
+                    <span>{{(x.authorDetails[ind].coursePrice == 'Free') ? 'FREE COURSE' :
+                        x.authorDetails[ind].coursePrice}}
+                        {{(x.authorDetails[ind].coursePrice != 'Free') ? '/-' : ''}}
+                    </span>
+                </button>
+            </div>
+            <div>
+                <ul>
+                    <li *ngIf="x.authorDetails[0] != null">Created By: {{x.authorDetails[ind].authorName}}</li>
+                    <li>{{(x.enrolledUser.length != 0) ? x.enrolledUser.length : '0'}} Students Enrolled</li>
+                    <li>
+                        <ng-template #t let-fill="fill">
+                            <span class="star" [class.full]="fill === 100">
+                                <span class="half" [style.width.%]="fill">
+                                    <i class="fa fa-star"></i>
+                                </span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </ng-template>
+
+                        <ngb-rating [max]="5" [(rate)]="averageRate" [starTemplate]="t" [readonly]="true"></ngb-rating>
+                    </li>
+                    <li>
+                        <i class="fa fa-clock-o"></i> <span>{{courseTiming}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4 text-md-right">
+            <div *ngIf="x.video">
+                <iframe width="250" height="200" [src]="x.video" frameborder="0" allowfullscreen>
+                </iframe>
+            </div>
+            <div *ngIf="!x.video" class="course-large-img">
+                <img [src]="imagePath + x.imageSmall" alt="courseImg">
+            </div>
+            <div *ngIf="x.enrollBtn != false">
+                <button class="btn btn-danger price-btn" (click)="enrollNowCourse()">
+                    {{(x.authorDetails[ind].coursePrice != 'Free') ? 'Pay Now' : 'Enroll Now'}}</button>
+            </div>
+            <div *ngIf="x.enrollBtn == false">
+                <button class="btn btn-danger price-btn" routerLink="/enrollmentcourselandingpage/{{x._id}}">Continue</button>
+            </div>
+        </div>
+    </div>
+    <div id="main" class="row course-descriptions">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+            <ul>
+                <li id="defaultOpen" class="tablinks " (click)="aboutCourse($event, 'about')">About Course</li>
+                <li class="tablinks " (click)="aboutCourse($event, 'curriculum')">
+                    Course Curriculum
+                </li>
+                <li class="tablinks " (click)="aboutCourse($event, 'review')">
+                    Student Review
+                </li>
+                <li class="tablinks " (click)="aboutCourse($event, 'biography')">
+                    About Instructor
+                </li>
+                <li class="tablinks " (click)="aboutCourse($event, 'chatForums')">Chat Forums</li>
+                <li class="tablinks " (click)="aboutCourse($event, 'faq')">FAQ</li>
+            </ul>
+        </div>
+
+        <div class="col-12">
+            <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+                <a  class="close" data-dismiss="alert" aria-label="close" (click)="errorMessage = false">&times;</a>
+                <strong>Error!</strong> {{message}}
+            </div>
+            <div *ngIf="successMessage" class="alert alert-success alert-dismissible">
+                    <a  class="close" data-dismiss="alert" aria-label="close" (click)="successMessage = false">&times;</a>
+                <strong>Success!</strong> {{message}}
+            </div>
+            <div *ngIf="hideTheMenuBar" class="menu-bar-icon">
+                <span (click)="openNav()">&#9776;</span>
+            </div>
+            <div id="about" class="tabcontent">
+                <h4>About Course</h4>
+                <p [innerHTML]="editorContent"></p>
+            </div>
+            <div id="curriculum" class="tabcontent">
+                <div class="accordion-container" *ngFor="let x of topicList;let topicIndex = index">
+                    <button class="accordion" id="defaultAccordionTitle{{topicIndex + 1}}">{{x.title}}</button>
+                    <div id="defaultAccordionPanel{{topicIndex + 1}}" class="panel table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr *ngFor="let y of x.topics;let i = index">
+                                    <td><i class="fa fa-file-video-o"></i> {{y.subTopics}}</td>
+                                    <td class="text-right">{{y.timing}} min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row course-curriculum">
+                    <div class="col-md-6">
+                        <h4>{{ x.courseName }}</h4>
+                    </div>
+                    <div *ngIf="x.authorDetails[0] != null" class="col-md-6 text-right">
+                        <span>{{(x.authorDetails[ind].coursePrice == 'Free') ? 'INR FREE/-' :
+                            x.authorDetails[ind].coursePrice}}
+                        </span>
+                        <span class="mr-2" *ngIf="x.authorDetails[ind].coursePrice != 'Free'">
+                            <i style="position: relative;top: 2px;" class="fa fa-inr"></i>/-
+                        </span>
+                        <button *ngIf="x.enrollBtn != false" (click)="enrollNowCourse()">ENROLL</button>
+                    </div>
+                </div>
+            </div>
+            <div id="review" class="tabcontent">
+                <h4>Review Section</h4>
+                <div *ngIf="infoMessage" class="alert alert-info">
+                    <strong>Info!</strong> Only Enrolled User Can Review the Course.
+                </div>
+                <div>
+                    <ngb-rating [max]="5" [(rate)]="currentRate"></ngb-rating>
+                    <hr>
+                    <pre>Rate: <b>{{currentRate}}</b></pre>
+                </div>
+                <form autocomplete="off" #reviewForm="ngForm" (ngSubmit)="onSubmit(reviewForm)">
+                    <div class="form-group">
+                        <label>Name
+                            <span class="asterisk">*</span>
+                        </label>
+                        <input type="text" class="form-control" name="name" [(ngModel)]="reviewFormObj.name" #name="ngModel"
+                            required>
+                        <div class="error-message" *ngIf="name.invalid && name.touched">Invalid name</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Comment
+                            <span class="asterisk">*</span>
+                        </label>
+                        <textarea class="form-control" name="comment" [(ngModel)]="reviewFormObj.comment" #comment="ngModel"
+                            required></textarea>
+                        <div class="error-message" *ngIf="comment.invalid && comment.touched">Invalid Comment</div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div id="biography" class="tabcontent">
+                <h4>About Instructor</h4>
+                <div *ngIf="x.authorDetails[0] != null" class="tabel-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>Author Name</th>
+                                <td>{{x.authorDetails[ind].authorName}}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{x.authorDetails[ind].authorPhone}}</td>
+                            </tr>
+                            <tr>
+                                <th>Email ID</th>
+                                <td>{{x.authorDetails[ind].authorEmail}}</td>
+                            </tr>
+                            <tr>
+                                <th>Author Biography</th>
+                                <td>{{x.authorDetails[ind].authorBiography}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="chatForums" class="tabcontent">
+                <h4>Discussion Forums</h4>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="chat-forums" id="messageBody">
+                            <ng-container *ngIf="chatData.length >= 1">
+                                <div class="message-container row" *ngFor="let message of chatData;let messageIndex = index">
+                                    <div class="col-md-2">
+                                        <img src="assets/image/dummyuser.png" alt="Avatar">
+                                    </div>
+                                    <div class="col-md-10">
+                                        <p>{{message.chatMessage}}</p>
+                                    </div>
+                                    <div class="col-md-6">{{message.userName}}</div>
+                                    <div class="col-md-6 text-right">
+                                        <span class="reply-link" (click)="chatReplyLink(messageIndex)">Reply</span>
+                                        <span class="time-right">{{message.createdOn}}</span>
+                                    </div>
+                                    <ng-container *ngIf="message.replyMessage?.length >= 1">
+                                        <div class="message-container darker row" *ngFor="let x of message.replyMessage">
+                                            <div class="col-md-10">
+                                                <p>{{x.replyMessage}}</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <img src="assets/image/dummyuser.png" alt="Avatar" class="right">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span class="time-right">{{x.createdOn}}</span>
+                                            </div>
+                                            <div class="col-md-6 text-right">{{x.userName}}</div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <form class="row chat-input-message" autocomplete="off" #chatForm="ngForm" (ngSubmit)="sendUserMessage();chatForm.reset()">
+                            <div class="col-12 chat-forum-field">
+                                <div class="input-group">
+                                    <div *ngIf="replayUserName" class="input-group-prepend">
+                                        <span class="input-group-text">@{{x.discussionForums[messageIndex].userName}}</span>
+                                    </div>
+                                    <textarea #textarea class="form-control" placeholder="Ask question related to this course"
+                                        name="message" [(ngModel)]="chatMessage" required></textarea>
+                                    <div class="chat-forum-icon input-group-append">
+                                        <button [disabled]="chatForm.invalid" class="btn"><i class="fa fa-paper-plane"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="faq" class="tabcontent">
+                <div *ngIf="x.faq" class="row">
+                    <div class="col-12 accordion-container" *ngFor="let faq of x.faq">
+                        <button class="accordion">{{faq.question}}</button>
+                        <div class="panel">
+                            <p>{{faq.answer}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

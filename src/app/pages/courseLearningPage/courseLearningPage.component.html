@@ -1,0 +1,91 @@
+<div class="container-fluid learning-page-container" *ngFor="let course of courseLearningData">
+    <div id="main" class="row">
+        <div id="mySidenav" class="sidenav">
+            <ng-container *ngFor="let x of course.timeline;let topicIndex = index">
+                <div class="accordion" id="defaultAccordionTitle{{topicIndex}}">
+                    <div class="accordion-title">{{x.title}}</div>
+                </div>
+                <div class="panel" id="defaultAccordionPanel{{topicIndex}}">
+                    <div *ngFor="let y of x.topics;let subTopicIndex = index" 
+                    (click)="currentTopicContent(y,false,x.title,topicIndex)" 
+                    [ngStyle]="{'color': selectsubTopic == y.subTopics ? 'white' : '#b7b7b7' }">
+                        <i class="fa fa-check"></i> {{subTopicIndex + 1}}. {{y.subTopics}}</div>
+                </div>
+            </ng-container>
+            <div class="mb-5">
+                <button (click)="chatForums()" class="btn btn-block btn-info rounded-0"><i class="fa fa-commenting" aria-hidden="true"></i> Chat Forums</button>
+            </div>
+        </div>
+        <div class="col-md-12 topic-content-container">
+            <div class="row topic-title">
+                <div (click)="openNav()" class="col-1">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <div class="col-11 text-center">{{(chatForumsSection) ? 'Chat Forums' : subTopicContent.subTopics}}</div>
+            </div>
+            <div *ngIf="!chatForumsSection" class="row topic-content">
+                <div class="col-12">
+                    <div *ngIf="testBtnShow" class="text-right">
+                        <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
+                    </div>
+                    <p [innerHTML]="editorContent"></p>
+                </div>
+                <div *ngIf="testBtnShow" class="col-12 text-right">
+                    <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
+                </div>
+            </div>
+            <div *ngIf="chatForumsSection" class="row">
+                <div class="col-12">
+                    <div class="chat-forums" id="messageBody">
+                        <ng-container *ngIf="chatData.length >= 1">
+                            <div class="message-container row" *ngFor="let message of chatData;let messageIndex = index">
+                                <div class="col-md-2">
+                                    <img src="assets/image/dummyuser.png" alt="Avatar">
+                                </div>
+                                <div class="col-md-10">
+                                    <p>{{message.chatMessage}}</p>
+                                </div>
+                                <div class="col-md-6">{{message.userName}}</div>
+                                <div class="col-md-6 text-right">
+                                    <span class="reply-link" (click)="chatReplyLink(messageIndex)">Reply</span>
+                                    <span class="time-right">{{message.createdOn}}</span>
+                                </div>
+                                <ng-container *ngIf="message.replyMessage?.length >= 1">
+                                    <div class="message-container darker row" *ngFor="let x of message.replyMessage">
+                                        <div class="col-md-10">
+                                            <p>{{x.replyMessage}}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <img src="assets/image/dummyuser.png" alt="Avatar" class="right">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span class="time-right">{{x.createdOn}}</span>
+                                        </div>
+                                        <div class="col-md-6 text-right">{{x.userName}}</div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <form class="row mt-3 chat-input-message" autocomplete="off" #chatForm="ngForm" (ngSubmit)="sendUserMessage();chatForm.reset()">
+                        <div class="col-11">
+                            <div class="input-group">
+                                <div *ngIf="replayUserName" class="input-group-prepend">
+                                    <span class="input-group-text">@{{course.discussionForums[messageIndex].userName}}</span>
+                                </div>
+                                <textarea #textarea class="form-control" placeholder="Ask question related to this course" name="message" [(ngModel)]="chatMessage"
+                                    required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-1 pl-0">
+                            <button [disabled]="chatForm.invalid" class="btn btn-block m-0 rounded-0">
+                                <i class="fa fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,277 @@
+app-course-details-page {
+    .padding-left-0 {
+        width: auto;
+        padding-left: 0;
+    }
+    .course-details-container {
+        background: linear-gradient(-90deg,  #1581c0, #0b446a);
+        color: @white;
+        padding: 30px 100px;
+        font-size: 13px;
+        .boost-text {
+            font-size: 16px;
+        }
+        img{
+            width: 250px;
+            height: 200px;
+        }
+        .price-btn {
+            width: 251px;
+            margin: 15px 0;
+            font-size: 20px;
+            /* font-weight: bold;
+            background: #fefefe; */
+        }
+        .enroll-btn {
+            padding: 6px 30px;
+            font-size: 15px;
+            i{
+                margin-left: 4px;
+            }
+        }
+        .course-description-btn {
+            background: #F7941D;
+            color: white;
+            font-size: 10px;
+            padding: 6px;
+            margin-bottom: 10px;
+            position: relative;
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 108px;
+                width: 0;
+                height: 0;
+                border-top: 14px solid transparent;
+                border-bottom: 14px solid transparent;
+                border-left: 14px solid #f7941d;
+            }
+        }
+        ul {
+            margin: 5px 0;
+            padding: 0;
+            li {
+                display: inline-block;
+                margin-right: 15px;
+                font-size: 15px;
+                i{
+                    margin-right: 5px;
+                }
+                .star{
+                    font-size: inherit;
+                }
+            }
+        }
+    }
+    .tabcontent {
+        iframe {
+            width: 100%;
+            height: 350px;
+        }
+    }
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: -300px;
+        background-color: #f1f1f1;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 15px;
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                list-style-type: none;
+                padding: 15px;
+                border-bottom: 1px solid #d2d0d0;
+                font-size: 15px;
+                cursor: pointer;
+                &:hover {
+                    color: #dc3545;
+                }
+            }
+        }
+    }
+    
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 16px;
+        color: #dc3545;
+        display: block;
+        transition: 0.3s;
+        border-bottom: 1px solid;
+
+    }
+    
+    .sidenav a:hover {
+        color: @brand-secondary;
+    }
+    
+    .sidenav .closebtn {
+        position: absolute;
+        top: -9px;
+        right: 10px;
+        font-size: 36px;
+        border: none;
+        padding: 0
+    }
+    
+    #main {
+        transition: margin-left 0.5s;
+        position: relative;
+        min-height: 450px;
+    }
+    .menu-bar-icon {
+        margin: 15px 0;
+        span {
+            font-size: 20px;
+            cursor: pointer;
+            border: 1px solid black;
+            padding: 3px 12px;
+            margin: 15px 0;
+        }
+    }
+
+    .course-descriptions {
+        padding: 30px 100px;
+    }
+
+    .accordion-container {
+        .accordion {
+            background-color: #f9f9f9;
+            color: #444;
+            cursor: pointer;
+            padding: 10px 30px 10px 22px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+            border: 1px solid #e8e9eb;
+        }
+        
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+        
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: left;
+            margin-right: 15px;
+            color: blue;
+        }
+        
+        .active:after {
+            content: "\2212";
+        }
+        
+        .panel {
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            p{
+                padding: 10px;
+            }
+            table {
+                td {
+                    color: #007791;
+                    font-weight: 400;
+                    i{
+                        margin-right: 15px;
+                    }
+                }
+            }
+        }
+    }
+
+    .chat-forums {
+        overflow: auto;
+        max-height: 1000px;
+
+        .message-container {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            &:after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+            img {
+                max-width: 60px;
+                width: 100%;
+                margin-right: 20px;
+                border-radius: 50%;
+            }
+            .time-right {
+                margin-left: 15px;
+                color: #aaa;
+            }
+            
+            .time-left {
+                margin-left: 15px;
+                color: #999;
+            }
+            .reply-link {
+                color: #007bff;
+                cursor: pointer;
+            }
+        }
+        
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
+    }
+
+    .chat-input-message {
+        .chat-forum-field {
+            padding-right: 0;
+            textarea {
+                height: 50px;
+                resize: none;
+                border-radius: 0;
+                padding: 12px;
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none;
+                    border-color: #dddddd;
+                }
+            }
+        }
+        .chat-forum-icon {
+            padding-left: 0;
+            button {
+                height: 50px;
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .course-details-container {
+            padding: 20px;
+        }
+        .course-descriptions {
+            padding: 15px;
+        }
+      }
+    
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
+    }
+
+}

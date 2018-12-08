@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4>OUR TEAM</h4>
+            <p class="text-justify">Skillsgrow is made up of a highly skilled team of talented teachers, technologists, publishers, analysts, and marketers, all dedicated to our free learning mission. We enjoy our work and working with the various skillsets and personalities within the team. 
+                Every member of the Skillsgrow team believes strongly in the empowering power of knowledge. Every day, we unite in doing our best to bridge the gap between those who have access to knowledge opportunity, and those who do not. 
+            </p>
+        </div>
+        <div style="display:grid;" class="col-md-4" *ngFor="let team of ourTeamMember">
+            <div class="testimonial">
+                <div class="pic">
+                    <img src="assets/image/{{team.photo}}">
+                </div>
+                <p class="description">{{team.aboutTeamMember}}</p>
+                <div class="testimonial-profile">
+                    <h3 class="title">{{team.name}}-</h3>
+                    <span class="post">{{team.occupation}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

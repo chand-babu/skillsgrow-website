@@ -1,0 +1,169 @@
+<app-info-bar *ngIf="false"></app-info-bar>
+<!-- <app-navigation></app-navigation> -->
+<app-login-navigation *ngIf="false"></app-login-navigation>
+
+<!-- banner section -->
+<ngb-carousel *ngIf="bannerImageSection" class="banner-container" style="outline: none">
+  <ng-container *ngFor="let img of listBannerImagesData">
+    <ng-container *ngIf="img.status != 1">
+      <ng-template ngbSlide>
+        <img [src]="imagePath + img.image" alt="Random first slide">
+        <div class="banner-images-description d-none d-md-block d-lg-block">
+          <h4 *ngIf="img.imageTitle">{{img.imageTitle}}</h4>
+          <p *ngIf="img.description" >{{img.description}}</p>
+          <div *ngIf="img.imageTitle && img.description">
+            <button routerLink="/register/sign-up">Sign Up now</button>
+          </div>
+          <div *ngIf="img.link" class="image-link">
+            <button>
+              <a target="_blank" [href]="img.link">Click</a>
+            </button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row banner-image-content-for-mobile d-md-none d-sm-block d-xs-block text-center">
+            <div class="col-12">
+              <h4 *ngIf="img.imageTitle">{{img.imageTitle}}</h4>
+              <div class="img-description" *ngIf="img.description">{{img.description}}</div>
+              <div class="text-center" *ngIf="img.imageTitle && img.description">
+                <button routerLink="/register">Sign Up now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+</ngb-carousel>
+
+<!-- <div class="container text-center">
+  <div class="row default-margin-top">
+    <div class="col-md-12 custom-h2-h4">
+      <h2>Categories</h2>
+    </div>
+  </div>
+  <ngu-carousel [inputs]="carouselOne">
+    <ngu-item NguCarouselItem *ngFor="let item of whatOthersTalkSection;let odd = odd">
+      <div class="row home-category-section">
+        <div class="col-12 col-lg-3 col-md-12 col-sm-12 default-margin-top">
+          <img src="assets/image/inspirationaltakl_small1.jpg" alt="categoryimg">
+        </div>
+        <div class="col-12 category-title" [ngClass]="{
+          'odd':odd == true,
+          'even':odd == false
+        }">
+            <div>Business Management</div>
+          </div>
+      </div>
+    </ngu-item>
+    <button NguCarouselPrev class='leftRs invisible'>&lt;</button>
+    <button NguCarouselNext class='rightRs invisible'>&gt;</button>
+  </ngu-carousel>
+</div> -->
+<app-course-listing></app-course-listing>
+
+
+<!-- discover section - for md screns -->
+
+<div class="container d-none d-md-block discover-section">
+  <div class="row default-margin-top">
+    <div class="col custom-h2-h4">
+      <h2>Discover more by</h2>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div (click)="allCourses('allCourses')" class="col-md-4 all-course">
+      <img src="assets/image/bigger1.jpg" alt="">
+      <span>All Courses</span>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let x of discoverBySectionImage">
+          <div (click)="allCourses('popularCourses')" class="col popular-course">
+            <img src="assets/image/{{x.image}}" alt="discover-img">
+            <span>{{x.title}}</span>
+          </div>
+          <!-- <div (click)="allCourses('freeCourses')" class="col free-course">
+            <img src="assets/image/smaller2a.jpg" alt="">
+            <span>Free Courses</span>
+          </div> -->
+        </div>
+        <!-- <div class="col-md-6">
+          <div (click)="allCourses('latestCourses')" class="col latest-course">
+            <img src="assets/image/smaller3a.jpg" alt="">
+            <span>Latest Courses</span>
+          </div>
+          <div (click)="allCourses('ratingCourses')" class="col rating-course">
+            <img src="assets/image/smaller4a.jpg" alt="">
+            <span>Rating Courses</span>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- discover section - for xs screns -->
+
+<div class="container d-md-none">
+  <div class="row default-margin-top">
+    <div class="col custom-h2-h4">
+      <h4>Discover More by</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+        <select [(ngModel)]="discoverBy" id="discoverBy" class="form-control">
+          <option value="allCourses">All Course</option>
+          <option value="popularCourses">Popular Course</option>
+          <option value="freeCourses">Free Course</option>
+          <option value="latestCourses">Latest Course</option>
+          <option value="ratingCourses">Rating Course</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12">
+      <button (click)="allCourses('none')" type="button" class="btn btn-block btn-primary">
+        View Cource
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Review Section -->
+<div class="container reviews">
+  <div class="row default-margin-top">
+    <div class="col-12 custom-h2-h4">
+      <h2>Testimonials</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <ngb-carousel style="outline: none">
+        <ng-container>
+          <ng-container>
+            <ng-template *ngFor="let item of whatOthersTalkSection" ngbSlide>
+              <div class="row testimonials">
+                <div class="col-12 text-center">
+                  <div class="testimonials-pic">
+                    <div class="img">
+                      <img [src]="'assets/image/logosvg.svg'" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 text-center">
+                  <h5 class="uname">{{item.name}} ~ {{item.occupation}}</h5>
+                  <p class="ucontent">{{item.comment}}</p>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </ngb-carousel>
+    </div>
+  </div>
+</div>
+<!-- <app-footer></app-footer> -->

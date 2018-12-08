@@ -1,0 +1,29 @@
+<div class="faq-section">
+    <app-modal-popup *ngIf="modalBox" [modalData]="modalData"></app-modal-popup>
+    <div data-src="assets/image/faq.jpg" class="faq-img asyncImage"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <form #faqForm="ngForm" (ngSubmit)="onSubmit();faqForm.reset()">
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        <strong>Error!</strong> {{message}}
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Ask your question" name="question" [(ngModel)]="askQuestionForm.question"
+                            required>
+                    </div>
+                    <div>
+                        <p>
+                            Feel free to ask us any question regarding course topics to help us find what you are
+                            looking
+                            for.
+                        </p>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-danger" [disabled]="faqForm.invalid">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

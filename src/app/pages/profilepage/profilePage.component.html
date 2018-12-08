@@ -1,0 +1,85 @@
+<div class="container">
+    <section style="padding-bottom: 50px; padding-top: 50px;">
+        <div class="row profile-page-side-menu">
+            <div class="col-md-3">
+                <ul>
+                    <li id="defaultOpen" class="profileTabLink " (click)="tabsFunctionality($event, 'profile')"><i
+                            class="fa fa-user"></i>Profile</li>
+                    <li id="defaultChangePassword" class="profileTabLink " (click)="tabsFunctionality($event, 'changePassword')"><i class="fa fa-lock"></i>Change
+                        Password</li>
+                    <li class="profileTabLink " (click)="tabsFunctionality($event, 'logout')"><i class="fa fa-sign-out"></i>Logout</li>
+                </ul>
+            </div>
+            <div class="col-md-9 profile-details">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <div *ngIf="successMessage" class="alert alert-success default-margin-top">{{message}}</div>
+                        <div *ngIf="errorMessage" class="alert alert-danger default-margin-top">{{message}}</div>
+                        <form class="profileTabContent" id="profile" (ngSubmit)="updateUserDetails()">
+                            <h3>Profile Details</h3>
+                            <div class="text-center">
+                                <img [src]="(userDetails.profilePic) ? imagePath + userDetails.profilePic: 'assets/image/dummyuser.png'" class="img-rounded img-responsive" />
+                            </div>
+                            <div class="text-center">
+                                <label for="file-upload" class="custom-file-upload">
+                                    <i class="fa fa-cloud-upload"></i> Change Photo
+                                </label>
+                                <input id="file-upload" type="file" (change)="uploadPic($event)"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Registered Name</label>
+                                <input type="text" name="name" [(ngModel)]="userDetails.userName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Registered Email</label>
+                                <input type="text" name="emailId" [(ngModel)]="userDetails.emailId" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Registered Number</label>
+                                <input type="text" name="phone" [(ngModel)]="userDetails.phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Select Gender</label>
+                                <select class="form-control" name="gender" [(ngModel)]="userDetails.gender">
+                                    <option value="">Select Gender</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" name="address" [(ngModel)]="userDetails.address"></textarea>
+                            </div>
+                            <div class="form-group text-right">
+                                <button class="btn">Update Details</button>
+                            </div>
+                        </form>
+                        <form class="profileTabContent" id="changePassword" #passwordForm="ngForm" (ngSubmit)="changePasswordForm(passwordForm)">
+                            <h3>Change Your Password</h3>
+                            <div class="form-group">
+                                <label>Enter Old Password</label>
+                                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="changePasswordObj.oldPassword">
+                            </div>
+                            <div class="form-group">
+                                <label>Enter New Password</label>
+                                <input type="password" class="form-control" name="password" [(ngModel)]="changePasswordObj.password">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" class="form-control" name="cpassword" [(ngModel)]="changePasswordObj.confirmPassword" />
+                            </div>
+                            <br>
+                            <div class="text-right">
+                                <button class="btn">Change Password</button>
+                            </div>
+                        </form>
+                        <div class="profileTabContent text-center" id="logout">
+                            <h4>Do you want to Log Out ?</h4>
+                            <button (click)="logout()" class="btn">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

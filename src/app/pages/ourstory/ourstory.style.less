@@ -1,0 +1,92 @@
+app-our-story {
+    .our-story {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 59%, 0 36%);
+        clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 0% 50%);
+        color: white;
+        background: #002d38;
+        height: 350px;
+        padding: 37px;
+        h3 {
+            font-weight: 900;
+            font-size: 36px;
+        }
+        p{
+            font-size: 15px;
+        }
+    }
+    .our-values-title {
+        margin-bottom: 23px;
+        margin-top: -90px;
+        h3{
+            font-weight: 900;
+            font-size: 36px;
+            span{
+                color: #fe6766;
+            }
+        }
+    }
+    .our-values-card {
+        -webkit-clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 100%);
+        background: #e5edf1;
+        color: #002d38;
+        margin-bottom: 15px;
+        p{
+            position: relative;
+            padding: 15px;
+            font-weight: 700 !important;
+        }
+        img{
+            margin-top: 40px;
+        }
+        h5{
+            margin: 10px 0;
+            color: #fe6766;
+            font-weight: 600;
+        }
+    }
+    .p1{
+        margin-top: -85px;
+        height: 584px;
+    }
+    .p2{
+        margin-top: -59px;
+        height: 559px;
+    }
+    .p3{
+        margin-top: -34px;
+        height: 534px;
+    }
+    .p4{
+        margin-top: -10px;
+        height: 511px;
+    }
+    @media only screen and (max-width: 1000px) {
+        .our-story {
+            p{
+                font-size: 13px;
+            }
+        }
+        .our-values-card {
+            p{
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+    }
+    @media only screen and (max-width: 768px) {
+        .our-story {
+            clip-path: none;
+        }
+        .our-values-title {
+            margin: 15px 0;
+        }
+        .our-values-card {
+            clip-path: none;
+        }
+        .p1, .p2, .p3, .p4 {
+            margin: 15px;
+            height: auto;
+        }
+    }
+}

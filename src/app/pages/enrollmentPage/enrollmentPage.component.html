@@ -1,0 +1,93 @@
+<div *ngIf="courseData" class="container">
+    <div class="row enrollment-page">
+        <div class="col-12">
+            <h2>{{courseData.courseName}}</h2>
+            <div *ngIf="courseData.videoUrl">
+                <iframe width="100%" height="345" [src]="courseData.videoUrl" frameborder="0" allowfullscreen>
+                </iframe>
+            </div>
+            <div *ngIf="!courseData.videoUrl" class="large-image">
+                <img [src]="imagePath + courseData.courseImage" alt="courseimage">
+            </div>
+            <div class="row text-center timing-and-star">
+                <div class="col-12 col-md-6 col-lg-3 course-short-details">
+                    <div class="border-enroll">
+                        <img src="assets/image/man-and-laptop.png" alt="iconimg">
+                        <span>{{courseData.courseChapter}} Chapter</span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 course-short-details">
+                    <div class="border-enroll">
+                        <img src="assets/image/alarm-clock1.png" alt="iconimg">
+                        <span>{{courseData.courseTiming}}</span>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 course-short-details">
+                    <div class="enroll-star">
+                        <bar-rating [(rate)]="courseData.ratings" [max]="5" [readOnly]="true"></bar-rating>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3 course-short-details">
+                    <button class="btn btn-block" (click)="modalPopupBox(content)">
+                        {{(courseData.courseFee == 'Free') ? 'Continue' : 'Pay now to Continue'}}
+                        <!-- <span *ngIf="courseData.courseFee != 'Free'">/- <i class="fa fa-inr"></i></span> --></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Course Enrollment Confirmation</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Continue with the enrollment...</p>
+        </div>
+        <div class="modal-footer">
+            <div *ngIf="courseData.courseFee != 'Free'">
+                <form action="https://secure.payu.in/_payment" name="payuMoney" method="post">
+                    <div>
+                        <input type="hidden" name="key" value="2fj34Tfj" />
+                        <input type="hidden" name="hash_string" value="" />
+                        <input type="hidden" name="hash" [value]="hash" />
+                        <input type="hidden" name="txnid" [value]="txid" />
+                        <table>
+                            <tr>
+                                <td><input type="hidden" name="amount" [value]="amount" /></td>
+                                <td><input type="hidden" name="firstname" [value]="firstname" id="firstname" /></td>
+                            </tr>
+                            <tr>
+                                <td><input type="hidden" name="email" id="email" [value]="email" /></td>
+                                <td><input type="hidden" name="phone" [value]="phone" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><input type="hidden" name="surl" [value]="surl" size="64" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><input type="hidden" name="furl" [value]="furl" size="64" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><input type="hidden" name="productinfo" [value]="productinfo" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><input type="hidden" name="service_provider" [value]="service_provider" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"><input type="hidden" name="udf1" [value]="udf1" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="margin-top: -15px;">
+                        <button type="submit" class="btn btn-success">Ok</button>
+                    </div>
+                </form>
+            </div>
+             <button *ngIf="courseData.courseFee == 'Free'" class="btn btn-success" (click)="enrollment()">Ok</button>
+            <button id="modelClose" type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
+        </div>
+    </ng-template>
+
+</div>

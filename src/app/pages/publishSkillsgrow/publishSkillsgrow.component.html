@@ -1,0 +1,215 @@
+<div class="publish-skillsgrow-section">
+    <app-modal-popup *ngIf="modalBox" [modalData]="modalData"></app-modal-popup>
+    <div data-src="assets/image/Publishing.jpg" class="publish-img asyncImage"></div>
+    <div class="container">
+        <div class="row publish-skillsgrow-content">
+            <div class="col-12">
+                <p>
+                    Publish a course on the SkillsGrow platform. Earn revenue, generate leads, satisfy CPD (Continuous
+                    Professional Development) requirements, and share knowledge. Make learning fun and accessible.
+                </p>
+                <div class="publish-sub-topics">
+                    <div><b>Remuneration</b></div>
+                    <p>
+                        At SkillsGrow, we generate revenue to support our free services through online advertising and
+                        charging
+                        for premium services such as Certificates. We share this revenue with publishers. Where a
+                        course is
+                        popular, you can earn significant revenue!
+                    </p>
+                    <div><b>Lead Generation</b></div>
+                    <p>
+                        By publishing a free course on Skillsgrow, you can generate awareness among our millions of
+                        learners of
+                        your paid services. Many of our learners are seeking further products or services.
+                    </p>
+                    <div><b>CPD</b></div>
+                    <p>
+                        You can provide Continuing Professional Development to your employees and individuals by
+                        publishing
+                        on
+                        the Skillsgrow Free Learning platform.
+                    </p>
+                    <div><b>Mandate</b></div>
+                    <p>
+                        If you have a mandate to spread information, whether on health, a public issue or have a cause
+                        you
+                        want
+                        to promote, creating learning around the subject can generate both greater knowledge and
+                        awareness.
+                    </p>
+                    <div><b>Altruism</b></div>
+                    <p>
+                        If you have knowledge or skills that could help empower people, share it so others may improve
+                        their
+                        lives and the lives of their communities.
+                    </p>
+                    <div><b>Show Off</b></div>
+                    <p>
+                        Ok, so you are really smart, but how smart are you? Can you teach others? Show others just how
+                        much
+                        you
+                        know!
+                    </p>
+                    <p>
+                        <b>What we want from you:</b>
+                    </p>
+                    <p><b>Subject-Matter-Expertise:</b></p>
+                    <p>You must be an expert in your subject area with an interest
+                        in
+                        sharing
+                        knowledge.</p>
+                    <div>
+                        <b>Brand:</b>
+                        <p>
+                            you are a company publishing a course about an area in which you are clearly a
+                            domain
+                            expert,
+                            that helps promote the course. Similarly, if you are a published academic or practising
+                            expert
+                            in
+                            the
+                            field within well known institutions, that is of interest to us. Some of the best experts
+                            are
+                            simply
+                            self-employed – but brand helps credibility.
+                        </p>
+                    </div>
+                    <div>
+                        <b>Network:</b>
+                        <p>
+                            If you publish a course on Skillsgrow, can you help market it around the
+                            world?
+                            Many of
+                            our experts have industry communities or a large base of customers, employees, or
+                            organisation
+                            members
+                            to
+                            promote their courses to. Such networks will assist the speedy success of the course(s).
+                        </p>
+                    </div>
+                    <div>
+                        <b>Publishing Capability:</b>
+                        <p>
+                            You can publish for free on Skillsgrow if you have the time
+                            and
+                            skill-set
+                            to self-publish, or can appoint someone within your organisation to learn these skills. If
+                            not,
+                            you
+                            can
+                            pay Skillsgrow or an Skillsgrow-Approved 3rd Party Contractor to develop a course for you.
+                        </p>
+                    </div>
+                    <div>
+                        <b>Depth of Expertise:</b>
+                        <p>
+                            We are particularly interested in publishers who have the
+                            ability to
+                            publish
+                            not
+                            just one course, but multiple courses on their area of expertise.
+                        </p>
+                    </div>
+                    <p><b>What We Offer</b></p>
+                    <p>
+                        <b>Platform:</b> We offer you the opportunity to publish your course on one of India’s
+                        largest
+                        and
+                        most
+                        successful learning platforms.
+                    </p>
+                    <p>
+                        <b>Revenue:</b> We offer you the opportunity to make money from what you know. Publish a
+                        popular
+                        course
+                        on
+                        Skillsgrow and sit back and enjoy the income.
+                    </p>
+                    <p>
+                        <b>Marketing:</b> When you publish a course on Skillsgrow, we will work with you to market
+                        your
+                        course
+                        to the
+                        biggest possible audience worldwide.
+                    </p>
+                    <p>
+                        <b>Pedagogy:</b> We have a team of experts in the science of learning - pedagogy. They direct
+                        the
+                        crafting of
+                        each course so the the subject matter is presented in the best format possible.
+                    </p>
+                    <div class="text-center">
+                        <button (click)="openLg(content)" class="btn">JOIN NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal popup form -->
+    <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">Publish On Skillsgrow</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form #publishForm="ngForm" autocomplete="off" (ngSubmit)="onSubmit(publishForm)">
+                <div class="form-group text-right">
+                    <span class="asterisk">* (Required)</span>
+                </div>
+                <div class="form-group">
+                    <label>Name <span class="asterisk">*</span></label>
+                    <input class="form-control" placeholder="Name" name="name" [(ngModel)]="publishFormObj.name" #name="ngModel"
+                        required>
+                    <div class="error-message" *ngIf="name.touched && name.invalid">Name is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Email Id <span class="asterisk">*</span></label>
+                    <input class="form-control" placeholder="Email Id" name="emailId" [(ngModel)]="publishFormObj.emailId"
+                        #emailId="ngModel" required>
+                    <div class="error-message" *ngIf="emailId.touched && emailId.invalid">Email Id is required</div>
+                </div>
+                <div class="form-group">
+                    <label>Area of Expertise <span class="asterisk">*</span></label>
+                    <input class="form-control" placeholder="Area of Expertise" name="areaExpertise" [(ngModel)]="publishFormObj.areaExpertise"
+                        #areaExpertise="ngModel" required>
+                    <div class="error-message" *ngIf="areaExpertise.touched && areaExpertise.invalid">Area of Expertise
+                        is
+                        required</div>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number <span class="asterisk">*</span></label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select name="phoneNumberCode" [(ngModel)]="publishFormObj.phoneNumberCode"
+                                #phoneNumberCode="ngModel">
+                                <option value="">+91</option>
+                                <option value="+92">+92</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Phone Number" name="phoneNumber"
+                            [(ngModel)]="publishFormObj.phoneNumber" #phoneNumber="ngModel" required>
+                        <div class="error-message" *ngIf="phoneNumber.touched && phoneNumber.invalid">Phone number is
+                            required</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message <span class="asterisk">*</span></label>
+                    <textarea class="form-control" placeholder="message" name="message" [(ngModel)]="publishFormObj.message"
+                        #message="ngModel" required></textarea>
+                    <div class="error-message" *ngIf="message.touched && message.invalid">message is required</div>
+                </div>
+                <div class="form-group text-right">
+                    <button type="submit" [disabled]="publishForm.invalid" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button id="modelClose" type="button" class="btn btn-info" (click)="c('Close click')">Close</button>
+        </div>
+    </ng-template>
+
+</div>

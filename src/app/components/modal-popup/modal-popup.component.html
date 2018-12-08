@@ -1,0 +1,14 @@
+<ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title">{{modalData.title}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h4>{{modalData.message}}</h4>
+        </div>
+        <div class="modal-footer">
+            <button id="modelClose" type="button" class="btn btn-info" (click)="c('Close click')">Ok</button>
+        </div>
+    </ng-template>
