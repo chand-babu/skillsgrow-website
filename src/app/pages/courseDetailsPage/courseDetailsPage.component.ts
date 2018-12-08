@@ -55,6 +55,7 @@ export class CourseDetailsPageComponent implements OnInit {
     public replayUserName: boolean = false;
     public socket: any;
     public chatSet = {};
+    public username: any;
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
         public listingCourseProxy: ListingCourseProxy, public router: Router,
@@ -76,20 +77,17 @@ export class CourseDetailsPageComponent implements OnInit {
             this.courseId = params['id'];
             this.categoryListingCourse(this.courseId);
         });
-        this.socket = io.connect('http://localhost:3000/');
+        this.socket = io.connect('https://skillsgrow.com:8080/');
         this.socket.emit('sendCourseId', this.courseId);
-        this.socket.on('chatHistory', (data) => {
-            console.log(data);
-            // this.chatData = data.discussionData;
-            // this.coursedetailspageProxy.getDiscussionForumsService(data.courseId)
-            // .subscribe((success: any) => {
-            //     this.chatData = success.data.discussionForums;
-            //     setTimeout(() => {
-            //         const messageBody = document.querySelector('#messageBody');
-            //         messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-            //     }, 1000);
-                
-            // });
+        this.socket.on('chatHistory', (response) => {
+            console.log(response.data);
+            if(response.result){
+                this.chatData = response.data;
+                setTimeout(() => {
+                    const messageBody = document.querySelector('#messageBody');
+                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                }, 100);
+            }
         });
     }
 
@@ -107,9 +105,6 @@ export class CourseDetailsPageComponent implements OnInit {
                             this.set = setInterval(this.defaultTab, 100);
                             this.editorContent = this.courseDetails[0].description;
                             this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
-                            if (this.courseDetails[0].discussionForums) {
-                                this.chatData = this.courseDetails[0].discussionForums;
-                            }
                             this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
                             this.courseDetails.filter((data) => {
                                 if (this.user) {
@@ -324,10 +319,6 @@ export class CourseDetailsPageComponent implements OnInit {
                         discussionData: this.chatSet
                     };
                     this.socket.emit('storeChatMessage', discussionForumsDetails);
-                    // this.coursedetailspageProxy.discussionForumsService(discussionForumsDetails)
-                    //     .subscribe((success) => {
-                    //         this.socket.emit('sendMessage', discussionForumsDetails);
-                    //     });
                 } else {
                     this.infoMessage = false;
                     this.errorMessage = true;
@@ -343,9 +334,10 @@ export class CourseDetailsPageComponent implements OnInit {
         }
     }
 
-    chatReplyLink(index) {
+    chatReplyLink(id,name) {
         this.replayUserName = true;
-        this.messageIndex = index;
+        this.messageIndex = id;
+        this.username = name;
         this.vc.first.nativeElement.focus();
     }
 

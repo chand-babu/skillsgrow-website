@@ -184,7 +184,7 @@
                     <div class="col-12">
                         <div class="chat-forums" id="messageBody">
                             <ng-container *ngIf="chatData.length >= 1">
-                                <div class="message-container row" *ngFor="let message of chatData;let messageIndex = index">
+                                <div class="message-container row" *ngFor="let message of chatData">
                                     <div class="col-md-2">
                                         <img src="assets/image/dummyuser.png" alt="Avatar">
                                     </div>
@@ -193,11 +193,11 @@
                                     </div>
                                     <div class="col-md-6">{{message.userName}}</div>
                                     <div class="col-md-6 text-right">
-                                        <span class="reply-link" (click)="chatReplyLink(messageIndex)">Reply</span>
+                                        <span class="reply-link" (click)="chatReplyLink(message._id,message.userName)">Reply</span>
                                         <span class="time-right">{{message.createdOn}}</span>
                                     </div>
                                     <ng-container *ngIf="message.replyMessage?.length >= 1">
-                                        <div class="message-container darker row" *ngFor="let x of message.replyMessage">
+                                        <div class="message-container darker row w-100" *ngFor="let x of message.replyMessage">
                                             <div class="col-md-10">
                                                 <p>{{x.replyMessage}}</p>
                                             </div>
@@ -217,7 +217,7 @@
                             <div class="col-12 chat-forum-field">
                                 <div class="input-group">
                                     <div *ngIf="replayUserName" class="input-group-prepend">
-                                        <span class="input-group-text">@{{x.discussionForums[messageIndex].userName}}</span>
+                                        <span class="input-group-text">@{{username}}</span>
                                     </div>
                                     <textarea #textarea class="form-control" placeholder="Ask question related to this course"
                                         name="message" [(ngModel)]="chatMessage" required></textarea>
