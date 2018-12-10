@@ -7,3 +7,4 @@ export * from './page-overlay-icon/page-overlay-icon.component';
 export * from './product-section/product-section.component';
 export * from './course-listing/course-listing.component';
 export * from './modal-popup/modal-popup.component';
+export * from './chat-forum/chat-forum.component';

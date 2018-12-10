@@ -1,0 +1,68 @@
+app-chat-forum {
+    .chat-forums {
+        overflow: auto;
+        max-height: 1000px;
+    
+        .message-container {
+            border: 2px solid #dedede;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            &:after {
+                content: "";
+                clear: both;
+                display: table;
+            }
+            img {
+                max-width: 60px;
+                width: 100%;
+                margin-right: 20px;
+                border-radius: 50%;
+            }
+            .time-right {
+                margin-left: 15px;
+                color: #aaa;
+            }
+            
+            .time-left {
+                margin-left: 15px;
+                color: #999;
+            }
+            .reply-link {
+                color: #007bff;
+                cursor: pointer;
+            }
+        }
+        
+        .darker {
+            border-color: #ccc;
+            background-color: #ddd;
+        }
+    }
+    
+    .chat-input-message {
+        .chat-forum-field {
+            // padding-right: 0;
+            textarea {
+                height: 50px;
+                resize: none;
+                border-radius: 0;
+                padding: 12px;
+                &:focus {
+                    outline: none !important;
+                    box-shadow: none;
+                    border-color: #dddddd;
+                }
+            }
+        }
+        .chat-forum-icon {
+            padding-left: 0;
+            button {
+                height: 50px;
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+    }
+}

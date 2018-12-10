@@ -27,13 +27,8 @@ export class CourseLearningPageComponent implements OnInit {
         chatMessage: '',
         createdOn: new Date()
     };
-    public chatData = [];
-    public chatMessage = '';
-    public messageIndex: any;
-    public replayUserName: boolean = false;
     public innerWidth: any;
-    public chatSet = {};
-    public courseUrl: any;
+    public courseId: string;
 
     constructor(private activeRoute: ActivatedRoute, private router: Router,
         public global: Global, private sanitizer: DomSanitizer,
@@ -54,22 +49,11 @@ export class CourseLearningPageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.courseUrl = this.router.url.split('/')[this.router.url.split('/').length - 1];
         this.innerWidth = window.innerWidth;
         this.paramsData = this.global.getStorageDetail('courselearn');
-        this.socket = io.connect('http://localhost:3000/');
-        this.categoryListing(this.courseUrl);
-
-        this.socket.on('receiveMessage', (data) => {
-            this.chatData = data.discussionData;
-            this.coursedetailspageProxy.getDiscussionForumsService(data.courseId)
-            .subscribe((success: any) => {
-                this.chatData = success.data.discussionForums;
-                setTimeout(() => {
-                    const messageBody = document.querySelector('#messageBody');
-                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-                }, 1000);
-            });
+        this.activeRoute.params.forEach(params => {
+            this.courseId = params['id'];
+            this.categoryListing();
         });
     }
 
@@ -121,15 +105,12 @@ export class CourseLearningPageComponent implements OnInit {
         }
     }
 
-    categoryListing(id) {
-        this.courseListingProxy.listCategoriesCourse(id)
+    categoryListing() {
+        this.courseListingProxy.listCategoriesCourse(this.courseId)
             .subscribe((success: any) => {
                 // console.log(success);
                 const categoryData = success.data;
                 this.courseLearningData.push(categoryData);
-                if (this.courseLearningData[0].discussionForums) {
-                    this.chatData = this.courseLearningData[0].discussionForums;
-                }
                 if (this.innerWidth > 768) {
                     setTimeout(() => {
                         this.openNav();
@@ -221,75 +202,6 @@ export class CourseLearningPageComponent implements OnInit {
         const date = new Date();
         return ((date.getHours() < 10) ? '0' : '') + date.getHours() + ':' +
             ((date.getMinutes() < 10) ? '0' : '') + date.getMinutes() + ':' + ((date.getSeconds() < 10) ? '0' : '') + date.getSeconds();
-    }
-
-    sendUserMessage() {
-        this.replayUserName = false;
-        const user = this.global.getStorageDetail('user');
-        let emailMatched: boolean = false;
-        if (user) {
-            if (this.courseLearningData[0].enrolledUser.length > 0) {
-                this.courseLearningData[0].courseReview.filter((data) => {
-                    if (data.userEmailId === user.data.emailId) {
-                        emailMatched = true;
-                    }
-                });
-                if (!emailMatched) {
-                    this.chatObj.chatMessage = this.chatMessage;
-                    if (this.messageIndex || this.messageIndex === 0) {
-                        // this.chatData[this.messageIndex].replyMessage.push({
-                        //     userName: user.data.userName,
-                        //     userId: user.data._id,
-                        //     replyMessage: this.chatMessage,
-                        //     createdOn: this.todayDate() + ' ' + this.currentTiming()
-                        // });
-                        // this.messageIndex = undefined;
-                        this.chatSet = {
-                            position: this.messageIndex,
-                            userName: user.data.userName,
-                            userId: user.data._id,
-                            replyMessage: this.chatMessage,
-                            createdOn: this.todayDate() + ' ' + this.currentTiming()
-                        };
-                        this.messageIndex = undefined;
-                    } else {
-                        // this.chatData.push({
-                        //     userName: user.data.userName,
-                        //     userId: user.data._id,
-                        //     chatMessage: this.chatMessage,
-                        //     createdOn: this.todayDate() + ' ' + this.currentTiming(),
-                        //     replyMessage: []
-                        // });
-                        this.chatSet = {
-                            position: this.messageIndex,
-                            userName: user.data.userName,
-                            userId: user.data._id,
-                            chatMessage: this.chatMessage,
-                            createdOn: this.todayDate() + ' ' + this.currentTiming(),
-                            replyMessage: []
-                        };
-                    }
-                    // console.log(this.chatData);
-                    const discussionForumsDetails = {
-                        courseId: this.courseLearningData[0]._id,
-                        discussionData: this.chatSet
-                    };
-                    this.coursedetailspageProxy.discussionForumsService(discussionForumsDetails)
-                        .subscribe((success) => {
-                            console.log('chat response');
-                            this.socket.emit('sendMessage', discussionForumsDetails);
-                        });
-                }
-            }
-        } else {
-            this.global.navigateToNewPage('/login');
-        }
-    }
-
-    chatReplyLink(index) {
-        this.replayUserName = true;
-        this.messageIndex = index;
-        // this.vc.first.nativeElement.focus();
     }
 
 }

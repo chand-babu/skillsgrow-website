@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent, LoginNavigationComponent,
-    PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent, ModalPopupComponent} from './all';
+    PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent, ModalPopupComponent,
+    ChatForumComponent } from './all';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { BarRatingModule } from './../../../node_modules/ngx-bar-rating/rating.module';
 import { CommonModule } from '@angular/common';
@@ -21,10 +22,11 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
     ],
     declarations: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
     LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
-    ModalPopupComponent],
+    ModalPopupComponent,
+    ChatForumComponent],
     exports: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
         LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
-        ModalPopupComponent]
+        ModalPopupComponent, ChatForumComponent]
 })
 
 export class CommonComponentModule {}
