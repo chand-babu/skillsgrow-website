@@ -5,6 +5,7 @@ import { CourseDetailsPageRoutingModule } from './courseDetailsPage-routing.modu
 import { CourseDetailsPageComponent } from './courseDetailsPage.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BarRatingModule } from './../../../../node_modules/ngx-bar-rating/rating.module';
+import { CommonComponentModule } from "./../../components/commonComponent.module";
 
 @NgModule({
     imports: [
@@ -12,7 +13,7 @@ import { BarRatingModule } from './../../../../node_modules/ngx-bar-rating/ratin
         FormsModule,
         CourseDetailsPageRoutingModule,
         NgbModule.forRoot(),
-        BarRatingModule
+        BarRatingModule, CommonComponentModule
     ],
     declarations: [CourseDetailsPageComponent]
 })

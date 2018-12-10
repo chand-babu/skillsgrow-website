@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChildren, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
 import { ListingCourseProxy } from './../../components/course-listing/course-listing.proxy';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,8 +6,6 @@ import { CourseDetailsPageProxy } from './courseDetailsPage.proxy';
 import { Constants } from '../../common/constants';
 import { SafePipe } from '../../common/videourl.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as io from 'socket.io-client';
-import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -44,18 +42,7 @@ export class CourseDetailsPageComponent implements OnInit {
     public emailMatched: boolean = false;
     public user: any;
     public hideTheMenuBar: boolean = true;
-    public chatObj = {
-        chatMessage: '',
-        createdOn: new Date()
-    };
-    public chatData = [];
-    public chatMessage = '';
-    public messageIndex: any;
     public editorContent: any;
-    public replayUserName: boolean = false;
-    public socket: any;
-    public chatSet = {};
-    public username: any;
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
         public listingCourseProxy: ListingCourseProxy, public router: Router,
@@ -63,8 +50,6 @@ export class CourseDetailsPageComponent implements OnInit {
         public videourl: SafePipe, private elementRef: ElementRef,
         private sanitizer: DomSanitizer) {
     }
-
-    @ViewChildren('textarea') vc;
 
 
     ngOnInit() {
@@ -76,18 +61,6 @@ export class CourseDetailsPageComponent implements OnInit {
         this.activateRoute.params.forEach(params => {
             this.courseId = params['id'];
             this.categoryListingCourse(this.courseId);
-        });
-        this.socket = io.connect('https://skillsgrow.com:8080/');
-        this.socket.emit('sendCourseId', this.courseId);
-        this.socket.on('chatHistory', (response) => {
-            console.log(response.data);
-            if(response.result){
-                this.chatData = response.data;
-                setTimeout(() => {
-                    const messageBody = document.querySelector('#messageBody');
-                    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
-                }, 100);
-            }
         });
     }
 
@@ -279,66 +252,6 @@ export class CourseDetailsPageComponent implements OnInit {
         const date = new Date();
         return ((date.getHours() < 10) ? '0' : '') + date.getHours() + ':' +
             ((date.getMinutes() < 10) ? '0' : '') + date.getMinutes() + ':' + ((date.getSeconds() < 10) ? '0' : '') + date.getSeconds();
-    }
-
-    sendUserMessage() {
-        this.replayUserName = false;
-        const user = this.global.getStorageDetail('user');
-        let emailMatched: boolean = false;
-        if (user) {
-            if (this.courseDetails[0].enrolledUser.length > 0) {
-                this.courseDetails[0].enrolledUser.filter((data) => {
-                    if (data.userEmailId === user.data.emailId) {
-                        emailMatched = true;
-                    }
-                });
-                if (emailMatched) {
-                    this.chatObj.chatMessage = this.chatMessage;
-                    if (this.messageIndex || this.messageIndex === 0) {
-                        this.chatSet = {
-                            position: this.messageIndex,
-                            userName: user.data.userName,
-                            userId: user.data._id,
-                            replyMessage: this.chatMessage,
-                            createdOn: this.todayDate() + ' ' + this.currentTiming()
-                        };
-                        this.messageIndex = undefined;
-                    } else {
-                        this.chatSet = {
-                            position: this.messageIndex,
-                            userName: user.data.userName,
-                            userId: user.data._id,
-                            chatMessage: this.chatMessage,
-                            createdOn: this.todayDate() + ' ' + this.currentTiming(),
-                            replyMessage: []
-                        };
-                    }
-                    
-                    const discussionForumsDetails = {
-                        courseId: this.courseDetails[0]._id,
-                        discussionData: this.chatSet
-                    };
-                    this.socket.emit('storeChatMessage', discussionForumsDetails);
-                } else {
-                    this.infoMessage = false;
-                    this.errorMessage = true;
-                    this.message = 'Only Enrolled User Can Participate In this Discussion';
-                }
-            } else {
-                this.infoMessage = false;
-                this.errorMessage = true;
-                this.message = 'Only Enrolled User Can Participate In this Discussion';
-            }
-        } else {
-            this.global.navigateToNewPage('/login');
-        }
-    }
-
-    chatReplyLink(id,name) {
-        this.replayUserName = true;
-        this.messageIndex = id;
-        this.username = name;
-        this.vc.first.nativeElement.focus();
     }
 
 }
