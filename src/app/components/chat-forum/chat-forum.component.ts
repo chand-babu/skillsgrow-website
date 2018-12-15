@@ -43,7 +43,6 @@ export class ChatForumComponent implements OnChanges {
     this.socket = io.connect(Constants.APIPATH);
       this.socket.emit('sendCourseId', this.courseId);
       this.socket.on('chatHistory', (response) => {
-          console.log(response.data);
           if(response.result){
               this.chatData = response.data;
               setTimeout(() => {
@@ -72,7 +71,7 @@ export class ChatForumComponent implements OnChanges {
                         userName: this.user.data.userName,
                         userId: this.user.data._id,
                         replyMessage: this.chatMessage,
-                        createdOn: this.todayDate() + ' ' + this.currentTiming()
+                        createdOn: this.todayDate()
                     };
                     this.messageIndex = undefined;
                 } else {
@@ -81,7 +80,7 @@ export class ChatForumComponent implements OnChanges {
                         userName: this.user.data.userName,
                         userId: this.user.data._id,
                         chatMessage: this.chatMessage,
-                        createdOn: this.todayDate() + ' ' + this.currentTiming(),
+                        createdOn: this.todayDate(),
                         replyMessage: []
                     };
                 }
@@ -90,6 +89,7 @@ export class ChatForumComponent implements OnChanges {
                     courseId: this.courseDetails[0]._id,
                     discussionData: this.chatSet
                 };
+                console.log(discussionForumsDetails);
                 this.socket.emit('storeChatMessage', discussionForumsDetails);
             } else {
                 this.infoMessage = false;
@@ -112,15 +112,7 @@ chatReplyLink(id,name) {
 }
 
 todayDate() {
-  const date = new Date();
-  return ((date.getDate() < 10) ? '0' : '') +
-      date.getDate() + '/' + (((date.getMonth() + 1) < 10) ? '0' : '') + (date.getMonth() + 1) + '/' + date.getFullYear();
-}
-
-currentTiming() {
-  const date = new Date();
-  return ((date.getHours() < 10) ? '0' : '') + date.getHours() + ':' +
-      ((date.getMinutes() < 10) ? '0' : '') + date.getMinutes() + ':' + ((date.getSeconds() < 10) ? '0' : '') + date.getSeconds();
+  return new Date();
 }
 
 

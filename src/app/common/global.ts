@@ -34,7 +34,7 @@ export class Global {
      * store  data into local storage.
      */
     public storeDataLocal(key: string, data: any): void {
-        if (this.localStorage.add(key, data)) {
+        if (this.localStorage.add(key, JSON.stringify(data))) {
             this.dataChanged.next(true);
         }
     }
@@ -43,7 +43,7 @@ export class Global {
      * get local storage data details.
      */
     public getStorageDetail(key: string): any {
-        return this.localStorage.get(key);
+        return JSON.parse(this.localStorage.get(key));
     }
 
     /*
