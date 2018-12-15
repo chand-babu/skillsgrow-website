@@ -23,10 +23,16 @@ export class OurTeamComponent implements OnInit {
                 occupation: 'Founder & CEO'
             },
             {
+                name: 'Dr. Manoj',
+                photo: 'dr-manoj.jpg',
+                aboutTeamMember: "Dr. Manoj believes solutions to the world's toughest problems could be locked in the mind of a student without access to a high quality education. An accomplished entrepreneur, he is mentoring Skillsgrow in how technology can be used for social good. His passion in life is contributing to projects with strong missions.Outside of work, he enjoys exploring new places, exploring new ideas, and trying new food.",
+                occupation: 'Mentor'
+            },
+            {
                 name: 'Dr. VSR Vijayakumar',
                 photo: 'Vijayakumar.jpg',
                 aboutTeamMember: 'Dr. VSR Vijayakumar is a PhD in Psychology from University of Madras and is the chief mentor of Skillsgrow. He has served in several institutions such as Madras Christian College, PSG college of Arts and Science, Department of Psychology University of Madras, Kirloskar Institute of Advanced Management Studies, ICFAI Business School as faculty member and as Senior Professor of Organizational Behavior and Management from Institute of Management Technology-Nagpur.',
-                occupation: 'Chief Mentor'
+                occupation: 'Mentor'
             },
             {
                 name: 'Ganesan',
@@ -41,10 +47,10 @@ export class OurTeamComponent implements OnInit {
                 occupation: 'Training Mentor'
             },
             {
-                name: 'Gagandeep',
-                photo: 'skillsgrowteam7.jpg',
-                aboutTeamMember: "Gagandeep loves teaching profession because of its potential to make a meaningful impact in the hearts and minds of her students. She is obsessed over the power and promise of a growth mindset while completing her Graduation in Biomedical Science as well as pursuing her Masters in Biomedicine.",
-                occupation: 'Training Mentor'
+                name: 'Roshan',
+                photo: 'roshan.JPG',
+                aboutTeamMember: "Roshan works with our video tutorials team, where he thinks about how to help students and colleges inspire a lifetime love of learning. A engineering geek at heart, Roshan had previously used his creative skills to write film scripts and directing short movies. At Skillsgrow, he uses the power of films and online learning to understand how people can learn most effectively and have fun while doing it.",
+                occupation: 'Video Content Specialist'
             },
             {
                 name: 'Sai Sumanth',

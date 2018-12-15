@@ -13,7 +13,7 @@
                       <div class="col-md-6">{{message.userName}}</div>
                       <div class="col-md-6 text-right">
                           <span class="reply-link" (click)="chatReplyLink(message._id,message.userName)">Reply</span>
-                          <span class="time-right">{{message.createdOn}}</span>
+                          <span class="time-right">{{message.createdOn | date:'medium'}}</span>
                       </div>
                       <ng-container *ngIf="message.replyMessage?.length >= 1">
                           <div class="message-container darker row w-100" *ngFor="let x of message.replyMessage">
@@ -24,7 +24,7 @@
                                   <img src="assets/image/dummyuser.png" alt="Avatar" class="right">
                               </div>
                               <div class="col-md-6">
-                                  <span class="time-right">{{x.createdOn}}</span>
+                                  <span class="time-right">{{x.createdOn | date:'medium'}}</span>
                               </div>
                               <div class="col-md-6 text-right">{{x.userName}}</div>
                           </div>
