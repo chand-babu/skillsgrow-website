@@ -13,6 +13,9 @@ const routes: Routes = [
     path: 'register/:id', loadChildren: '../pages/register/register.module#RegisterModule'
   },
   {
+    path: 'company', loadChildren: '../pages/company/company-form.module#CompanyFormModule'
+  },
+  {
     path: 'allcourses/:type', loadChildren: '../pages/allCourses/allCourses.module#AllCoursesModule'
   },
   {

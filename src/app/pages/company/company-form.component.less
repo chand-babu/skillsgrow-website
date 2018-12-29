@@ -1,0 +1,114 @@
+app-company{
+    .chand (@color, @border) {
+        width: 50px;
+        height: 50px;
+        background-color: @color;
+        border: @border;
+        border-radius: 50%;
+        img{
+            margin: 14px;
+            width: 21px;
+        }
+    }
+
+    .ch-internship-step-labal{
+        padding-top: 12px;
+        color: @brand-secondary;
+    }
+
+    .ch-internship-step-space{
+        .active{
+            .chand(@brand-secondary,none);
+        }
+    
+        .inactive{
+            @border: 1px solid @brand-secondary;
+            .chand(@white, @border);
+        }
+        margin-top:80px;
+        span{
+            color: @brand-secondary;
+        }
+    }
+
+    .ch-internship-form-head{
+        color: @brand-secondary;
+    }
+
+    .ch-internship-form-head2{
+        color: @brand-secondary;
+    }
+
+    .ch-red-line{
+        border: 4px solid @brand-pink;
+        border-radius: 5px;
+    }
+
+    .ch-red-square{
+        width: 30px;
+        height: 30px;
+        top: -10px;
+        left: 145px;
+        background-color: @brand-pink;
+        transform: rotate(45deg);
+    }
+
+    .ch-internship-form {
+        margin-top: 10px;
+        input{
+            border: 1px solid black;
+            height: 50px;
+        }
+        select{
+            border: 1px solid black;
+            height: 50px;
+        }
+        input::placeholder{
+            color: black;
+            font-size: 14px;
+        }
+    }
+
+    .ch-internship-form-mobile {
+        margin-top: 10px;
+        position: relative;
+        input{
+            border-radius: 0px 5px 5px 0px;
+            height: 50px;
+            width: 80%;
+            display: inline-block;
+            border-top: 1px solid black;
+            border-right: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        select{
+            background-color: #e3e3e3;
+            border-radius: 5px 0px 0px 5px;
+            height: 50px;
+            width: 20%;
+            display: inline-block;
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-bottom: 1px solid black;
+            -moz-appearance: none;
+            &:after{
+                font-family: "FontAwesome";
+                content: "\f078";
+                position : absolute;
+                right: 0;
+            }
+        }
+        input::placeholder{
+            color: black;
+            font-size: 14px;
+        }
+    }
+
+    .ch-internship-right-img{
+        img{
+            height: 85vh;
+            margin-top: 90px;
+        }
+    }
+    
+}
