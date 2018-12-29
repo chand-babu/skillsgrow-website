@@ -27,4 +27,9 @@ export class ListingCourseProxy {
     updateSSPDiscountUsers(data) {
         return this.http.doPut(Constants.APIPATH + 'admin/add-ssp', data, false);
     }
+
+    getCourse() {
+        return this.http.doGet(Constants.APIPATH + 'admin/course');
+    }
+
 }

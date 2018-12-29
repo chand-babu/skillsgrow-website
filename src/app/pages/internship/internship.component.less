@@ -1,0 +1,145 @@
+app-internship {
+
+    ::-webkit-input-placeholder { /* Edge */
+        color: red;
+      }
+      
+      :-ms-input-placeholder { /* Internet Explorer */
+        color: red;
+      }
+      
+      ::placeholder {
+        color: red;
+      }
+
+    .border-with-arrow {
+        width: 300px;
+        border: 4px solid #ee5a72;
+        display: inline-block;
+        border-radius: 4px;
+        position: relative;
+        margin-bottom: 15px;
+
+        &:after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 17px solid #ee5a72;
+            position: absolute;
+            bottom: 0px;
+            transform: rotate(-178deg);
+            left: 140px;
+        }
+        &:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 17px solid #ee5a72;
+            position: absolute;
+            transform: rotate(-178deg);
+            left: 140px;
+        }
+
+    }
+
+    .subscribe-email-container {
+        background: #f1f1f1;
+        border-radius: 4px;
+
+        input {
+            padding: 8px 12px;
+            border-radius: 50px;
+            border: 1px solid black;
+        }
+
+    }
+
+    .internship-curriculam {
+        border: 1px solid black;
+        border-radius: 4px;
+        font-size: 14px;
+        padding: 15px;
+        th, td{
+            border: none;
+            padding: 5px;
+        }
+        .skillsgrow-title {
+            color: #ee5a72;
+        }
+        button {
+            border-radius: 50px;
+            padding: 6px 12px;
+            margin-top: 5px;
+            border: 1px solid black;
+            background: white;
+            color: #ee5a72;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+    }
+
+    .filter-internship {
+        position: relative;
+
+        button {
+            border: 1px solid black;
+            padding: 6px 30px;
+        }
+        .reset-filter-btn {
+            background: transparent;
+            color: #ee5a72;
+        }
+        .apply-filter-btn {
+            color: white;
+            background: #002d38;
+        }
+        .filter-custom-select {
+            position: relative;
+            border: 1px solid #b7b0b0;
+            border-radius: 4px;
+            select {
+                border: none;
+                outline: none;
+                background: transparent;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+              }
+              &:after {
+                font-family: "FontAwesome";
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 50px;
+                height: 100%;
+                line-height: 38px;
+                content: "\f078";
+                text-align: center;
+                font-size: 14px;
+                z-index: -1;
+              }
+          }
+    }
+
+    .enroll-new-btn-plus {
+        background: #ee5a72;
+        color: white;
+        border-radius: 20px 4px 4px 20px;
+        position: relative;
+        left: -36px;
+        font-size: 13px;
+    }
+
+    .enroll-new-btn {
+        background: #002d38;
+        color: white;
+        padding-right: 44px;
+        font-size: 13px;
+    }
+
+}

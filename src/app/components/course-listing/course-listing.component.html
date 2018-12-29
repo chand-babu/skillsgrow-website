@@ -1,121 +1,46 @@
-<div class="container" style="margin-bottom: 15px;">
+<div class="container mb-3 pt-5 pb-5">
 
-  <div *ngIf="internshipCourses.length >= 1" class="row default-margin-top">
-    <div class="col-12 text-left custom-h2-h4">
-      <h2>Skillsgrow Internship Programs
-        <!-- <button class="btn btn-sg pull-right">View More</button> -->
+  <div *ngIf="popularCourse.length > 0" class="row default-margin-top">
+    <div class="col-12 custom-h2-h4">
+      <h2>Trending course
       </h2>
+      <div style="position: absolute;right: 0;top: 7px;">
+          <button class="btn pull-right enroll-new-btn-plus"><i class="fa fa-plus"></i></button>
+          <button class="btn pull-right enroll-new-btn">View More </button>
+      </div>
     </div>
-    <ng-container *ngFor="let y of internshipCourses;let i = index">
-      <div class="col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-3 offset-lg-0" 
-      *ngIf="y.active == true && y.status == 1">
-        <div class="s-card">
-          <div class="s-image">
-            <img [src]="imagePath + y.imageSmall" alt="img" />
-          </div>
-          <div class="s-content">
-            <div class="s-title">
-              {{y.courseName}}
+
+    <!-- course card layout -->
+
+    <ng-container *ngFor="let y of popularCourse;let i = index">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0" *ngIf="y.active == true && y.status == 0">
+        <div class="course-card-layout mt-2 mb-2">
+            <div>
+                <img class="w-100 border-bottom" [src]="imagePath + y.imageSmall" alt="img" />
             </div>
-            <div class="s-leftrightsection">
-              <span style="position: relative; bottom: 10px;" class="s-left">
-                <bar-rating [(rate)]="y.ratings" [max]="5" [readOnly]="true"></bar-rating>
-              </span>
-              <span *ngIf="y.authorDetails[0] != null" style="margin-top: 13px;" class="s-right">
-                {{(y.authorDetails[0].coursePrice == 'Free') ? 'Free Course' : y.authorDetails[0].coursePrice}}</span>
-              <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr mt-3 ml-1">/-</span>
+            <div class="row m-0">
+                <div class="col-12 course-title" title="{{y.courseName}}">
+                    {{y.courseName}}
+                </div>
+                <div class="col-8">
+                    <bar-rating [(rate)]="y.ratings" [max]="5" [readOnly]="true"></bar-rating>
+                </div>
+                <div class="col-4 course-price p-0 text-right pr-1">
+                    <span *ngIf="y.authorDetails[0] != null">{{(y.authorDetails[0].coursePrice
+                        == 'Free') ? 'Free' : y.authorDetails[0].coursePrice}}</span>
+                      <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr ml-1">/-</span>
+                </div>
+                <div class="col-12">
+                    <span style="font-size: 12px;"><i class="fa fa-clock-o"></i> {{y.timing}}</span>
+                </div>
+                <div class="col-12 text-center mt-2 mb-2">
+                    <button type="button" class="btn" (click)="enrollNowCourse(y)">
+                        {{(y.enrollBtn != false) ? 'Enroll now' : 'Continue'}}</button>
+                </div>
             </div>
-            <div class="s-leftrightsection">
-              <span class="s-left"><i class="fa fa-clock-o"></i> {{y.timing}}</span>
-              <span *ngIf="y.enrolledUser > 50" class="s-left"><i class="fa fa-users"></i>{{y.enrolledUser}}</span>
-            </div>
-            <div class="s-button">
-              <span class="s-left">
-                <button (click)="viewDetailsCourse(y._id)" type="button" class="btn btn-sm">View Detail</button>
-              </span>
-              <span class="s-right">
-                <button type="button" class="btn btn-sm" (click)="enrollNowCourse(y)">
-                  {{(y.enrollBtn != false) ? 'Enroll' : 'Continue'}}</button>
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </ng-container>
-  </div>
 
-  <div *ngIf="studentCourses.length >= 1" class="row default-margin-top">
-    <div class="col-12 text-left custom-h2-h4">
-      <h2>Skillsgrow Training Programs
-        <!-- <button class="btn btn-sg pull-right">View More</button> -->
-      </h2>
-    </div>
-    <ng-container *ngFor="let y of studentCourses;let i = index">
-      <div class="col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-3 offset-lg-0" 
-      *ngIf="y.active == true && y.status == 0">
-        <div class="s-card">
-          <div class="s-image">
-            <img [src]="imagePath + y.imageSmall" alt="img" />
-          </div>
-          <div class="s-content">
-            <div class="s-title">
-              {{y.courseName}}
-            </div>
-            <div class="s-leftrightsection">
-              <span style="position: relative; bottom: 10px;" class="s-left">
-                <bar-rating [(rate)]="y.ratings" [max]="5" [readOnly]="true"></bar-rating>
-              </span>
-              <span *ngIf="y.authorDetails[0] != null" style="margin-top: 13px;" class="s-right">{{(y.authorDetails[0].coursePrice
-                == 'Free') ? 'Free Course' : y.authorDetails[0].coursePrice}}</span>
-              <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr mt-3 ml-1">/-</span>
-            </div>
-            <div class="s-leftrightsection">
-              <span class="s-left"><i class="fa fa-clock-o"></i> {{y.timing}}</span>
-              <span *ngIf="y.enrolledUser > 50" class="s-left"><i class="fa fa-users"></i>{{y.enrolledUser}}</span>
-            </div>
-            <div class="s-button">
-              <span class="s-left">
-                <button (click)="viewDetailsCourse(y._id)" type="button" class="btn btn-sm">View Detail</button>
-              </span>
-              <span class="s-right">
-                <button type="button" class="btn btn-sm" (click)="enrollNowCourse(y)">
-                  {{(y.enrollBtn != false) ? 'Enroll' : 'Continue'}}</button>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-    <!-- <div class="col-3">
-      <div class="s-card">
-        <div class="s-image">
-          <img [src]="'https://placeimg.com/255/160/tech'" alt="img" />
-        </div>
-        <div class="s-content">
-          <div class="s-title">
-            Business development
-          </div>
-          <div class="s-leftrightsection">
-            <span class="s-left">
-              <bar-rating [(rate)]="rate" [max]="5" [readOnly]="true"></bar-rating>
-            </span>
-            <span class="s-right">Free Course</span>
-          </div>
-          <div class="s-leftrightsection">
-            <span class="s-left"><i class="fa fa-users"></i> 23 Enrolled</span>
-            <span class="s-right"><i class="fa fa-clock-o"></i> 19: 20</span>
-          </div>
-          <div class="s-button">
-            <span class="s-left">
-              <button type="button" class="btn btn-sm">View Detail</button>
-            </span>
-            <span class="s-right">
-              <button type="button" class="btn btn-sm">Enroll</button>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
-
 </div>

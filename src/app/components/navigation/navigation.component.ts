@@ -1,19 +1,19 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Global } from '../../common/global';
 import { NavigationEnd, Router } from '@angular/router';
 import { ListingCourseProxy } from '../course-listing/course-listing.proxy';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { Constants } from '../../common/constants';
+import { HomeProxy } from 'src/app/pages/home/home.proxy';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  providers: [ListingCourseProxy]
+  providers: [ListingCourseProxy, HomeProxy],
 })
+
 export class NavigationComponent implements OnInit {
-  navBarFixed: boolean = false;
-  megaMenu: boolean = false;
   public logoutNavigation: boolean;
   categoryListData: any;
   model: any;
@@ -25,9 +25,11 @@ export class NavigationComponent implements OnInit {
   public imagePath = Constants.IMAGEPATH;
   public elementIsClicked: boolean = false;
   public internshipSection: boolean = false;
+  public courseCategoryName: any;
+  public navbarOpen = false;
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
-    public global: Global, private _eref: ElementRef) {
+    public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy) {
     this.global.storageTriggered().subscribe(() => {
       if (this.global.getStorageDetail('user')) {
         const user = this.global.getStorageDetail('user');
@@ -41,41 +43,13 @@ export class NavigationComponent implements OnInit {
     });
   }
 
-  @HostListener('window:scroll', ['$event']) onScroll() {
-    if (window.pageYOffset >= 150) {
-      this.navBarFixed = true;
-    } else {
-      this.navBarFixed = false;
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (this._eref.nativeElement.contains(event.target)) {
-      const element = document.getElementById('courseLink');
-      const internship = document.getElementById('internshipLink');
-      const viewProfileLink = document.getElementById('viewProfileLink');
-      if (event.target === element) {
-        this.internshipSection = false;
-        (this.megaMenu) ? this.megaMenu = false : this.megaMenu = true;
-      } else if (event.target === viewProfileLink) {
-        this.megaMenu = false;
-        (this.profileDropDown) ? this.profileDropDown = false : this.profileDropDown = true;
-      } else if (event.target === internship) {
-        this.internshipSection = true;
-        (this.megaMenu) ? this.megaMenu = false : this.megaMenu = true;
-      } else {
-        this.megaMenu = false;
-        this.profileDropDown = false;
-      }
-    } else {
-      this.megaMenu = false;
-      this.profileDropDown = false;
-    }
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 
   ngOnInit() {
     this.categoryListingCourse();
+    this.getCategoryName();
     const user = this.global.getStorageDetail('user');
     if (user) {
       this.logoutNavigation = true;
@@ -83,6 +57,13 @@ export class NavigationComponent implements OnInit {
     } else {
       this.logoutNavigation = false;
     }
+  }
+
+  getCategoryName() {
+    this.homeProxy.getCategoryName()
+    .subscribe((success: any) => {
+      this.courseCategoryName = success.data;
+    })
   }
 
   logout() {
@@ -125,8 +106,7 @@ export class NavigationComponent implements OnInit {
   }
 
 
-  alerting(id) {
-    console.log(id);
+  searchOption(id: any) {
     this.router.navigate(['/coursedetailspage', id]);
   }
   search = (text$: Observable<string>) =>
