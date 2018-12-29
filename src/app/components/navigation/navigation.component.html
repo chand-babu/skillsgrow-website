@@ -1,151 +1,49 @@
-<div class="container-fluid navigation-border-bottom">
-    <!-- [ngClass]="{'fixed-container': navBarFixed}" -->
-    <div class="row">
-        <div class="col-md-4 col-sm-12 image-container" style="cursor: pointer;">
-            <img style="outline: none" routerLink="/" [src]="'assets/image/logo1.png'" />
-        </div>
-        <div class="col-md-8 col-sm-12 navigation-container">
+<!-- Navigation Bar -->
+<div class="container-fluid naviagtion-conatiner">
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark row naviagtion-row">
+        <div class="col-md-6 col-sm-10 col-10">
+            <img routerLink="/" src="assets/image/logo1.png" alt="logo">
             <ng-template #rt let-r="result" let-t="term">
-                <div (click)="alerting(r._id)">{{r.courseName}}</div>
+                <div (click)="searchOption(r._id)">{{r.courseName}}</div>
             </ng-template>
-            <div class="row">
-                <div class="col top_nav">
-                    <ul class="nav float-md-right remove-the-font-weight">
-                        <li class="nav-item reponsive-search">
-                            <div class="input-group global-search">
-                                <input id="typeahead-template" type="text" class="form-control" [(ngModel)]="model"
-                                    placeholder="Search Course" [ngbTypeahead]="search" [resultTemplate]="rt"
-                                    [inputFormatter]="formatter" (keydown)="keyDownFunction($event, model._id)" />
-                                <div class="input-group-append" (click)="alerting(model._id)">
-                                    <span class="input-group-text" id="basic-addon2">
-                                        <i class="fa fa-search"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- <pre>Model: {{ model | json }}</pre> -->
-                        </li>
-                        <li *ngIf="logoutNavigation" class="nav-item">
-                            <a class="nav-link" style="cursor: pointer;" (click)="userDashboardPath()">
-                                <i class="fa fa-home nav-icon-def-size" title="User Dashboard"></i>
-                            </a>
-                        </li>
-                        <li *ngIf="logoutNavigation" class="nav-item">
-                            <a class="nav-link">
-                                <i *ngIf="!userData.profilePic" id="viewProfileLink" class="fa fa-user nav-icon-def-size"></i>
-                                <div *ngIf="userData.profilePic" class="profilePicInNav">
-                                    <img id="viewProfileLink" [src]="(userData.profilePic) ? imagePath + userData.profilePic : 'assets/image/dummyuser.png'"
-                                        alt="user">
-                                    <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button>
-                                        <mat-menu #menu="matMenu">
-                                            <button mat-menu-item>Item 1</button>
-                                            <button mat-menu-item>Item 2</button>
-                                        </mat-menu> -->
-                                </div>
-                                <div *ngIf="profileDropDown" class="profile-dropdown">
-                                    <div class="text-right arrow-triangle">
-                                        <i class="fa fa-times"></i>
-                                    </div>
-                                    <div *ngIf="userData.status == 3">
-                                        <div>Reference Id: {{userData._id}}</div>
-                                    </div>
-                                    <div *ngIf="userData.wallet" class="row text-danger font-weight-bold">
-                                        <div class="col-4 text-left">
-                                            <small>wallet: {{userData.wallet}} <i class="fa fa-inr"></i>/-</small>
-                                        </div>
-                                        <div class="col-8 text-right">
-                                            <small><a>withdraw amount</a></small>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <img [src]="(userData.profilePic) ? imagePath + userData.profilePic : 'assets/image/dummyuser.png'"
-                                            alt="user">
-                                    </div>
-                                    <p>Hi, {{userData.userName}}</p>
-                                    <div *ngIf="userData.status == 3" class="mt-3 mb-3">
-                                        <share-button button="facebook" url="https://www.skillsgrow.com/register/{{userData._id}}"
-                                            theme="circles-dark"></share-button>
-                                        <share-button button="linkedin" url="https://www.skillsgrow.com/register/{{userData._id}}"
-                                            theme="circles-dark"></share-button>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6 text-left">
-                                            <button routerLink="/profilepage" class="btn btn-danger btn-sm">Profile</button>
-                                        </div>
-                                        <div class="col-6 text-right">
-                                            <button (click)="logout()" class="btn btn-danger btn-sm">Sign out</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- <li class="nav-item">
-                        <a class="nav-link"><i class="fa fa-bell nav-icon-def-size"></i></a>
-                    </li> -->
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <ul class="nav float-md-right float-sm-left bottom-nav remove-the-font-weight">
-                        <li class="nav-item">
-                            <a id="courseLink" class="nav-link dropbtn">Courses
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="internshipLink" class="nav-link dropbtn">Internship
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                        </li>
-                        <!-- <li class="nav-item">
-                            <a routerLink="/comingsoon" class="nav-link">Institute</a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a *ngIf="!logoutNavigation" class="nav-link mr-3" routerLink="/login">Login</a>
-                            <a *ngIf="logoutNavigation" class="nav-link" (click)="logout()">Logout</a>
-                        </li>
-                        <li *ngIf="!logoutNavigation" class="nav-item">
-                            <a class="nav-link nav-link-active" routerLink="/register/sign-up">Sign up</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="text-right animated-search">
+                <form>
+                    <input id="typeahead-template" type="text" class="form-control" name="search" [(ngModel)]="model"
+                        placeholder="Search Course" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
+                        (keydown)="keyDownFunction($event, model._id)" />
+                    <i class="fa fa-search" (click)="searchOption(model._id)"></i>
+                </form>
             </div>
         </div>
-    </div>
-    <div *ngIf="megaMenuLayout">
-        <ng-container *ngIf="megaMenu">
-            <div *ngIf="categoryListData.length >= 1" class="row mega-menu">
-                <div class="col-12 d-md-none d-sm-block cancel-btn">
-                    <i class="fa fa-times"></i>
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <ng-container *ngFor="let x of categoryListData">
-                            <div class="col-sm-6 col-md-4 col-lg-3" *ngIf="x.course.length >= 1">
-                                <div *ngIf="!internshipSection">
-                                    <div class="border-bottom-h3">
-                                        <h3>{{x.categoryName}}</h3>
-                                    </div>
-                                    <div *ngFor="let y of x.course">
-                                        <a *ngIf="y.status == 0 && y.active"
-                                        (click)="viewDetailsCourse(y._id)">{{y.courseName}}</a>
-                                    </div>
-                                </div>
-                                <div *ngIf="internshipSection">
-                                    <div class="border-bottom-h3">
-                                        <h3>{{x.categoryName}}</h3>
-                                    </div>
-                                    <div *ngFor="let y of x.course">
-                                        <a *ngIf="y.status == 1 && y.active"
-                                        (click)="viewDetailsCourse(y._id)">{{y.courseName}}</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </div>
-                </div>
+
+        <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="col-md-6 col-sm-2 col-2">
+            <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['/']">Home</li>
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']">About us</li>
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['contactus']">Contact us</li>
+                    <li class="nav-item" mat-button [matMenuTriggerFor]="main_menu" [routerLinkActive]="['active-naviagtion']" (click)="getCategoryName()">Courses
+                        <i class="fa fa-angle-down"></i>
+                    </li>
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign up</li>
+                </ul>
             </div>
-        </ng-container>
+        </div>
+
     </div>
+
+    <mat-menu #main_menu="matMenu">
+        <ng-container *ngFor="let x of courseCategoryName">
+            <button mat-menu-item [matMenuTriggerFor]="sub_menu">{{ x.categoryName }}</button>
+            <mat-menu #sub_menu="matMenu">
+                <button *ngFor="let y of x.course" mat-menu-item [routerLink]="['coursedetailspage',y._id]">{{
+                    y.courseName }}</button>
+            </mat-menu>
+        </ng-container>
+    </mat-menu>
+
 </div>

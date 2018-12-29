@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { InternshipComponent } from '../pages/internship/internship.component';
 
 const routes: Routes = [
   {
@@ -96,6 +97,9 @@ const routes: Routes = [
   },
   {
     path: 'response/:id', loadChildren: '../pages/response/response.module#ResponseModule'
+  },
+  {
+    path: 'internship', component: InternshipComponent
   },
   {
     path: '**', redirectTo: '/errorpage', pathMatch: 'full'

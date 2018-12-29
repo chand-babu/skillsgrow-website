@@ -1,175 +1,98 @@
 app-navigation {
-    .container-fluid {
-        background-color: @white;
-
-        .image-container {
-            padding: 15px;
-
-            @media only screen and (max-width: 780px) {
-                text-align: center;
-            }
-        }
-        .navigation-container {
-            .top_nav {
-                padding: 15px 25px;
-            }
-        }
-        .nav-link {
-            color: @brand-primary;
-            transition: 0.5s;
-            cursor: pointer;
-            position: relative;
-            .profilePicInNav {
-                img {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                }
-            }
-        }
-        .nav-link-active {
-            background: @brand-primary;
-            color: @white !important;
-            border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 15px;
-            margin-top: 4px;
-            &:hover {
-                color: @white !important;
-            }
-            @media screen and (max-width: 466px) {
-                margin: 4px 0 10px 15px;
-            }
-        }
-
-        .bottom-nav {
-            .nav-link {
-                color: black;
-                transition: 0.1s;
-                cursor: pointer;
-                font-weight: 500 !important;
-                 
-                i {
-                    font-weight: bold;
-                }
-
-                &:hover, &:focus {
-                    color: @brand-primary;
-                }
-            }
-        }
-    }
-}
-
-@media only screen and (max-width: 780px) {
-    .reponsive-search {
+    
+    .naviagtion-conatiner {
+        position: absolute;
+        top: 0;
         width: 100%;
-        .input-group {
-            flex-wrap: inherit;
-        }
-    }
-}
-
-.mega-menu{
-    position: absolute;
-    width: 100%;
-    top: 120px;
-    padding: 15px;
-    z-index: 999999;
-    background: #002d38;
-
-    .cancel-btn {
-
-        i{
-            position: absolute;
-            right: -4px;
-            top: -9px;
-            width: 20px;
-            text-align: center;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            padding: 1px;
-            cursor: pointer;
-        }
-    }
-
-    .col-8 {
-        margin-bottom: 20px;
-    }
-    .border-bottom-h3{
-
-        h3{
-            font-size: 15px;
-            text-transform: capitalize;
-            color: #bfe3ee;
-        }
-    }
-    a{
-        margin: 7px 0;
-        cursor: pointer;
-        font-size: 12px;
-        color: #b7b7b7 !important;
-        &:hover {
-            color: @white !important;
-        }
-    }
-}
-
-.dropdown-menu{
-    width: 100%;
-    margin: 5px 0 0 0;
-    padding: 0;
-}
-
-.profile-dropdown {
-    background: @white;
-    position: absolute;
-    width: 250px;
-    right: 0;
-    z-index: 99;
-    top: 60px;
-    padding: 10px;
-    text-align: center;
-    color: black;
-    border-radius: 5px;
-    border: 1px solid @brand-primary;
-    img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%
-    }
-    .arrow-triangle {
-        i {
-            position: relative;
-            right: 6px;
-        &:after {
-            position: absolute;
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 20px solid #f7941d;
-            right: 1px;
-            top: -33px;
-        }
-       }
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    .mega-menu {
-        top: 233px;
-    }
-    .profile-dropdown {
-        right: unset;
-        .arrow-triangle {
-            i {
-                &:after {
-                    left: -219px;
+        z-index: 999;
+        opacity: 0.7;
+    
+        .naviagtion-row {
+            /* background: -webkit-linear-gradient(110deg, #fff 60%, #4c4c4c 60%);
+            background: -o-linear-gradient(110deg, #fff 60%, #4c4c4c 60%);
+            background: -moz-linear-gradient(110deg, #fff 60%, #4c4c4c 60%);
+            background: linear-gradient(110deg, #fff 50%, #565251 50%); */
+            background: linear-gradient(110deg, #fff, #565251);
+            color: white;
+            padding: 5px;
+        
+            img {
+                z-index: 999;
+                width: 140px;
+                margin-left: 30px;
+                padding: 2px;
+                cursor: pointer;
+            }
+        
+            ul {
+                margin: 0;
+                padding: 0;
+                li{
+                    display: inline-block;
+                    margin: 15px;
+                    cursor: pointer;
+                    font-size: 14px;
                 }
             }
+            .active-naviagtion {
+                color: #ee5a71;
+            }
+        }
+    }
+    
+    .animated-search {
+        position: absolute;
+        right: 0;
+        top: 13px;
+        font-size: 13px;
+        form{
+            position: relative;
+            top: 0;
+            transition: all 1s;
+            width: 50px;
+        }
+        
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;;
+            height: 42.5px;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: none;
+            font-size: 1em;
+            border-radius: 20px;
+            padding: 0 20px;
+        }
+        
+        .fa{
+            box-sizing: border-box;
+            padding: 10px;
+            width: 42.5px;
+            height: 42.5px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 1.2em;
+            transition: all 1s;
+        }
+        
+        form:hover{
+            width: 200px;
+            cursor: pointer;
+        }
+        
+        form:hover input{
+            display: block;
+        }
+        
+        form:hover .fa{
+            background: #07051a;
+            color: white;
         }
     }
 }

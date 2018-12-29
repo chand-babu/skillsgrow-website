@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home.component';
 import { CommonComponentModule } from '../../components/commonComponent.module';
 import { FormsModule } from '@angular/forms';
+import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
         NgbModule.forRoot(),
         CommonComponentModule,
         FormsModule,
+        NguCarouselModule
     ],
     declarations: [HomeComponent]
 })
