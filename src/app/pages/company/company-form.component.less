@@ -1,5 +1,38 @@
 app-company{
-    .chand (@color, @border) {
+    .border-with-arrow {
+        width: 300px;
+        border: 4px solid #ee5a72;
+        display: inline-block;
+        border-radius: 4px;
+        position: relative;
+        margin-bottom: 15px;
+
+        &:after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 17px solid #ee5a72;
+            position: absolute;
+            bottom: 0px;
+            transform: rotate(-178deg);
+            left: 140px;
+        }
+        &:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 17px solid #ee5a72;
+            position: absolute;
+            transform: rotate(-178deg);
+            left: 140px;
+        }
+
+    }
+    .wizard (@color, @border) {
         width: 50px;
         height: 50px;
         background-color: @color;
@@ -18,55 +51,132 @@ app-company{
 
     .ch-internship-step-space{
         .active{
-            .chand(@brand-secondary,none);
+            .wizard(@brand-secondary,none);
         }
     
         .inactive{
             @border: 1px solid @brand-secondary;
-            .chand(@white, @border);
+            .wizard(@white, @border);
         }
         margin-top:80px;
         span{
+            font-family: "Merriweather";
             color: @brand-secondary;
         }
     }
 
     .ch-internship-form-head{
+        font-family: "Geogrotesque";
         color: @brand-secondary;
+        font-size: 45px;
     }
 
     .ch-internship-form-head2{
+        font-family: "Geogrotesque Rg It";
         color: @brand-secondary;
-    }
-
-    .ch-red-line{
-        border: 4px solid @brand-pink;
-        border-radius: 5px;
-    }
-
-    .ch-red-square{
-        width: 30px;
-        height: 30px;
-        top: -10px;
-        left: 145px;
-        background-color: @brand-pink;
-        transform: rotate(45deg);
+        font-size: 20px;
     }
 
     .ch-internship-form {
         margin-top: 10px;
+        cursor:pointer;
+        .ch-upload-image-logo{
+            border:1px solid black;
+            height: 100px;
+            border-radius: 5px;
+            img{
+                margin: 10px 0px 0px 5px;
+            }
+            span {
+                color: @brand-pink;
+            }
+        }
         input{
             border: 1px solid black;
             height: 50px;
+            font-family: "Merriweather";
         }
         select{
             border: 1px solid black;
             height: 50px;
+            font-family: "Merriweather";
+            ::placeholder{
+                font-family: "Merriweather";
+                color: black;
+                font-size: 14px;
+            }
         }
-        input::placeholder{
-            color: black;
-            font-size: 14px;
+        textarea{
+            border: 1px solid black;
+            height: 100px;
+            font-family: "Merriweather";
+            ::placeholder{
+                font-family: "Merriweather";
+                color: black;
+                font-size: 14px;
+            }
         }
+        .ch-save{
+            button{
+                cursor:pointer;
+                position: relative;
+                height:46px;
+                width:170px;
+                background-color: @brand-secondary;
+                outline: none;
+                border: none;
+                color: @white;
+                border-radius:10px;
+                font-family: "Merriweather";
+                padding: 10px 35px 10px 0px;
+                font-size: 12px;
+                &:after {
+                    content: "→";
+                    position: absolute;
+                    padding: 14px;
+                    background-color: @brand-pink;
+                    margin-left: 15px;
+                    border-radius: 25px 10px 10px 25px;
+                    top:0;
+                    right: -1px;
+                    font-size: 12px;
+                    width: 53px;
+                }
+            }
+        }
+        .ch-goback{
+            button{
+                cursor:pointer;
+                position: relative;
+                height:46px;
+                width:160px;
+                background-color: @brand-secondary;
+                outline: none;
+                border: none;
+                color: @white;
+                border-radius:10px;
+                font-family: "Merriweather";
+                padding: 10px 0px 10px 35px;
+                font-size: 12px;
+                &:before {
+                    content: "←";
+                    position: absolute;
+                    padding: 14px;
+                    background-color: @brand-pink;
+                    border-radius: 10px 25px 25px 10px;
+                    top:0;
+                    left: -1px;
+                    font-size: 12px;
+                    width: 53px;
+                }
+            }
+        }
+    }
+
+    .ch-validation-error{
+        text-align: left;
+        font-size: 12px;
+        color: red;
     }
 
     .ch-internship-form-mobile {
@@ -80,34 +190,223 @@ app-company{
             border-top: 1px solid black;
             border-right: 1px solid black;
             border-bottom: 1px solid black;
+            ::placeholder{
+                color: black;
+                font-size: 14px;
+            }
         }
         select{
-            background-color: #e3e3e3;
+            background-color: #d8d8d8;
             border-radius: 5px 0px 0px 5px;
             height: 50px;
             width: 20%;
+            padding-left:15px;
             display: inline-block;
             border-top: 1px solid black;
-            border-left: 1px solid black;
             border-bottom: 1px solid black;
             -moz-appearance: none;
+            -webkit-appearance: none;
             &:after{
-                font-family: "FontAwesome";
-                content: "\f078";
-                position : absolute;
+                position: absolute;
                 right: 0;
+                top: 0;
+                width: 50px;
+                height: 100%;
+                line-height: 38px;
+                content: "\f078";
             }
-        }
-        input::placeholder{
-            color: black;
-            font-size: 14px;
         }
     }
 
     .ch-internship-right-img{
         img{
-            height: 85vh;
-            margin-top: 90px;
+            height: 462px;
+            margin-top: 165px;
+        }
+    }   
+    
+    .mat-form-field-infix{
+        border: 0px solid;
+        width: 204px;
+        input{
+            border-radius:.25rem;
+            border: 1px solid black;
+            height: 50px;
+            font-family: "Merriweather";
+            ::placeholder {
+                color:#666;
+                content:"Choose a date";
+            }
+        }
+    }
+
+    .mat-input-element{
+        padding: 10px;
+        caret-color: black;
+    }
+
+    .mat-form-field-invalid .mat-input-element{
+        padding: 10px;
+        caret-color: black;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-infix{
+        padding: 0;
+    }
+
+    .mat-form-field-label-wrapper { 
+        // display: none;
+    } 
+    
+    .mat-focused .mat-form-field-underline .mat-form-field-ripple { 
+        background: #f1f1f1;  
+    }
+    .mat-form-field-ripple { 
+        background-color: #f1f1f1;  
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        background-color: #f1f1f1;
+    }
+
+    .mat-form-field .mat-form-field-invalid .mat-form-field-label{
+        color:#7f757d;
+        padding:10px;
+    }
+
+    .mat-form-field .mat-focused .mat-form-field-label{
+        color:#7f757d;
+        padding:10px;
+    }
+
+    .mat-form-field.mat-form-field-invalid 
+    .mat-form-field-ripple{
+        background-color: white;
+    }
+
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+        padding: 0;
+    }
+    @media only screen and (max-width: 1500px){
+        .ch-internship-form-head-responsive{
+            font-family: "Geogrotesque";
+            color: @brand-secondary;
+            font-size: 45px;
+        }
+
+    }
+
+    @media (min-width: 768px) and (max-width: 992px){
+        .ch-internship-form-head-responsive{
+            font-family: "Geogrotesque";
+            color: @brand-secondary;
+            font-size: 45px;
+        }
+        .ch-internship-step-space-responsive{
+            .ch-internship-step-labal{
+                padding-top: 7px;
+                color: @brand-secondary;
+            }
+            .active{
+                width: 40px;
+                height: 40px;
+                background-color: @brand-secondary;
+                border: none;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 18px;
+                }
+            }
+            .inactive{
+                border: 1px solid @brand-secondary;
+                width: 40px;
+                height: 40px;
+                background-color: @white;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 18px;
+                }
+            }
+            span{
+                font-family: "Merriweather";
+                color: @brand-secondary;
+                font-size: 14px;
+            }
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 768px){
+        .ch-internship-form-head-responsive{
+            font-family: "Geogrotesque";
+            color: @brand-secondary;
+            font-size: 40px;
+        }
+        .ch-internship-step-space-responsive{
+            .active{
+                margin-left: 50px;
+                width: 40px;
+                height: 40px;
+                background-color: @brand-secondary;
+                border: none;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 18px;
+                }
+            }
+            .inactive{
+                margin-left: 50px;
+                border: 1px solid @brand-secondary;
+                width: 40px;
+                height: 40px;
+                background-color: @white;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 18px;
+                }
+            }
+            span{
+                display:none;
+            }
+        }
+    }
+
+    @media (min-width: 450px) and (max-width: 576px){
+        .ch-internship-form-head-responsive{
+            font-family: "Geogrotesque";
+            color: @brand-secondary;
+            font-size: 40px;
+        }
+        .ch-internship-step-space-responsive{
+            .active{
+                margin-left: 50px;
+                width: 35px;
+                height: 35px;
+                background-color: @brand-secondary;
+                border: none;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 15px;
+                }
+            }
+            .inactive{
+                margin-left: 50px;
+                border: 1px solid @brand-secondary;
+                width: 35px;
+                height: 35px;
+                background-color: @white;
+                border-radius: 50%;
+                img{
+                    margin: 10px;
+                    width: 15px;
+                }
+            }
+            span{
+                display:none;
+            }
         }
     }
     

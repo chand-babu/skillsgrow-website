@@ -102,7 +102,7 @@ const routes: Routes = [
     path: 'response/:id', loadChildren: '../pages/response/response.module#ResponseModule'
   },
   {
-    path: 'internship', component: InternshipComponent
+    path: 'internship', loadChildren: '../pages/internship/internship.module#InternshipModule'
   },
   {
     path: '**', redirectTo: '/errorpage', pathMatch: 'full'
