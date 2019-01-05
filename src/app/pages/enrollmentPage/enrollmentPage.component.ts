@@ -7,6 +7,8 @@ import { SafePipe } from '../../common/videourl.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jsSHA from 'jssha';
 import { v4 as uuid } from 'uuid';
+import { DataService } from 'src/app/common/data.service';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-enrollemnt-page',
@@ -32,19 +34,23 @@ export class EnrollmentPageComponent implements OnInit {
     public userDetails: any;
 
     constructor(public global: Global, public enrollmentPageProxy: EnrollmentPageProxy,
-        public router: Router, public videourl: SafePipe, private modalService: NgbModal) {
+        public router: Router, public videourl: SafePipe, private modalService: NgbModal,
+        public courseDataService: DataService, public _location: Location) {
     }
 
     ngOnInit() {
         // console.log('new uid: ', uuid());
         // console.log(this.txid);
-        this.courseData = this.global.getStorageDetail('currentCourseData');
-        this.userDetails = this.global.getStorageDetail('user');
-        if (!this.courseData) {
-            this.global.navigateToNewPage('/home');
-        } else {
-            this.courseData.videoUrl = this.videourl.transform(this.courseData.videoUrl);
-        }
+        this.courseDataService.currentCourseData.subscribe((courseData) => {
+            this.courseData = courseData;
+            if (!this.courseData) {
+                this._location.back()
+            } else {
+                this.userDetails = this.global.getStorageDetail('user');
+                this.courseData.videoUrl = this.videourl.transform(this.courseData.videoUrl);
+            }
+        })
+        
     }
 
     enrollment() {
@@ -56,7 +62,6 @@ export class EnrollmentPageComponent implements OnInit {
         };
         this.enrollmentPageProxy.courseEnrolledService(userEnrollmentData)
             .subscribe((success: any) => {
-                console.log(success);
                 this.userCourseEnrollment();
                 document.getElementById('modelClose').click();
             });
@@ -92,7 +97,6 @@ export class EnrollmentPageComponent implements OnInit {
                             course.enrolledOn = new Date();
                             this.enrollmentPageProxy.userCourseEnrolledService(course)
                                 .subscribe((succ: any) => {
-                                    console.log(succ);
                                     this.userDetails.data.courseEnrolled.push(course);
                                     this.global.storeDataLocal('user', this.userDetails);
                                     this.router.navigate(['/enrollmentcourselandingpage', course._id]);

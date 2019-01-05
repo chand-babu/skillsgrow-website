@@ -57,6 +57,28 @@
             </div>
         </div>
     </div>
+
+    <mat-sidenav-container *ngIf="false" class="example-container">
+        <mat-sidenav #sidenav mode="side" 
+        [(opened)]="opened" (opened)="events.push('open!')" (closed)="events.push('close!')"
+            style="width: 300px; padding: 15px; text-align: center">
+            <div>About Course</div>
+            <div>Course Curriculum</div>
+            <div>Student Review</div>
+            <div>About Instructor</div>
+            <div>Chat Forums</div>
+            <div>FAQ</div>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+            <p><button mat-button (click)="sidenav.toggle()">
+                    <span>&#9776;</span>
+                </button></p>
+            <h4>About Course</h4>
+            <p [innerHTML]="editorContent"></p>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
     <div id="main" class="row course-descriptions">
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
@@ -78,11 +100,11 @@
 
         <div class="col-12">
             <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
-                <a  class="close" data-dismiss="alert" aria-label="close" (click)="errorMessage = false">&times;</a>
+                <a class="close" data-dismiss="alert" aria-label="close" (click)="errorMessage = false">&times;</a>
                 <strong>Error!</strong> {{message}}
             </div>
             <div *ngIf="successMessage" class="alert alert-success alert-dismissible">
-                    <a  class="close" data-dismiss="alert" aria-label="close" (click)="successMessage = false">&times;</a>
+                <a class="close" data-dismiss="alert" aria-label="close" (click)="successMessage = false">&times;</a>
                 <strong>Success!</strong> {{message}}
             </div>
             <div *ngIf="hideTheMenuBar" class="menu-bar-icon">
@@ -93,19 +115,21 @@
                 <p [innerHTML]="editorContent"></p>
             </div>
             <div id="curriculum" class="tabcontent">
-                <div class="accordion-container" *ngFor="let x of topicList;let topicIndex = index">
-                    <button class="accordion" id="defaultAccordionTitle{{topicIndex + 1}}">{{x.title}}</button>
-                    <div id="defaultAccordionPanel{{topicIndex + 1}}" class="panel table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr *ngFor="let y of x.topics;let i = index">
-                                    <td><i class="fa fa-file-video-o"></i> {{y.subTopics}}</td>
-                                    <td class="text-right">{{y.timing}} min</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <!-- expansion panel for topics -->
+                <mat-accordion *ngFor="let x of topicList;let topicIndex = index">
+                    <mat-expansion-panel [expanded]="topicIndex == 0" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{x.title}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p *ngFor="let y of x.topics;let i = index" style="color: #007791">
+                            <i class="fa fa-file-video-o"></i> {{y.subTopics}}
+                            <span class="pull-right">{{y.timing}} min</span>
+                        </p>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
                 <div class="row course-curriculum">
                     <div class="col-md-6">
                         <h4>{{ x.courseName }}</h4>
@@ -193,4 +217,5 @@
             </div>
         </div>
     </div>
+
 </div>

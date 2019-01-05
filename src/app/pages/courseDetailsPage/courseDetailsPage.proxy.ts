@@ -25,4 +25,8 @@ export class CourseDetailsPageProxy {
         return this.http.doGet(Constants.APIPATH + 'admin/discussion-forums/' + courseId, false);
     }
 
+    getCourseData(courseId) {
+        return this.http.doGet(Constants.APIPATH + 'admin/course/' + courseId, false);
+    }
+
 }

@@ -1,41 +1,73 @@
 <!-- Navigation Bar -->
-<div class="container-fluid naviagtion-conatiner">
-    <div class="navbar navbar-expand-lg navbar-dark bg-dark row naviagtion-row">
-        <div class="col-md-6 col-sm-10 col-10">
-            <img routerLink="/" src="assets/image/logo1.png" alt="logo">
+<div class="container-fluid naviagtion-conatiner" id="navbar">
+    <div id="header" class="navbar navbar-expand-lg navbar-dark bg-dark row naviagtion-row">
+        <div class="col-md-4 col-sm-10 col-10">
+            <img routerLink="/" src="assets/image/logo1.png" alt="logo" class="logo-img">
             <ng-template #rt let-r="result" let-t="term">
                 <div (click)="searchOption(r._id)">{{r.courseName}}</div>
+                <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
             </ng-template>
-            <div class="text-right animated-search">
+            <!-- <div class="text-right animated-search">
                 <form>
-                    <input id="typeahead-template" type="text" class="form-control" name="search" [(ngModel)]="model"
-                        placeholder="Search Course" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter"
-                        (keydown)="keyDownFunction($event, model._id)" />
+                    <input 
+                    id="typeahead-template" 
+                    type="text" 
+                    name="search"
+                    placeholder="Search Course"
+                    class="form-control" 
+                    [(ngModel)]="model" 
+                    [ngbTypeahead]="search" 
+                    [resultTemplate]="rt"
+                    [inputFormatter]="formatter" />
                     <i class="fa fa-search" (click)="searchOption(model._id)"></i>
                 </form>
-            </div>
+            </div> -->
         </div>
 
-        <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <button class="navbar-toggler" type="button" (click)="toggleNavbar()" style="background: black">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="col-md-6 col-sm-2 col-2">
-            <div class="collapse navbar-collapse" [ngClass]="{ 'show': navbarOpen }">
+        <div class="col-md-8 col-sm-12 col-12">
+            <div class="collapse navbar-collapse pull-right" [ngClass]="{ 'show': navbarOpen }">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['/']">Home</li>
-                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']">About us</li>
-                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['contactus']">Contact us</li>
-                    <li class="nav-item" mat-button [matMenuTriggerFor]="main_menu" [routerLinkActive]="['active-naviagtion']" (click)="getCategoryName()">Courses
+                    <li class="nav-item">
+                            <div class="text-right animated-search">
+                                    <form>
+                                        <input 
+                                        id="typeahead-template" 
+                                        type="text" 
+                                        name="search"
+                                        placeholder="Search Course"
+                                        class="form-control" 
+                                        [(ngModel)]="model" 
+                                        [ngbTypeahead]="search" 
+                                        [resultTemplate]="rt"
+                                        [inputFormatter]="formatter" />
+                                        <i class="fa fa-search" (click)="searchOption(model._id)"></i>
+                                    </form>
+                                </div>
+                    </li>
+                    <li class="nav-item" [routerLink]="['/']" >Home</li>
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['ourteam']">Our team</li>
+                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['contactus']">Contact
+                        us</li>
+                    <li class="nav-item" mat-button [matMenuTriggerFor]="main_menu" [routerLinkActive]="['active-naviagtion']"
+                        (click)="getCategoryName()">Courses
                         <i class="fa fa-angle-down"></i>
                     </li>
-                    <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign up</li>
+                    <li [hidden]="logoutNavigation" class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign
+                        up</li>
+                    <li [hidden]="!logoutNavigation" class="nav-item" mat-button [matMenuTriggerFor]="profile_menu">
+                        <img src="assets/image/user-icon.png" alt="user-icon" style="width: 28px">
+                    </li>
                 </ul>
             </div>
         </div>
 
     </div>
 
+    <!-- course dropdown list -->
     <mat-menu #main_menu="matMenu">
         <ng-container *ngFor="let x of courseCategoryName">
             <button mat-menu-item [matMenuTriggerFor]="sub_menu">{{ x.categoryName }}</button>
@@ -44,6 +76,12 @@
                     y.courseName }}</button>
             </mat-menu>
         </ng-container>
+    </mat-menu>
+
+    <!-- dropdown for user profile -->
+    <mat-menu #profile_menu="matMenu">
+        <button mat-menu-item routerLink="/profilepage">Profile</button>
+        <button mat-menu-item (click)="logout()">logout</button>
     </mat-menu>
 
 </div>

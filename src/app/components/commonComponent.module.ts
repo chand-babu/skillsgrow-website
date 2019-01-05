@@ -7,8 +7,10 @@ import { BarRatingModule } from './../../../node_modules/ngx-bar-rating/rating.m
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonComponentRoutingModule } from './commonComponent-routing.module';
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule, MatButtonModule, MatFormFieldModule, MatButtonToggleModule, MatInputModule } from '@angular/material';
 import { ShareButtonsModule } from '@ngx-share/buttons';
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { SnackBarComponent } from './snach-bar/sanck-bar.component';
 
 @NgModule({
     imports: [
@@ -18,15 +20,22 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
         BarRatingModule,
         CommonComponentRoutingModule,
         MatMenuModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatSnackBarModule,
+        MatInputModule,
         ShareButtonsModule.forRoot()
     ],
     declarations: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
     LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
-    ModalPopupComponent,
+    ModalPopupComponent, SnackBarComponent,
     ChatForumComponent],
     exports: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
         LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
-        ModalPopupComponent, ChatForumComponent]
+        ModalPopupComponent, ChatForumComponent, SnackBarComponent],
+        entryComponents: [
+            SnackBarComponent
+        ]
 })
 
 export class CommonComponentModule {}

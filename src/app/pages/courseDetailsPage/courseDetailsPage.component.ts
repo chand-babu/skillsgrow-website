@@ -1,17 +1,17 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
-import { ListingCourseProxy } from './../../components/course-listing/course-listing.proxy';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDetailsPageProxy } from './courseDetailsPage.proxy';
 import { Constants } from '../../common/constants';
 import { SafePipe } from '../../common/videourl.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DataService } from 'src/app/common/data.service';
 
 
 @Component({
     selector: 'app-course-details-page',
     templateUrl: './courseDetailsPage.component.html',
-    providers: [ListingCourseProxy, CourseDetailsPageProxy, SafePipe],
+    providers: [CourseDetailsPageProxy, SafePipe],
 })
 
 export class CourseDetailsPageComponent implements OnInit {
@@ -43,12 +43,15 @@ export class CourseDetailsPageComponent implements OnInit {
     public user: any;
     public hideTheMenuBar: boolean = true;
     public editorContent: any;
+    panelOpenState = false;
+    events: string[] = [];
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
-        public listingCourseProxy: ListingCourseProxy, public router: Router,
+        public router: Router,
         public coursedetailspageProxy: CourseDetailsPageProxy,
         public videourl: SafePipe, private elementRef: ElementRef,
-        private sanitizer: DomSanitizer) {
+        private sanitizer: DomSanitizer,
+        public courseDataService: DataService) {
     }
 
 
@@ -60,60 +63,65 @@ export class CourseDetailsPageComponent implements OnInit {
         this.id = this.activateRoute.snapshot.params['id'];
         this.activateRoute.params.forEach(params => {
             this.courseId = params['id'];
-            this.categoryListingCourse(this.courseId);
+            this.courseDataById(this.courseId);
         });
     }
 
-    categoryListingCourse(id) {
-        this.listingCourseProxy.listCategories()
-            .subscribe((success: any) => {
-                this.categoryListData = success.data;
-                console.log(this.categoryListData);
-                for (let i = 0; i < this.categoryListData.length; i++) {
-                    this.categoryListData[i].course.filter((currentCourse) => {
-                        if (id === currentCourse._id) {
-                            this.courseDetails = [];
-                            this.courseDetails.push(currentCourse);
-                            this.hideTheMenuBar = true;
-                            this.set = setInterval(this.defaultTab, 100);
-                            this.editorContent = this.courseDetails[0].description;
-                            this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
-                            this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
-                            this.courseDetails.filter((data) => {
-                                if (this.user) {
-                                    if (this.user.referId || this.user.status === 3) {
-                                        let coursePrice = data.authorDetails[0].coursePrice;
-                                        coursePrice = coursePrice - coursePrice * 10 / 100;
-                                        data.authorDetails[0].coursePrice = coursePrice;
-                                    }
-                                    if (data.enrolledUser.length >= 1) {
-                                        data.enrolledUser.filter((email) => {
-                                            if (email.userEmailId === this.user.emailId) {
-                                                data.enrollBtn = false;
-                                            }
-                                        });
-                                    }
-                                }
-                                data.courseReview.filter((user) => {
-                                    this.averageRate = this.averageRate + user.rating;
-                                });
-                                this.averageRate = this.averageRate / data.courseReview.length;
-                            });
-                            this.courseDetails[0].timeline.filter((topic) => {
-                                this.topicList.push(topic);
-                                topic.topics.filter((time) => {
-                                    this.timing = this.timing + time.timing;
-                                });
-                            });
-                        }
-                    });
+    courseDataById(id: any) {
+        this.coursedetailspageProxy.getCourseData(id)
+        .subscribe((success: any) => {
+            this.courseDetails = success.data;
+            this.hideTheMenuBar = true;
+                this.set = setInterval(this.defaultTab, 100);
+                this.editorContent = this.courseDetails[0].description;
+                this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+                this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
+                this.checkingUserReferenceAndEnrollment();
+                this.calculationCourseTiming();
+        })
+    }
+
+    /* checking whether user from  SSP reference or not */
+    checkingUserReferenceAndEnrollment() {
+        this.courseDetails.filter((data) => {
+            if (this.user) {
+                if (this.user.referId || this.user.status === 3) {
+                    let coursePrice = data.authorDetails[0].coursePrice;
+                    coursePrice = coursePrice - coursePrice * 10 / 100;
+                    data.authorDetails[0].coursePrice = coursePrice;
                 }
-                const h = Math.floor(this.timing / 60);
-                const m = this.timing % 60;
-                const hr = h < 10 ? '0' + h : h;
-                const min = m < 10 ? '0' + m : m;
-                this.courseTiming = hr + ':' + min;
+                this.checkingUserEnrollment(data);
+            }
+            data.courseReview.filter((user) => {
+                this.averageRate = this.averageRate + user.rating;
             });
+            this.averageRate = this.averageRate / data.courseReview.length;
+        });
+    }
+
+    checkingUserEnrollment(data: any) {
+        if (data.enrolledUser.length >= 1) {
+            data.enrolledUser.filter((email) => {
+                if (email.userEmailId === this.user.emailId) {
+                    data.enrollBtn = false;
+                }
+            });
+        }
+    }
+
+    /* Course timing calculation */
+    calculationCourseTiming() {
+        this.courseDetails[0].timeline.filter((topic) => {
+            this.topicList.push(topic);
+            topic.topics.filter((time) => {
+                this.timing = this.timing + time.timing;
+            });
+        });
+        const h = Math.floor(this.timing / 60);
+        const m = this.timing % 60;
+        const hr = h < 10 ? '0' + h : h;
+        const min = m < 10 ? '0' + m : m;
+        this.courseTiming = hr + ':' + min;
     }
 
     aboutCourse(evt, id) {
@@ -149,7 +157,7 @@ export class CourseDetailsPageComponent implements OnInit {
                 videoUrl: this.courseDetails[0].video,
                 courseChapter: this.courseDetails[0].timeline.length
             };
-            this.global.storeDataLocal('currentCourseData', courseObj);
+           this.courseDataService.containCourseData(courseObj);
             this.router.navigate(['/enrollmentpage', this.courseId]);
         }
     }
@@ -200,13 +208,11 @@ export class CourseDetailsPageComponent implements OnInit {
         this.reviewFormObj.userId = user.data._id;
         this.coursedetailspageProxy.courseReviewService(this.reviewFormObj)
             .subscribe((success: any) => {
-                
                 form.reset();
                 this.infoMessage = false;
                 this.successMessage = true;
                 this.message = 'Review sent successfully !!!';
                 this.currentRate = 5;
-                // this.categoryListingCourse(this.courseId);
             });
     }
 
@@ -214,32 +220,12 @@ export class CourseDetailsPageComponent implements OnInit {
         this.elementRef.nativeElement.querySelector('#mySidenav').style.width = '300px';
         this.elementRef.nativeElement.querySelector('#main').style.marginLeft = '300px';
         this.hideTheMenuBar = false;
-        this.topicAccordion();
     }
 
     closeNav() {
         this.elementRef.nativeElement.querySelector('#mySidenav').style.width = '0';
         this.elementRef.nativeElement.querySelector('#main').style.marginLeft = '0';
         this.hideTheMenuBar = true;
-    }
-
-    topicAccordion() {
-        this.elementRef.nativeElement.querySelector('#defaultAccordionPanel1').style.maxHeight = 'inherit';
-        this.elementRef.nativeElement.querySelector('#defaultAccordionTitle1').className += ' active';
-        const acc: any = this.elementRef.nativeElement.querySelectorAll('.accordion');
-        
-        for (let i = 0; i < acc.length; i++) {
-            acc[i].addEventListener('click', () => {
-                
-                acc[i].classList.toggle('active');
-                const panel = acc[i].nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + 'px';
-                }
-            });
-        }
     }
 
     todayDate() {

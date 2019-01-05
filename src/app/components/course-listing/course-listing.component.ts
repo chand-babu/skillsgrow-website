@@ -3,6 +3,7 @@ import { ListingCourseProxy } from './course-listing.proxy';
 import { Router } from '@angular/router';
 import { Global } from '../../common/global';
 import { Constants } from '../../common/constants';
+import { DataService } from 'src/app/common/data.service';
 
 @Component({
   selector: 'app-course-listing',
@@ -21,7 +22,7 @@ export class CourseListingComponent implements OnInit {
   public popularCourse = [];
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
-    public global: Global, public el: ElementRef) { }
+    public global: Global, public el: ElementRef, public courseDataService: DataService) { }
 
 
   ngOnInit() {
@@ -121,7 +122,7 @@ export class CourseListingComponent implements OnInit {
           courseChapter: courseData.timeline.length,
           videoUrl: courseData.video
         };
-        this.global.storeDataLocal('currentCourseData', courseObj);
+        this.courseDataService.containCourseData(courseObj);
         this.router.navigate(['/enrollmentpage', courseData._id]);
       }
     } else {

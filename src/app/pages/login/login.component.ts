@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginProxy } from './login.proxy';
 import { Global } from '../../common/global';
+import { MatSnackBar } from '@angular/material';
+import { SnackBarComponent } from 'src/app/components/snach-bar/sanck-bar.component';
 
 @Component({
     selector: 'app-login',
@@ -24,7 +26,8 @@ export class LoginComponent implements OnInit {
     public forgotErrorMessage: boolean = false;
     public forgotSuccessMessage: boolean = false;
 
-    constructor(public loginProxy: LoginProxy, public global: Global) {
+    constructor(public loginProxy: LoginProxy, public global: Global,
+        public snackBar: MatSnackBar) {
     }
 
     ngOnInit() {
@@ -34,6 +37,13 @@ export class LoginComponent implements OnInit {
         const url = this.global.url();
         console.log(url);
     }
+
+    openSnackBar(message: String) {
+        this.snackBar.openFromComponent(SnackBarComponent, {
+          data: message,
+          duration: 1000,
+        });
+      }
 
     forgotPassword() {
         this.loginForm = false;
@@ -64,6 +74,7 @@ export class LoginComponent implements OnInit {
                     this.alertClass = false;
                     this.global.storeDataLocal('user', success);
                     this.global.navigateToNewPage('/userdashboard');
+                    this.openSnackBar('Welcome to Skillsgrow !!!!');
                 }
             });
     }
