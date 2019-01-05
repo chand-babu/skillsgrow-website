@@ -10,14 +10,12 @@ import { NgHttpLoaderModule } from 'ng-http-loader';
 import { SafePipe } from './common/videourl.component';
 import { CommonComponentModule } from './components/commonComponent.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InternshipComponent } from './pages/internship/internship.component';
 import { DataService } from './common/data.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SafePipe,
-    InternshipComponent
+    SafePipe
   ],
   imports: [
     BrowserModule,

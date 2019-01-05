@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row" style="margin-top: 100px;">
 
-    <div class="col-12 text-center">
+    <div class="col-12 text-center ch-heading-font-italic">
       <h2 class="font-weight-bold">Intenship</h2>
       <p>Find the internship & and get hired</p>
       <div class="border-with-arrow"></div>
     </div>
 
     <div class="col-md-4 mb-3">
-      <div class="subscribe-email-container pt-2 pb-2 border text-center mb-2">
+      <!-- <div class="subscribe-email-container pt-2 pb-2 border text-center mb-2">
         <p>Don't miss any chance to get hired</p>
         <form>
           <div class="mb-2 text-center">
@@ -19,37 +19,53 @@
             <button class="btn enroll-new-btn-plus"><i class="fa fa-plus"></i></button>
           </div>
         </form>
-      </div>
+      </div> -->
 
       <div class="filter-internship border p-3">
         <p class="border-bottom mb-2 text-center pb-2"><img src="assets/image/filter.png" class="mr-2">Filter</p>
-
-        <form>
+        <form #f="ngForm" name="form" (ngSubmit)="submitFilter()">
           <div class="form-group filter-custom-select">
-            <select name="category" class="form-control">
-              <option value="">Category</option>
+            <select name="category" class="form-control" #categoryId1="ngModel" [(ngModel)]="categoryId">
+              <option value="null">Category</option>
+              <option [value] ="x._id" *ngFor="let x of category">{{ x.categoryName}}</option>
             </select>
           </div>
           <div class="form-group filter-custom-select">
-            <select name="category" class="form-control">
-              <option value="">Job type</option>
+            <select name="jobType" class="form-control" #jobType1="ngModel" [(ngModel)]="jobType">
+              <option value="null">Job type</option>
+              <option value="Full Time">Full Time</option>
+              <option value="Part Time">Part Time</option>
             </select>
           </div>
           <div class="form-group filter-custom-select">
-            <select name="category" class="form-control">
-              <option value="">Preferred location</option>
+            <select name="location" class="form-control" #location1="ngModel" [(ngModel)]="location">
+              <option value="null">Preferred location</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Kolkatta">Kolkatta</option>
+              <option value="Kolkatta">Delhi</option>
             </select>
           </div>
           <div class="form-group filter-custom-select">
-            <select name="category" class="form-control">
-              <option value="">Salary</option>
+            <select name="salary" class="form-control" #salary1="ngModel" [(ngModel)]="salary">
+              <option value="null">Salary</option>
+              <option value="500-1000">500 to 1000</option>
+              <option value="1000-2000">1000 to 2000</option>
+              <option value="2000-3000">2000 to 3000</option>
+              <option value="3000-4000">3000 to 4000</option>
+              <option value="4000-5000">4000 to 5000</option>
+              <option value="5000-6000">5000 to 6000</option>
+              <option value="6000-7000">6000 to 7000</option>
+              <option value="7000-8000">7000 to 8000</option>
+              <option value="8000-9000">8000 to 9000</option>
+              <option value="10000-100000">10000 and Above</option>
             </select>
           </div>
-          <div class="form-group filter-custom-select">
-            <select name="category" class="form-control">
+          <!-- <div class="form-group filter-custom-select">
+            <select name="joinDate" class="form-control" >
               <option value="">Joining date</option>
             </select>
-          </div>
+          </div> -->
           <div class="form-group text-center">
             <button type="reset" class="btn reset-filter-btn mr-2">Reset filter</button>
             <button type="submit" class="btn apply-filter-btn">Apply filter</button>
@@ -61,14 +77,13 @@
     </div>
 
     <div class="col-md-8 mb-3">
-      <div class="internship-curriculam mb-2">
-        <div><strong>Field sales executive</strong>
+      <div class="internship-curriculam mb-2" *ngFor="let x of listInternship">
+        <div><strong>{{x.jobRole}}</strong>
           <button class="pull-right">Apply now</button>
         </div>
-        <p class="skillsgrow-title">Skillsgrow</p>
+        <p class="skillsgrow-title">{{x.companyId.companyName}}</p>
         <p>
-          It is a long established fact that a reader will be distracted by the
-          readable content of a page when looking at its layout
+          {{x.jobDescription}}
         </p>
         <div>
           <table class="table">
@@ -76,54 +91,21 @@
               <th>Location</th>
               <th>qualification</th>
               <th>salary</th>
-              <th>salary</th>
+              <th>Job Type</th>
               <th>joining date</th>
             </thead>
             <tbody>
               <tr>
-                <td>Chennai</td>
-                <td>Any degree</td>
-                <td>8,000</td>
-                <td>full time</td>
-                <td>any time</td>
+                <td>{{x.location}}</td>
+                <td>{{x.qualification}}</td>
+                <td>{{x.salary}}</td>
+                <td>{{x.internType}}</td>
+                <td>{{x.dateOfJoining | date}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      <div class="internship-curriculam mb-2">
-        <div><strong>Field sales executive</strong>
-          <button class="pull-right">Apply now</button>
-        </div>
-        <p class="skillsgrow-title">Skillsgrow</p>
-        <p>
-          It is a long established fact that a reader will be distracted by the
-          readable content of a page when looking at its layout
-        </p>
-        <div>
-          <table class="table">
-            <thead>
-              <th>Location</th>
-              <th>qualification</th>
-              <th>salary</th>
-              <th>salary</th>
-              <th>joining date</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Chennai</td>
-                <td>Any degree</td>
-                <td>8,000</td>
-                <td>full time</td>
-                <td>any time</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
-
   </div>
 </div>

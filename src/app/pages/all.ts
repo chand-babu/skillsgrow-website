@@ -17,3 +17,5 @@ export * from './contactus/contactus.component';
 export * from './profilepage/profilePage.component';
 export * from './ourteam/ourteam.component';
 export * from './enrollmentCourseLandingPage/enrollmentCourseLandingPage.component';
+export * from './company/company-form.component';
+export * from './internship/internship.component';
