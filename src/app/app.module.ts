@@ -11,6 +11,7 @@ import { SafePipe } from './common/videourl.component';
 import { CommonComponentModule } from './components/commonComponent.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InternshipComponent } from './pages/internship/internship.component';
+import { DataService } from './common/data.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { InternshipComponent } from './pages/internship/internship.component';
   ],
   providers: [
     HttpUtil,
-    Global
+    Global,
+    DataService
   ],
   bootstrap: [AppComponent]
 })

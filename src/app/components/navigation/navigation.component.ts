@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
 import { NavigationEnd, Router } from '@angular/router';
 import { ListingCourseProxy } from '../course-listing/course-listing.proxy';
@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { Constants } from '../../common/constants';
 import { HomeProxy } from 'src/app/pages/home/home.proxy';
+import { MatSnackBar } from '@angular/material';
+import { SnackBarComponent } from '../snach-bar/sanck-bar.component';
 
 @Component({
   selector: 'app-navigation',
@@ -29,7 +31,8 @@ export class NavigationComponent implements OnInit {
   public navbarOpen = false;
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
-    public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy) {
+    public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy,
+    public snackBar: MatSnackBar) {
     this.global.storageTriggered().subscribe(() => {
       if (this.global.getStorageDetail('user')) {
         const user = this.global.getStorageDetail('user');
@@ -43,12 +46,20 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  @HostListener('window:scroll') onscroll() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      document.getElementById("navbar").classList.add('fixed-navbar');
+    } else {
+      document.getElementById("navbar").classList.remove('fixed-navbar');
+    }
+
+  }
+
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
   }
 
   ngOnInit() {
-    this.categoryListingCourse();
     this.getCategoryName();
     const user = this.global.getStorageDetail('user');
     if (user) {
@@ -59,10 +70,18 @@ export class NavigationComponent implements OnInit {
     }
   }
 
+  openSnackBar(message: String) {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: message,
+      duration: 3000,
+    });
+  }
+
   getCategoryName() {
     this.homeProxy.getCategoryName()
     .subscribe((success: any) => {
       this.courseCategoryName = success.data;
+      this.courseObj();
     })
   }
 
@@ -70,6 +89,7 @@ export class NavigationComponent implements OnInit {
     this.global.clearLocalStorage();
     this.logoutNavigation = false;
     this.global.navigateToNewPage('/login');
+    this.openSnackBar('Successfully logout!');
   }
 
   userDashboardPath() {
@@ -78,29 +98,14 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  categoryListingCourse() {
-    this.listingCourseProxy.listCategories()
-      .subscribe((success: any) => {
-        this.categoryListData = success.data;
-        if (this.categoryListData.length >= 1) {
-          this.categoryListData.filter((data) => {
-            if (data.course.length >= 1) {
-              this.megaMenuLayout = true;
-            }
-          });
-        }
-        this.courseObj();
-      });
-  }
-
   viewDetailsCourse(id: number) {
     this.router.navigate(['/coursedetailspage', id]);
   }
 
   courseObj() {
-    this.categoryListData.filter((data) => {
-      data.course.filter((datas) => {
-        this.course.push(datas);
+    this.courseCategoryName.filter((data: any) => {
+      data.course.filter((course: any) => {
+        this.course.push(course);
       });
     });
   }
@@ -116,12 +121,9 @@ export class NavigationComponent implements OnInit {
         : this.course.filter(v => v.courseName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
 
-  formatter = (x: { courseName: string }) => x.courseName;
-
-  keyDownFunction(event, id) {
-    if (event.keyCode === 13) {
-      this.router.navigate(['/coursedetailspage', id]);
-    }
+  formatter = (x: { courseName: string, _id: any }) => {
+    x.courseName;
+    this.router.navigate(['/coursedetailspage', x._id]);
   }
 
 }
