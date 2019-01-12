@@ -1,19 +1,24 @@
 <div class="container mb-3 pt-5 pb-5">
 
   <div *ngIf="popularCourse.length > 0" class="row default-margin-top">
-    <div class="col-12 custom-h2-h4">
+    <div class="col-12 custom-h2-h4" [hidden]="course != 'trendingCourses'">
       <h2>Trending course
       </h2>
-      <div style="position: absolute;right: 0;top: 7px;">
+      <div style="position: absolute;right: 0;top: 7px;" routerLink="/allcourses">
           <button class="btn pull-right enroll-new-btn-plus"><i class="fa fa-plus"></i></button>
           <button class="btn pull-right enroll-new-btn">View More </button>
       </div>
     </div>
 
+    <!-- category name -->
+    <div class="col-12 custom-h2-h4" [hidden]="!categoryName">
+        <h2>{{categoryName}}</h2>
+    </div>
+
     <!-- course card layout -->
 
     <ng-container *ngFor="let y of popularCourse;let i = index">
-      <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0" *ngIf="y.active == true && y.status == 0">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0" *ngIf="y.active == true">
         <div class="course-card-layout mt-2 mb-2">
             <div>
                 <img class="w-100 border-bottom" [src]="imagePath + y.imageSmall" alt="img" />

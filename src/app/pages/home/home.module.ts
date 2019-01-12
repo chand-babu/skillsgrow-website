@@ -6,6 +6,7 @@ import { HomeComponent } from './home.component';
 import { CommonComponentModule } from '../../components/commonComponent.module';
 import { FormsModule } from '@angular/forms';
 import { NguCarouselModule } from '@ngu/carousel';
+import { CategoryCourseListComponent } from './category-course-list/category-course-list.component';
 
 @NgModule({
     imports: [
@@ -16,7 +17,7 @@ import { NguCarouselModule } from '@ngu/carousel';
         FormsModule,
         NguCarouselModule
     ],
-    declarations: [HomeComponent]
+    declarations: [HomeComponent, CategoryCourseListComponent]
 })
 
 export class HomeModule {}

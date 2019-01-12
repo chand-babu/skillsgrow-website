@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'company', loadChildren: '../pages/company/company-form.module#CompanyFormModule'
   },
   {
-    path: 'allcourses/:type', loadChildren: '../pages/allCourses/allCourses.module#AllCoursesModule'
+    path: 'allcourses', loadChildren: '../pages/allCourses/allCourses.module#AllCoursesModule'
   },
   {
     path: 'userdashboard', loadChildren: '../pages/userDashboard/userDashboard.module#UserDashboardModule'

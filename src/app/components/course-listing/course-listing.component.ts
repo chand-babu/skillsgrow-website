@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef, Input } from '@angular/core';
 import { ListingCourseProxy } from './course-listing.proxy';
 import { Router } from '@angular/router';
 import { Global } from '../../common/global';
@@ -12,6 +12,8 @@ import { DataService } from 'src/app/common/data.service';
 })
 
 export class CourseListingComponent implements OnInit {
+  @Input() course: any;
+  @Input() categoryId: any;
   public imagePath = Constants.IMAGEPATH;
   public courseTiming = 0;
   public user: any;
@@ -20,6 +22,7 @@ export class CourseListingComponent implements OnInit {
   public rate: number;
   slideConfig = { 'slidesToShow': 4, 'slidesToScroll': 4 };
   public popularCourse = [];
+  public categoryName: String;
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
     public global: Global, public el: ElementRef, public courseDataService: DataService) { }
@@ -30,13 +33,40 @@ export class CourseListingComponent implements OnInit {
     if (this.user) {
       this.user = this.global.getStorageDetail('user').data;
     }
-    this.getCourse();
+    // checking for trending and all Courses
+    if (this.course === 'trendingCourses') {
+      this.getTrendingCourse();
+    } else if (this.course === 'categoryCourse') {
+      this.getCategoryCourses();
+    } else {
+      this.getAllCourses();
+    }
   }
 
-  getCourse() {
-    this.listingCourseProxy.getCourse()
+  getTrendingCourse() {
+    this.listingCourseProxy.getTrendingCourse()
     .subscribe((success: any) => {
       this.popularCourse = success.data;
+      this.courseCalculation();
+      this.convertMinuteInTime(this.popularCourse);
+    });
+  }
+
+  getAllCourses() {
+    this.listingCourseProxy.getAllCourse()
+    .subscribe((success: any) => {
+      this.popularCourse = success.data;
+      this.courseCalculation();
+      this.convertMinuteInTime(this.popularCourse);
+    });
+  }
+
+  // get category based coures
+  getCategoryCourses() {
+    this.listingCourseProxy.getCategoryCourses(this.categoryId)
+    .subscribe((success: any) => {
+      this.categoryName = success.data[0].categoryName;
+      this.popularCourse = success.data[0].course;
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     })
