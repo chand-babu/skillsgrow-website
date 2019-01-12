@@ -31,6 +31,10 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        if(this.global.getStorageDetail('company-user')){
+            this.alertClass = true;
+            this.message = 'Company Account already logged in please logout';
+        }
         if (this.global.getStorageDetail('user')) {
             this.global.navigateToNewPage('/userdashboard');
         }
@@ -57,7 +61,11 @@ export class LoginComponent implements OnInit {
 
     loginFieldsData(form) {
         console.log(this.loginData);
-        this.loginProxy.loginDataService(this.loginData)
+        if(this.global.getStorageDetail('company-user')){
+            this.alertClass = true;
+            this.message = 'Company Account already logged in please logout';
+        }else{
+            this.loginProxy.loginDataService(this.loginData)
             .subscribe((success) => {
                 console.log(success);
                 if (!success.result) {
@@ -73,10 +81,15 @@ export class LoginComponent implements OnInit {
                     form.reset();
                     this.alertClass = false;
                     this.global.storeDataLocal('user', success);
-                    this.global.navigateToNewPage('/userdashboard');
+                    if(this.global.getStorageDetail('internshipRedirect')){
+                        this.global.navigateToNewPage('/internship/'+this.global.getStorageDetail('internshipRedirect'));
+                    } else{
+                        this.global.navigateToNewPage('/userdashboard')
+                    }
                     this.openSnackBar('Welcome to Skillsgrow !!!!');
                 }
             });
+        }
     }
 
     resetPassword() {

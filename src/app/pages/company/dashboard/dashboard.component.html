@@ -1,0 +1,251 @@
+<div class="container-fluid">
+  <div class="row mb-5" style="min-height: 80vh;">
+    <div class="col-md-2">
+      <div class="mt-3"><button class="w-100 btn btn-primary" (click)="newPost()">New Post</button></div>
+      <div class="mt-3"><button class="w-100 btn btn-primary" (click)="showPost()">List Post</button></div>
+      <div class="mt-3"><button class="w-100 btn btn-primary" (click)="showAppliedPost()">Applied Candidates</button></div>
+    </div>
+    <div class="col-md-10">
+      <div class="row" *ngIf="showPostTable">
+        <div class="col-md-12 table-responsive">
+          <div class="text-center">
+            <h2>Posted Internship</h2>
+          </div>
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th>Category</th>
+                <th>job Role</th>
+                <th>joining date</th>
+                <th>Location</th>
+                <th>Qualification</th>
+                <th>Salary</th>
+                <th>Contact No</th>
+                <th>Contact Email</th>
+                <th>Job Description</th>
+                <th>Created on</th>
+                <th>status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let x of dataSource">
+                <td>{{x.category.categoryName}}</td>
+                <td>{{x.jobRole}}</td>
+                <td>{{x.dateOfJoining | date}}</td>
+                <td>{{x.location}}</td>
+                <td>{{x.qualification}}</td>
+                <td>{{x.salary}}</td>
+                <td>{{x.contactPersonNo}}</td>
+                <td>{{x.contactPersonEmail}}</td>
+                <td>{{x.jobDescription}}</td>
+                <td>{{x.createdOn | date}}</td>
+                <td>{{x.status == 0 ? 'Active':'Inactive'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- <a [href]="fileUrl" download="file.txt">DownloadFile</a> -->
+      <div class="row" *ngIf="showAppliedPostTable">
+        <div class="col-md-12 table-responsive">
+          <div class="text-center">
+            <h2>Applied Candidates</h2>
+          </div>
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Applied For</th>
+                <th>Resume</th>
+                <th>Created On</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let x of appliedCandidate">
+                <td>{{x.userId.userName}}</td>
+                <td>{{x.categoryId.categoryName}}</td>
+                <td>{{x.internshipId.jobRole}}</td>
+                <td>{{x.resume}}</td>
+                <td>{{x.createdOn | date}}</td>
+                <td>{{x.status == 0 ? 'Active':'Inactive'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row mt-5" *ngIf="postForm">
+        <div class="col-md-6 mx-auto border border-secondary">
+          <div class="text-center mt-3 mb-3"><h2>Created New Post</h2></div>
+          <div>
+            <form #form="ngForm" (ngSubmit)="onSubmit(form);">
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Category</label>
+                </div>
+                <div class="col-md-8">
+                  <select class="form-control" name="category" #category="ngModel" [(ngModel)]="formData.categoryId">
+                    <option value="0" disabled>Choose Category</option>
+                    <option [value]="x._id" *ngFor="let x of categorySet">{{x.categoryName}}</option>
+                  </select>
+                  <div *ngIf="form.submitted && formData.categoryId == 0" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Job Role</label>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" name="jobRole" #jobRole="ngModel"
+                  [(ngModel)]="formData.jobRole" placeholder="eg: Software Devloper" required>
+                  <div *ngIf="form.submitted && jobRole.errors?.required" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Joining Date</label>
+                </div>
+                <div class="col-md-8">
+                  <div class="input-group">
+                    <input class="form-control" type="text" name="dateOfJoining" #dateOfJoining="ngModel" 
+                    [(ngModel)]="formData.dateOfJoining" ngbDatepicker #d="ngbDatepicker"
+                    placeholder="Joining Date" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="form.submitted && dateOfJoining.errors?.required" 
+                      class="d-block ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Location</label>
+                </div>
+                <div class="col-md-8">
+                  <select class="form-control" name="location" #location="ngModel" 
+                  [(ngModel)]="formData.location" required>
+                    <option value="0" disabled>Location</option>
+                    <option value="New Delhi">New Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Kolkatta">Kolkatta</option>
+                    <option value="Chennai">Chennai</option>
+                  </select>
+                  <div *ngIf="form.submitted && formData.location == 0" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Qualification</label>
+                </div>
+                <div class="col-md-8">
+                  <select class="form-control" name="qualification" #qualification="ngModel" 
+                  [(ngModel)]="formData.qualification" required>
+                    <option value="0" disabled>Qualification</option>
+                    <option value="B.sc">B.sc</option>
+                    <option value="B.ca">B.ca</option>
+                    <option value="B.com">B.com</option>
+                    <option value="BE">BE</option>
+                    <option value="BA">BA</option>
+                    <option value="B.Ed">B.Ed</option>
+                    <option value="BBA">BBA</option>
+                    <option value="MBA">MBA</option>
+                    <option value="M.com">M.com</option>
+                    <option value="M.sc">M.sc</option>
+                    <option value="M.ca">M.ca</option>
+                    <option value="ME">ME</option>
+                    <option value="MA">MA</option>
+                    <option value="M.Ed">M.Ed</option>
+                    <option value="any">Graduate in any dicipline</option>
+                    <option value="non">Non graduate</option>
+                  </select>
+                  <div *ngIf="form.submitted && formData.qualification == 0" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Salary</label>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" name="salary" #salary="ngModel" 
+                  [(ngModel)]="formData.salary" required>
+                  <div *ngIf="form.submitted && salary.errors?.required" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Internship Type</label>
+                </div>
+                <div class="col-md-8">
+                  <select class="form-control" name="internType" #internType="ngModel" 
+                  [(ngModel)]="formData.internType" required>
+                    <option value="0" disabled>Intern Type</option>
+                    <option value="Full Time">Full Time</option>
+                    <option value="Part Time">Part Time</option>
+                  </select>
+                  <div *ngIf="form.submitted && formData.internType == 0" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Contact Number</label>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" name="contactNo" #contactNo="ngModel" 
+                  [(ngModel)]="formData.contactPersonNo" pattern="[0-9]+$" 
+                  placeholder="eg: 9840098400/044-25555444" required>
+                  <div *ngIf="form.submitted && contactNo.errors?.required" 
+                      class="ch-validation-error">Field Required</div>
+                      <div *ngIf="form.submitted && contactNo.errors?.pattern" 
+                      class="ch-validation-error">Invalid Contact number</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>Email Id</label>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" type="text" name="contactEmail" #contactEmail="ngModel" 
+                  [(ngModel)]="formData.contactPersonEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" 
+                  placeholder="sample@sample.com" required>
+                    <div *ngIf="form.submitted && contactEmail.errors?.required" 
+                      class="ch-validation-error">Field Required</div>
+                      <div *ngIf="form.submitted && contactEmail.errors?.pattern" 
+                      class="ch-validation-error">Enter valid Email Id</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <label>job Description</label>
+                </div>
+                <div class="col-md-8">
+                  <textarea class="form-control" type="text" name="jobDescription" #jobDescription="ngModel" 
+                  [(ngModel)]="formData.jobDescription" required
+                  placeholder="Short description of job"></textarea>
+                  <div *ngIf="form.submitted && jobDescription.errors?.required" 
+                      class="ch-validation-error">Field Required</div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-12 text-right">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
