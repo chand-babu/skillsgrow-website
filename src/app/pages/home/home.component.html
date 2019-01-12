@@ -20,13 +20,13 @@
 <div class="container text-center">
   <div class="row default-margin-top">
     <div class="col-md-12 custom-h2-h4">
-      <h2>Skillsgrow Internship Programs</h2>
+      <h2>Corporate Internships Programs</h2>
     </div>
   </div>
   <ngu-carousel [inputs]="carouselOne">
     <ngu-item NguCarouselItem *ngFor="let item of courseCategoryName;let odd = odd">
       <div style="padding: 10px;">
-          <div class="home-category-section">
+          <div class="home-category-section" (click)="internship(item._id)">
               <img [src]="imagePath + item.categoryImg" alt="categoryimg">
               <div class="category-title" [ngClass]="{
                 'odd':odd == true,
@@ -45,7 +45,7 @@
 <div class="container text-center">
   <div class="row default-margin-top">
     <div class="col-md-12 custom-h2-h4">
-      <h2>Skillsgrow Training Program</h2>
+      <h2>Training Programs</h2>
     </div>
   </div>
   <ngu-carousel [inputs]="carouselOne">

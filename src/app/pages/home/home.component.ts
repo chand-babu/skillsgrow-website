@@ -55,4 +55,8 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  internship(id){
+    this.global.navigateToNewPage('internship/'+id);
+  }
+
 }

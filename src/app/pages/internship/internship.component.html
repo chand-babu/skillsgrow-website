@@ -2,7 +2,7 @@
   <div class="row" style="margin-top: 100px;">
 
     <div class="col-12 text-center ch-heading-font-italic">
-      <h2 class="font-weight-bold">Intenship</h2>
+      <h2 class="font-weight-bold">Internship</h2>
       <p>Find the internship & and get hired</p>
       <div class="border-with-arrow"></div>
     </div>
@@ -77,9 +77,12 @@
     </div>
 
     <div class="col-md-8 mb-3">
+      <div class="alert alert-info" *ngIf="noDataMessage">
+        <strong>Info!</strong> No data found.
+      </div>
       <div class="internship-curriculam mb-2" *ngFor="let x of listInternship">
         <div><strong>{{x.jobRole}}</strong>
-          <button class="pull-right">Apply now</button>
+          <button class="pull-right" (click)="applyInternship(content, x.companyId._id, x._id, x.category._id)">Apply now</button>
         </div>
         <p class="skillsgrow-title">{{x.companyId.companyName}}</p>
         <p>
@@ -89,10 +92,10 @@
           <table class="table">
             <thead>
               <th>Location</th>
-              <th>qualification</th>
-              <th>salary</th>
+              <th>Qualification</th>
+              <th>Salary</th>
               <th>Job Type</th>
-              <th>joining date</th>
+              <th>joining Date</th>
             </thead>
             <tbody>
               <tr>
@@ -109,3 +112,19 @@
     </div>
   </div>
 </div>
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+      <h4 class="modal-title">Upload Your Resume</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <!-- <input type="hidden" [ngModel]="company"> -->
+      <input type="file" name="upload" (change)="upload($event)">
+  </div>
+  <div class="modal-footer">
+      <button id="modelClose" type="button" class="btn btn-info" (click)="submitUpload(d)">Done</button>
+      <button id="modelClose" type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
+  </div>
+</ng-template>

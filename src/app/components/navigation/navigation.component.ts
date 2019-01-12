@@ -34,9 +34,10 @@ export class NavigationComponent implements OnInit {
     public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy,
     public snackBar: MatSnackBar) {
     this.global.storageTriggered().subscribe(() => {
-      if (this.global.getStorageDetail('user')) {
+      if (this.global.getStorageDetail('user') || this.global.getStorageDetail('company-user')) {
         const user = this.global.getStorageDetail('user');
-        if (user) {
+        const companyUser = this.global.getStorageDetail('company-user');
+        if (user || companyUser) {
           this.logoutNavigation = true;
           this.userData = user.data;
         } else {
@@ -86,9 +87,14 @@ export class NavigationComponent implements OnInit {
   }
 
   logout() {
-    this.global.clearLocalStorage();
+    if(this.global.getStorageDetail('user')){
+      this.global.clearLocalStorage();
+      this.global.navigateToNewPage('/login');
+    }else if(this.global.getStorageDetail('company-user')){
+      this.global.clearLocalStorage();
+      this.global.navigateToNewPage('/company/company-login');
+    }
     this.logoutNavigation = false;
-    this.global.navigateToNewPage('/login');
     this.openSnackBar('Successfully logout!');
   }
 

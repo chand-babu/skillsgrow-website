@@ -13,7 +13,7 @@ const routes: Routes = [
     path: 'register/:id', loadChildren: '../pages/register/register.module#RegisterModule'
   },
   {
-    path: 'company', loadChildren: '../pages/company/company-form.module#CompanyFormModule'
+    path: 'company', loadChildren: '../pages/company/company.module#CompanyModule'
   },
   {
     path: 'allcourses', loadChildren: '../pages/allCourses/allCourses.module#AllCoursesModule'
@@ -102,7 +102,7 @@ const routes: Routes = [
     path: 'response/:id', loadChildren: '../pages/response/response.module#ResponseModule'
   },
   {
-    path: 'internship', loadChildren: '../pages/internship/internship.module#InternshipModule'
+    path: 'internship/:id', loadChildren: '../pages/internship/internship.module#InternshipModule'
   },
   {
     path: '**', redirectTo: '/errorpage', pathMatch: 'full'

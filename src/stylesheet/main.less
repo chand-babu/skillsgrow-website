@@ -37,7 +37,8 @@
 @import './../app/components/chat-forum/chat-forum.component.less';
 @import './../app/pages/internship/internship.component.less';
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import './../app/pages/company/company-form.component.less';
+@import './../app/pages/company/company-form/company-form.component.less';
+@import './../app/pages/company/login/company-login.component.less';
 
 body, html{
     scroll-behavior: smooth;
@@ -1001,6 +1002,13 @@ tspan{
         width: auto;
         height: auto;
     }
+}
+
+/* input validation error */
+.ch-validation-error{
+    text-align: left;
+    font-size: 12px;
+    color: red;
 }
 
 /* mat-menu css */
