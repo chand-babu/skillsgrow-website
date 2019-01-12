@@ -28,8 +28,16 @@ export class ListingCourseProxy {
         return this.http.doPut(Constants.APIPATH + 'admin/add-ssp', data, false);
     }
 
-    getCourse() {
-        return this.http.doGet(Constants.APIPATH + 'admin/course');
+    getTrendingCourse() {
+        return this.http.doGet(Constants.APIPATH + 'admin/trending-course');
+    }
+
+    getAllCourse() {
+        return this.http.doGet(Constants.APIPATH + 'admin/all-courses');
+    }
+
+    getCategoryCourses(categoryId: any) {
+        return this.http.doGet(Constants.APIPATH + 'admin/category-course-list/' + categoryId);
     }
 
 }

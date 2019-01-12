@@ -49,7 +49,8 @@
     </div>
   </div>
   <ngu-carousel [inputs]="carouselOne">
-    <ngu-item NguCarouselItem *ngFor="let item of courseCategoryName;let odd = odd">
+    <ngu-item NguCarouselItem *ngFor="let item of courseCategoryName;let odd = odd"
+    [routerLink]="['/categorycourse', item._id]">
         <div style="padding: 10px;">
             <div class="home-category-section">
                 <img [src]="imagePath + item.categoryImg" alt="categoryimg">
@@ -67,4 +68,4 @@
   </ngu-carousel>
 </div>
 
-<app-course-listing></app-course-listing>
+<app-course-listing [course]="'trendingCourses'"></app-course-listing>
