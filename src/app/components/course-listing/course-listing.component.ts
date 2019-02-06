@@ -47,7 +47,6 @@ export class CourseListingComponent implements OnInit {
     this.listingCourseProxy.getTrendingCourse()
     .subscribe((success: any) => {
       this.popularCourse = success.data;
-      console.log(this.popularCourse);
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });

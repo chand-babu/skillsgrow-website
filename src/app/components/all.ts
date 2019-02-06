@@ -8,3 +8,4 @@ export * from './product-section/product-section.component';
 export * from './course-listing/course-listing.component';
 export * from './modal-popup/modal-popup.component';
 export * from './chat-forum/chat-forum.component';
+export * from './confirm-popup/confirm-popup.component';

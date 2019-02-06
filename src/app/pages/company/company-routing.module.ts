@@ -4,6 +4,8 @@ import { CompanyFormComponent } from './company-form/company-form.component';
 import { CompanyComponent } from './company.component';
 import { CompanyLoginComponent } from './login/company-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ActivateComponent } from './activate/activate.component';
 
 const routes:Routes=[
     { 
@@ -12,10 +14,11 @@ const routes:Routes=[
             { path:'', redirectTo: 'company-login', pathMatch: 'full', },
             { path:'company-register', component: CompanyFormComponent },
             { path:'company-login', component: CompanyLoginComponent },
-            { path:'dashboard', component: DashboardComponent }
+            { path:'dashboard', component: DashboardComponent },
+            { path:'profile', component: ProfileComponent },
+            { path:'activate/:id', component: ActivateComponent }
         ]
     }
-    
 ]
 
 @NgModule({

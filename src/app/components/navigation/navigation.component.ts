@@ -34,15 +34,13 @@ export class NavigationComponent implements OnInit {
     public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy,
     public snackBar: MatSnackBar) {
     this.global.storageTriggered().subscribe(() => {
-      if (this.global.getStorageDetail('user') || this.global.getStorageDetail('company-user')) {
-        const user = this.global.getStorageDetail('user');
-        const companyUser = this.global.getStorageDetail('company-user');
-        if (user || companyUser) {
-          this.logoutNavigation = true;
-          this.userData = user.data;
-        } else {
-          this.logoutNavigation = false;
-        }
+      const user = this.global.getStorageDetail('user') ? this.global.getStorageDetail('user'):'';
+      const companyUser = this.global.getStorageDetail('company-user') ? this.global.getStorageDetail('company-user'):'';
+      if (user || companyUser) {
+        this.logoutNavigation = true;
+        this.userData = user.data;
+      } else {
+        this.logoutNavigation = false;
       }
     });
   }
@@ -79,7 +77,7 @@ export class NavigationComponent implements OnInit {
   }
 
   getCategoryName() {
-    this.homeProxy.getCategoryName()
+    this.homeProxy.getCategoryName(0)
     .subscribe((success: any) => {
       this.courseCategoryName = success.data;
       this.courseObj();

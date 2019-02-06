@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarModule } from 'primeng/primeng';
+import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { InternshipDataModel } from '../../../interface/intership';
 import { CompanyService } from './company.service';
-import { InternshipService } from '../../internship/internship.service';;
+import { InternshipService } from '../../internship/internship.service';
+import { NgbDateFRParserFormatter } from './dateFormate';
 
 @Component({
   selector: 'app-company-form',
   templateUrl: './company-form.component.html',
-  providers: [CompanyService, InternshipService]
+  providers: [CompanyService, InternshipService,
+    {provide: NgbDateParserFormatter, useClass: NgbDateFRParserFormatter}]
 })
 export class CompanyFormComponent implements OnInit {
 
@@ -102,7 +104,7 @@ export class CompanyFormComponent implements OnInit {
   }
 
   listCategory(){
-    this.internshipService.listCategory()
+    this.internshipService.listCategory(1)
     .subscribe((success: any) => {
       if(success.result){
         this.categorySet = success.data;
@@ -120,7 +122,6 @@ export class CompanyFormComponent implements OnInit {
   emailExistOrNot(){
     this.comapnyService.emailExist(this.formData.email)
     .subscribe((success: any) => {
-      console.log(success);
       if(success.result){
         this.emailExistStatus = success.status;
       }else{

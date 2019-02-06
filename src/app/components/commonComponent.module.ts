@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent, LoginNavigationComponent,
     PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent, ModalPopupComponent,
-    ChatForumComponent } from './all';
+    ChatForumComponent, ConfirmPopupComponent } from './all';
 import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { BarRatingModule } from './../../../node_modules/ngx-bar-rating/rating.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonComponentRoutingModule } from './commonComponent-routing.module';
-import { MatMenuModule, MatButtonModule, MatFormFieldModule, MatButtonToggleModule, MatInputModule } from '@angular/material';
+import { MatMenuModule, MatButtonModule, MatFormFieldModule, MatButtonToggleModule, MatInputModule,
+    MatDialogModule } from '@angular/material';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { SnackBarComponent } from './snach-bar/sanck-bar.component';
@@ -23,18 +24,18 @@ import { SnackBarComponent } from './snach-bar/sanck-bar.component';
         MatButtonModule,
         MatButtonToggleModule,
         MatSnackBarModule,
-        MatInputModule,
-        ShareButtonsModule.forRoot()
+        MatInputModule,MatDialogModule,
+        ShareButtonsModule
     ],
     declarations: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
     LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
     ModalPopupComponent, SnackBarComponent,
-    ChatForumComponent],
+    ChatForumComponent, ConfirmPopupComponent],
     exports: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
         LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
-        ModalPopupComponent, ChatForumComponent, SnackBarComponent],
+        ModalPopupComponent, ChatForumComponent, SnackBarComponent ],
         entryComponents: [
-            SnackBarComponent
+            SnackBarComponent,ConfirmPopupComponent
         ]
 })
 

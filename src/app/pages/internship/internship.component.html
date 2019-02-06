@@ -3,7 +3,7 @@
 
     <div class="col-12 text-center ch-heading-font-italic">
       <h2 class="font-weight-bold">Internship</h2>
-      <p>Find the internship & and get hired</p>
+      <p>Find your dream internship & and get hired</p>
       <div class="border-with-arrow"></div>
     </div>
 
@@ -82,7 +82,9 @@
       </div>
       <div class="internship-curriculam mb-2" *ngFor="let x of listInternship">
         <div><strong>{{x.jobRole}}</strong>
-          <button class="pull-right" (click)="applyInternship(content, x.companyId._id, x._id, x.category._id)">Apply now</button>
+          <button class="pull-right" [disabled]="x.users.indexOf(checkUser) > -1"
+          (click)="applyInternship(content, x.companyId._id, x._id, x.category._id)"
+          >{{x.users.indexOf(checkUser) > -1 ? 'Applied':'Apply now'}}</button>
         </div>
         <p class="skillsgrow-title">{{x.companyId.companyName}}</p>
         <p>
@@ -90,12 +92,12 @@
         </p>
         <div>
           <table class="table">
-            <thead>
+            <thead style="color:#428fcf;">
               <th>Location</th>
               <th>Qualification</th>
               <th>Salary</th>
               <th>Job Type</th>
-              <th>joining Date</th>
+              <th>Joining Date</th>
             </thead>
             <tbody>
               <tr>
@@ -124,7 +126,8 @@
       <input type="file" name="upload" (change)="upload($event)">
   </div>
   <div class="modal-footer">
-      <button id="modelClose" type="button" class="btn btn-info" (click)="submitUpload(d)">Done</button>
+      <button id="modelClose" type="button" class="btn btn-info" 
+      [disabled] = "doneButton" (click)="submitUpload(d)">Done</button>
       <button id="modelClose" type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
   </div>
 </ng-template>

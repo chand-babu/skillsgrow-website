@@ -95,7 +95,6 @@ export class LoginComponent implements OnInit {
     resetPassword() {
         this.loginProxy.forgotPasswordService({emailId: this.forPassword})
         .subscribe((success) => {
-            console.log(success);
             if (!success.result) {
                 this.forgotErrorMessage = true;
                 this.forgotSuccessMessage = false;
@@ -107,5 +106,4 @@ export class LoginComponent implements OnInit {
             }
         });
     }
-
 }

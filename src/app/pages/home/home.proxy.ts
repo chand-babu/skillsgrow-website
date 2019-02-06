@@ -24,8 +24,8 @@ export class HomeProxy {
         return this.http.doPut(Constants.APIPATH + 'admin/put-register', user, false);
     }
 
-    getCategoryName() {
-        return this.http.doGet(Constants.APIPATH + 'admin/category-name', false);
+    getCategoryName(value) {
+        return this.http.doGet(Constants.APIPATH + 'admin/list-categories/'+ value, false);
     }
 
 }

@@ -14,8 +14,12 @@ export class CompanyLoginService {
         return this.http.doPost(Constants.APIPATH + Constants.COMPANY_LOGIN,data, false);
     }
 
-    // uploadImage(data){
-    //     return this.http.doPost(Constants.APIPATH + Constants.IMAGE_UPLOAD, data, false);
-    // }
+    forgotPwd(data){
+        return this.http.doPost(Constants.APIPATH + Constants.COMPANY_FORGOT_PWD,data, false);
+    }
+
+    resendLink(data){
+        return this.http.doPost(Constants.APIPATH + Constants.COMPANY_RESEND_LINK,data, false);
+    }
 
 }

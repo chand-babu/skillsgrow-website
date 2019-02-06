@@ -16,8 +16,8 @@ export class InternshipService {
         return this.http.doGet(Constants.APIPATH + Constants.POST_INTERNSHIP + query, false);
     }
 
-    listCategory(){
-        return this.http.doGet(Constants.APIPATH + Constants.CATEGORY , false);
+    listCategory(value){
+        return this.http.doGet(Constants.APIPATH + Constants.CATEGORY + '/' + value , false);
     }
 
     uploadResume(data){

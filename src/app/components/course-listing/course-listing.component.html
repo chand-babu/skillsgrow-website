@@ -2,11 +2,11 @@
 
   <div *ngIf="popularCourse.length > 0" class="row default-margin-top">
     <div class="col-12 custom-h2-h4" [hidden]="course != 'trendingCourses'">
-      <h2>Trending course
+      <h2>Trending courses
       </h2>
       <div style="position: absolute;right: 0;top: 7px;" routerLink="/allcourses">
           <button class="btn pull-right enroll-new-btn-plus"><i class="fa fa-plus"></i></button>
-          <button class="btn pull-right enroll-new-btn" (click)="viewAllCourses()">View More </button>
+          <button class="btn pull-right enroll-new-btn">View More </button>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
     <!-- course card layout -->
 
     <ng-container *ngFor="let y of popularCourse;let i = index">
-      <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0" *ngIf="y.viewTrending == true">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0">
         <div class="course-card-layout mt-2 mb-2">
             <div (click)="viewDetailsCourse(y._id)" title="View Course" style="cursor:pointer;">
                 <img class="w-100 border-bottom" [src]="imagePath + y.imageSmall" alt="img" />

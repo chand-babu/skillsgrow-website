@@ -23,10 +23,7 @@ import { DataService } from './common/data.service';
     CommonComponentModule,
     AppRoutingModule,
     HttpClientModule,
-    LocalStorageModule.withConfig({
-      prefix: '',
-      storageType: 'localStorage'
-    }),
+    LocalStorageModule,
     NgHttpLoaderModule,
   ],
   providers: [
