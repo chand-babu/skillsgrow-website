@@ -12,9 +12,19 @@ import { SnackBarComponent } from 'src/app/components/snach-bar/sanck-bar.compon
 })
 export class CompanyLoginComponent implements OnInit {
 
+  public loginForm: Boolean = true;
+  public forgotPasswordForm: Boolean = false;
   public alertClass: boolean = false;
   public message: any;
+  public forgotPwd: any;
+  public emailLink: any;
+  public responseStatus: any;
   public loginData: CompanyLoginModel = <CompanyLoginModel>{};
+
+  public sendActiveLink: boolean = false;
+  public forgotErrorMessage: boolean = false;
+  public forgotSuccessMessage: boolean = false;
+  public aftersendActiveLink: boolean = false;
 
   constructor(public companyLoginService: CompanyLoginService, public global: Global,
     public snackBar: MatSnackBar) { }
@@ -41,20 +51,39 @@ export class CompanyLoginComponent implements OnInit {
             if (!success.result) {
                 this.alertClass = true;
                 this.message = 'Username and password is invalid';
-                /* if (success.expired) {
-                    this.message = success.message;
-                    this.expired = true;
-                } else {
-                    this.expired = false;
-                    this.message = 'Username and password is invalid';
-                } */
             } else {
+              if(success.data[0].active){
                 this.global.storeDataLocal('company-user', success);
                 this.global.navigateToNewPage('/company/dashboard');
                 this.openSnackBar('Welcome to Skillsgrow InternShip !!!!');
+              }else{
+                this.aftersendActiveLink = false;
+                this.sendActiveLink = true;
+                this.emailLink = {
+                  id : success.data[0]._id
+                }
+              }
             }
         });
     }
+  }
+
+  resendActivationLink(){
+    this.companyLoginService.resendLink(this.emailLink)
+    .subscribe((success: any) => {
+      if(success.result){
+        this.aftersendActiveLink = true;
+        this.sendActiveLink = false;
+        this.responseStatus = 'success';
+        this.message = 'Link successfully send to your Email ID';
+      }else{
+        this.aftersendActiveLink = true;
+        this.sendActiveLink = false;
+        this.responseStatus = 'danger';
+        this.message = 'Something Went Wrong';
+      }
+    })
+    
   }
 
   openSnackBar(message: String) {
@@ -62,6 +91,36 @@ export class CompanyLoginComponent implements OnInit {
       data: message,
       duration: 3000,
     });
+  }
+
+  forgotPassword(){
+    this.loginForm = false;
+    this.forgotPasswordForm = true;
+  }
+
+  loginPage(){
+    this.loginForm = true;
+    this.forgotPasswordForm = false;
+  }
+
+  submitForgotPwd(form){
+    if(form.invalid){
+    }else{
+      let data = { email : this.forgotPwd };
+      this.companyLoginService.forgotPwd(data)
+      .subscribe((success: any) => {
+        console.log(success);
+        if(success.result){
+          this.forgotErrorMessage = false;
+          this.forgotSuccessMessage = true;
+          this.message = "Successfully send please check your Email";
+        }else{
+          this.forgotErrorMessage = true;
+          this.forgotSuccessMessage = false;
+          this.message = "Email Id not exist";
+        }
+      })
+    }
   }
 
 }

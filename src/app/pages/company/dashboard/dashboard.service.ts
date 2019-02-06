@@ -23,4 +23,16 @@ export class DashboardService {
     internshipPost(data) {
         return this.http.doPost(Constants.APIPATH + Constants.COMPANY_POST_INTERNSHIP, data, false);
     }
+
+    deletePost(id){
+        return this.http.doDelete(Constants.APIPATH + Constants.POST_INTERNSHIP+'/'+id, false);
+    }
+
+    getInternship(id){
+        return this.http.doGet(Constants.APIPATH + Constants.GET_INTERNSHIP+'/'+id, false);
+    }
+
+    updateInternship(data){
+        return this.http.doPut(Constants.APIPATH + Constants.POST_INTERNSHIP,data, false);
+    }
 }

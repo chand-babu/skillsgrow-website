@@ -14,9 +14,10 @@ export class HomeComponent implements OnInit {
 
   public imagePath: any;
   public listBannerImagesData: any;
-  public carouselOne: NguCarousel;
+  public carouselOne: NguCarousel<any>;
   public bannerImageSection: boolean = false;
   public courseCategoryName: any;
+  public courseCategoryType: any;
 
   constructor(public global: Global, public homeproxy: HomeProxy,
     public router: Router) { }
@@ -37,11 +38,20 @@ export class HomeComponent implements OnInit {
       loop: true,
       custom: 'banner'
     };
-    this.getCategoryName();
+    this.getCategoryName(0);
+    this.getCategoryType(1);
   }
 
-  getCategoryName() {
-    this.homeproxy.getCategoryName()
+  getCategoryType(value) {
+    this.homeproxy.getCategoryName(value)
+    .subscribe((success: any) => {
+      this.courseCategoryType = success.data;
+      
+    })
+  }
+
+  getCategoryName(value) {
+    this.homeproxy.getCategoryName(value)
     .subscribe((success: any) => {
       this.courseCategoryName = success.data;
     })

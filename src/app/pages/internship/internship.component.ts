@@ -24,7 +24,9 @@ export class InternshipComponent implements OnInit {
   public resume : any;
   public internship : any;
   public categoryIdList: any;
+  public checkUser: any;
   public noDataMessage: boolean = false;
+  public doneButton: boolean = true;
 
   constructor(public internshipService: InternshipService,
     public global: Global, private modalService: NgbModal,
@@ -40,6 +42,9 @@ export class InternshipComponent implements OnInit {
     }
     this.listCategory(); 
     this.submitFilter();
+    if(this.global.getStorageDetail('user')){
+      this.checkUser = this.global.getStorageDetail('user').data._id;
+    }
   }
 
   submitFilter(){
@@ -56,7 +61,7 @@ export class InternshipComponent implements OnInit {
   }
 
   listCategory(){
-    this.internshipService.listCategory()
+    this.internshipService.listCategory(1)
     .subscribe((success: any) => {
       if(success.result){
         this.category = success.data;
@@ -89,6 +94,7 @@ export class InternshipComponent implements OnInit {
             .subscribe((success: any) => {
               if(success.result){
                 this.resume = success.filename;
+                this.doneButton = false;
               }else{
                 alert('Invalid Resume Format');
               }
@@ -120,7 +126,8 @@ export class InternshipComponent implements OnInit {
     this.internshipService.applyInternship(data)
     .subscribe((success: any) => {
       if(success.result){
-        alert('Your resume has been Send');
+        alert('Your resume has been send');
+        this.submitFilter();
       }else{
         console.log(success);
       }

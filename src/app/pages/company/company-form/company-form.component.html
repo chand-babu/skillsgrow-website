@@ -259,22 +259,22 @@
                       <select class="form-control" name="qualification" #qualification="ngModel"
                       [(ngModel)]="formData.qualification" style="height:50px;" required>
                         <option value="0" disabled selected>--Qualification--</option>
-                        <option value="B.sc">B.sc</option>
-                        <option value="B.ca">B.ca</option>
-                        <option value="B.com">B.com</option>
+                        <option value="B.Sc">B.Sc</option>
+                        <option value="B.CA">B.CA</option>
+                        <option value="B.Com">B.Com</option>
                         <option value="BE">BE</option>
                         <option value="BA">BA</option>
                         <option value="B.Ed">B.Ed</option>
                         <option value="BBA">BBA</option>
                         <option value="MBA">MBA</option>
-                        <option value="M.com">M.com</option>
-                        <option value="M.sc">M.sc</option>
-                        <option value="M.ca">M.ca</option>
+                        <option value="M.Com">M.Com</option>
+                        <option value="M.Sc">M.Sc</option>
+                        <option value="M.CA">M.CA</option>
                         <option value="ME">ME</option>
                         <option value="MA">MA</option>
                         <option value="M.Ed">M.Ed</option>
-                        <option value="any">Graduate in any dicipline</option>
-                        <option value="non">Non graduate</option>
+                        <option value="ANY">Graduate in any dicipline</option>
+                        <option value="NON">Non graduate</option>
                       </select>
                       <div *ngIf="form.submitted && formData.qualification == 0" 
                       class="ch-validation-error">Field Required</div>
@@ -332,8 +332,8 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-12 col-xl-12 form-group ch-internship-form">
-                    <input class="form-control" type="text" name="jobDescription" #jobDescription="ngModel"
-                    placeholder="Job Description" [(ngModel)]="formData.jobDescription" required>
+                    <textarea class="form-control" type="text" name="jobDescription" #jobDescription="ngModel"
+                    placeholder="Job Description" [(ngModel)]="formData.jobDescription" required></textarea>
                     <div *ngIf="form.submitted && jobDescription.errors?.required" 
                       class="ch-validation-error">Field Required</div>
                   </div>

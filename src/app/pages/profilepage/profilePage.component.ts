@@ -37,6 +37,9 @@ export class ProfilePageComponent implements OnInit {
     }
 
     ngOnInit() {
+        if(this.global.getStorageDetail('company-user')){
+            this.global.navigateToNewPage('/company/profile');
+        }
         this.userPersonalDetails = this.global.getStorageDetail('user');
         this.checkUserDetails();
     }
