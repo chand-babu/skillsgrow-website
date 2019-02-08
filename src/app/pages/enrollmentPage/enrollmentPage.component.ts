@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 import { SafePipe } from '../../common/videourl.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jsSHA from 'jssha';
-import { v4 as uuid } from 'uuid';
-import { DataService } from 'src/app/common/data.service';
+import { DataService } from './../../common/data.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -44,13 +43,12 @@ export class EnrollmentPageComponent implements OnInit {
         this.courseDataService.currentCourseData.subscribe((courseData) => {
             this.courseData = courseData;
             if (!this.courseData) {
-                this._location.back()
+                this._location.back();
             } else {
                 this.userDetails = this.global.getStorageDetail('user');
                 this.courseData.videoUrl = this.videourl.transform(this.courseData.videoUrl);
             }
-        })
-        
+        });
     }
 
     enrollment() {

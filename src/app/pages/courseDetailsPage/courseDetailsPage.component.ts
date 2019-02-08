@@ -5,7 +5,7 @@ import { CourseDetailsPageProxy } from './courseDetailsPage.proxy';
 import { Constants } from '../../common/constants';
 import { SafePipe } from '../../common/videourl.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DataService } from 'src/app/common/data.service';
+import { DataService } from './../../common/data.service';
 
 
 @Component({
@@ -78,7 +78,7 @@ export class CourseDetailsPageComponent implements OnInit {
                 this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
                 this.checkingUserReferenceAndEnrollment();
                 this.calculationCourseTiming();
-        })
+        });
     }
 
     /* checking whether user from  SSP reference or not */

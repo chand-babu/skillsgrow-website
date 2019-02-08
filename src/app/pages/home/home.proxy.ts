@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Constants } from './../../common/constants';
 import { HttpUtil } from './../../common/http.util';
 import 'rxjs/add/operator/map';
@@ -25,7 +24,7 @@ export class HomeProxy {
     }
 
     getCategoryName(value) {
-        return this.http.doGet(Constants.APIPATH + 'admin/list-categories/'+ value, false);
+        return this.http.doGet(Constants.APIPATH + 'admin/list-categories/' + value, false);
     }
 
 }

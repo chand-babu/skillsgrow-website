@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ListingCourseProxy } from '../course-listing/course-listing.proxy';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { Constants } from '../../common/constants';
-import { HomeProxy } from 'src/app/pages/home/home.proxy';
+import { HomeProxy } from './../../pages/home/home.proxy';
 import { MatSnackBar } from '@angular/material';
 import { SnackBarComponent } from '../snach-bar/sanck-bar.component';
 
@@ -27,15 +27,16 @@ export class NavigationComponent implements OnInit {
   public imagePath = Constants.IMAGEPATH;
   public elementIsClicked: boolean = false;
   public internshipSection: boolean = false;
-  public courseCategoryName: any;
+  public courseCategoryName: Array<any> = [];
   public navbarOpen = false;
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
     public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy,
     public snackBar: MatSnackBar) {
     this.global.storageTriggered().subscribe(() => {
-      const user = this.global.getStorageDetail('user') ? this.global.getStorageDetail('user'):'';
-      const companyUser = this.global.getStorageDetail('company-user') ? this.global.getStorageDetail('company-user'):'';
+      const user = this.global.getStorageDetail('user') ? this.global.getStorageDetail('user') : '';
+      const companyUser = this.global.getStorageDetail('company-user') ?
+       this.global.getStorageDetail('company-user') : '';
       if (user || companyUser) {
         this.logoutNavigation = true;
         this.userData = user.data;
@@ -47,9 +48,9 @@ export class NavigationComponent implements OnInit {
 
   @HostListener('window:scroll') onscroll() {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-      document.getElementById("navbar").classList.add('fixed-navbar');
+      document.getElementById('navbar').classList.add('fixed-navbar');
     } else {
-      document.getElementById("navbar").classList.remove('fixed-navbar');
+      document.getElementById('navbar').classList.remove('fixed-navbar');
     }
 
   }
@@ -81,14 +82,14 @@ export class NavigationComponent implements OnInit {
     .subscribe((success: any) => {
       this.courseCategoryName = success.data;
       this.courseObj();
-    })
+    });
   }
 
   logout() {
-    if(this.global.getStorageDetail('user')){
+    if (this.global.getStorageDetail('user')) {
       this.global.clearLocalStorage();
       this.global.navigateToNewPage('/login');
-    }else if(this.global.getStorageDetail('company-user')){
+    } else if (this.global.getStorageDetail('company-user')) {
       this.global.clearLocalStorage();
       this.global.navigateToNewPage('/company/company-login');
     }
@@ -107,11 +108,15 @@ export class NavigationComponent implements OnInit {
   }
 
   courseObj() {
-    this.courseCategoryName.filter((data: any) => {
-      data.course.filter((course: any) => {
-        this.course.push(course);
+    if (this.courseCategoryName && this.courseCategoryName.length > 0) {
+      this.courseCategoryName.filter((data: any) => {
+        if (data && data.course) {
+          data.course.filter((course: any) => {
+            this.course.push(course);
+          });
+        }
       });
-    });
+    }
   }
 
 
@@ -126,7 +131,6 @@ export class NavigationComponent implements OnInit {
     )
 
   formatter = (x: { courseName: string, _id: any }) => {
-    x.courseName;
     this.router.navigate(['/coursedetailspage', x._id]);
   }
 

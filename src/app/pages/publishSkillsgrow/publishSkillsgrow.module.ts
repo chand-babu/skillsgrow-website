@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PublishSkillsgrowRoutingModule } from './publishSkillsgrow-routing.module';
 import { PublishSkillsgrowComponent } from './publishSkillsgrow.component';
 import { FormsModule } from '@angular/forms';
-import { CommonComponentModule } from 'src/app/components/commonComponent.module';
+import { CommonComponentModule } from './../../components/commonComponent.module';
 
 @NgModule({
     imports: [

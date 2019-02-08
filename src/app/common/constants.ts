@@ -1,10 +1,10 @@
 export module Constants {
-    export let APIPATH = 'http://localhost:3000/';
-    // export let APIPATH = 'https://skillsgrow.com:8080/';
-    export let IMAGEPATH = APIPATH + 'upload/'; 
+    // export let APIPATH = 'http://localhost:3000/';
+    export let APIPATH = 'https://skillsgrow.com:8080/';
+    export let IMAGEPATH = APIPATH + 'upload/';
     export let IMAGE_UPLOAD = 'admin/upload';
     export let RESUME_UPLOAD = 'admin/upload-resume';
-    export let POST_INTERNSHIP = 'company/internship'; 
+    export let POST_INTERNSHIP = 'company/internship';
     export let GET_INTERNSHIP = 'company/get-internship';
     export let CATEGORY = 'admin/list-categories';
     export let COMPANY = 'company/company';

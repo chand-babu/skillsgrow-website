@@ -1,9 +1,9 @@
-import { Component, OnInit, HostListener, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { ListingCourseProxy } from './course-listing.proxy';
 import { Router } from '@angular/router';
 import { Global } from '../../common/global';
 import { Constants } from '../../common/constants';
-import { DataService } from 'src/app/common/data.service';
+import { DataService } from './../../common/data.service';
 
 @Component({
   selector: 'app-course-listing',
@@ -69,7 +69,7 @@ export class CourseListingComponent implements OnInit {
       this.popularCourse = success.data[0].course;
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
-    })
+    });
   }
 
   afterChange(e) {
@@ -160,7 +160,7 @@ export class CourseListingComponent implements OnInit {
     }
   }
 
-  viewAllCourses(){
+  viewAllCourses() {
     this.router.navigate(['/allcourses', 'allCourses']);
   }
 

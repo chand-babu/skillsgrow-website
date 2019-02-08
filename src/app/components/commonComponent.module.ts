@@ -7,10 +7,10 @@ import { BarRatingModule } from './../../../node_modules/ngx-bar-rating/rating.m
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonComponentRoutingModule } from './commonComponent-routing.module';
-import { MatMenuModule, MatButtonModule, MatFormFieldModule, MatButtonToggleModule, MatInputModule,
+import { MatMenuModule, MatButtonModule, MatButtonToggleModule, MatInputModule,
     MatDialogModule } from '@angular/material';
 import { ShareButtonsModule } from '@ngx-share/buttons';
-import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackBarComponent } from './snach-bar/sanck-bar.component';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { SnackBarComponent } from './snach-bar/sanck-bar.component';
         MatButtonModule,
         MatButtonToggleModule,
         MatSnackBarModule,
-        MatInputModule,MatDialogModule,
+        MatInputModule, MatDialogModule,
         ShareButtonsModule
     ],
     declarations: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
@@ -35,7 +35,7 @@ import { SnackBarComponent } from './snach-bar/sanck-bar.component';
         LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,
         ModalPopupComponent, ChatForumComponent, SnackBarComponent ],
         entryComponents: [
-            SnackBarComponent,ConfirmPopupComponent
+            SnackBarComponent, ConfirmPopupComponent
         ]
 })
 
