@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { Subject } from 'rxjs/Subject';
@@ -12,8 +11,7 @@ export class Global {
     currentUrl: string;
     public dataChanged = new Subject<boolean>();
 
-    constructor(private localStorage: LocalStorageService,
-        public router: Router, public route: ActivatedRoute) {
+    constructor(public router: Router, public route: ActivatedRoute) {
             this.router.events
             .filter((event) => event instanceof NavigationEnd)
             .subscribe(
@@ -34,28 +32,27 @@ export class Global {
      * store  data into local storage.
      */
     public storeDataLocal(key: string, data: any): void {
-        if (this.localStorage.add(key, JSON.stringify(data))) {
-            this.dataChanged.next(true);
-        }
+        localStorage.setItem(key, JSON.stringify(data));
+        this.dataChanged.next(true);
     }
 
     /*
      * get local storage data details.
      */
     public getStorageDetail(key: string): any {
-        return JSON.parse(this.localStorage.get(key));
+        return JSON.parse(localStorage.getItem(key));
     }
 
     /*
      * delete local storage data.
      */
     public deleteLocalData(key: string): void {
-        this.localStorage.remove(key);
+        localStorage.remove(key);
     }
 
     /* clear local storage data */
     public clearLocalStorage(): void {
-        this.localStorage.clearAll();
+        localStorage.clearAll();
     }
 
     /*

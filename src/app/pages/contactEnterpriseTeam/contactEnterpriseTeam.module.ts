@@ -3,16 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ContactEnterpriseTeamComponent } from './contactEnterpriseTeam.component';
 import { ContactEnterpriseTeamRoutingModule } from './contactEnterpriseTeam-routing.module';
 import { FormsModule } from '@angular/forms';
-import { CommonComponentModule } from 'src/app/components/commonComponent.module';
+import { CommonComponentModule } from './../../components/commonComponent.module';
 
 @NgModule({
-    imports:[
+    imports: [
         CommonModule,
         ContactEnterpriseTeamRoutingModule,
         FormsModule,
         CommonComponentModule
     ],
-    declarations:[ContactEnterpriseTeamComponent]
+    declarations: [ContactEnterpriseTeamComponent]
 })
 
-export class ContactEnterpriseTeamModule{}
+export class ContactEnterpriseTeamModule { }
+

@@ -4,17 +4,17 @@ import { ContactUsRoutingModule } from './contactus-routing.module';
 import { ContactUsComponent } from './contactus.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { CommonComponentModule } from 'src/app/components/commonComponent.module';
+import { CommonComponentModule } from './../../components/commonComponent.module';
 
 @NgModule({
-    imports:[
+    imports: [
         CommonModule,
         ContactUsRoutingModule,
         HttpClientModule,
         FormsModule,
         CommonComponentModule
     ],
-    declarations:[ContactUsComponent]
+    declarations: [ContactUsComponent]
 })
 
-export class ContactUsModule{}
+export class ContactUsModule { }

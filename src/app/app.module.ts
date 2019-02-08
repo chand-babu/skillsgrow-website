@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './router/app-routing.module';
 import { HttpUtil } from './common/http.util';
@@ -18,13 +17,12 @@ import { DataService } from './common/data.service';
     SafePipe
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     CommonComponentModule,
     AppRoutingModule,
     HttpClientModule,
-    LocalStorageModule,
-    NgHttpLoaderModule,
+    NgHttpLoaderModule.forRoot(),
   ],
   providers: [
     HttpUtil,

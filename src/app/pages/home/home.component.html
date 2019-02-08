@@ -23,8 +23,10 @@
       <h2>Corporate Internship Programs</h2>
     </div>
   </div>
-  <ngu-carousel [inputs]="carouselOne">
-    <ngu-item NguCarouselItem *ngFor="let item of courseCategoryType;let odd = odd">
+  <ngx-slick class="carousel"
+  #slickModal1="slick-modal" 
+    [config]="slideConfig">
+    <div ngxSlickItem *ngFor="let item of courseCategoryType; let odd = odd" class="slide">
       <div style="padding: 10px;">
           <div class="home-category-section" (click)="internship(item._id)">
               <img [src]="imagePath + item.categoryImg" alt="categoryimg">
@@ -32,14 +34,12 @@
                 'odd':odd == true,
                 'even':odd == false
               }">
-              <div>{{item.categoryName}}</div>
-                </div>
+              <div>{{ item.categoryName }}</div>
+              </div>
             </div>
       </div>
-    </ngu-item>
-    <button NguCarouselPrev class='leftRs'>&lt;</button>
-    <button NguCarouselNext class='rightRs'>&gt;</button>
-  </ngu-carousel>
+    </div>
+  </ngx-slick>
 </div>
 
 <div class="container text-center">
@@ -48,24 +48,21 @@
       <h2>Training Programs</h2>
     </div>
   </div>
-  <ngu-carousel [inputs]="carouselOne">
-    <ngu-item NguCarouselItem *ngFor="let item of courseCategoryName;let odd = odd"
-    [routerLink]="['/categorycourse', item._id]">
-        <div style="padding: 10px;">
-            <div class="home-category-section">
-                <img [src]="imagePath + item.categoryImg" alt="categoryimg">
-                <div class="category-title" [ngClass]="{
-                  'odd':odd == true,
-                  'even':odd == false
-                }">
-                <div>{{item.categoryName}}</div>
-                  </div>
+  <ngx-slick class="carousel"
+  #slickModal2="slick-modal" 
+    [config]="slideConfig">
+    <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd"
+    [routerLink]="['/categorycourse', item._id]" class="slide">
+      <div style="padding: 10px;">
+          <div class="home-category-section">
+              <img [src]="imagePath + item.categoryImg" alt="categoryimg">
+              <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
+              <div>{{ item.categoryName }}</div>
               </div>
-        </div>
-    </ngu-item>
-    <button NguCarouselPrev class='leftRs'>&lt;</button>
-    <button NguCarouselNext class='rightRs'>&gt;</button>
-  </ngu-carousel>
+            </div>
+      </div>
+    </div>
+  </ngx-slick>
 </div>
 
 <app-course-listing [course]="'trendingCourses'"></app-course-listing>

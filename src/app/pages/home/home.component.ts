@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Global } from '../../common/global';
 import { HomeProxy } from './home.proxy';
 import { Router } from '@angular/router';
 import { Constants } from '../../common/constants';
-import { NguCarousel } from '@ngu/carousel';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +13,28 @@ export class HomeComponent implements OnInit {
 
   public imagePath: any;
   public listBannerImagesData: any;
-  public carouselOne: NguCarousel<any>;
   public bannerImageSection: boolean = false;
   public courseCategoryName: any;
   public courseCategoryType: any;
+  public slideConfig = {
+     slidesToShow: 6,
+     slidesToScroll: 1,
+     autoplay: true,
+     autoplaySpeed: 2000,
+     dots: true,
+     responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4
+        }
+      }, {
+        breakpoint: 719,
+        settings: {
+          slidesToShow: 2
+        }
+      }]
+    };
 
   constructor(public global: Global, public homeproxy: HomeProxy,
     public router: Router) { }
@@ -25,19 +42,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.bannerImagesList();
     this.imagePath = Constants.IMAGEPATH;
-    this.carouselOne = {
-      grid: { xs: 1, sm: 2, md: 2, lg: 6, all: 0 },
-      slide: 1,
-      speed: 400,
-      interval: 4000,
-      point: {
-        visible: false
-      },
-      load: 2,
-      touch: true,
-      loop: true,
-      custom: 'banner'
-    };
     this.getCategoryName(0);
     this.getCategoryType(1);
   }
@@ -46,15 +50,14 @@ export class HomeComponent implements OnInit {
     this.homeproxy.getCategoryName(value)
     .subscribe((success: any) => {
       this.courseCategoryType = success.data;
-      
-    })
+    });
   }
 
   getCategoryName(value) {
     this.homeproxy.getCategoryName(value)
     .subscribe((success: any) => {
       this.courseCategoryName = success.data;
-    })
+    });
   }
 
   bannerImagesList() {
@@ -65,8 +68,8 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  internship(id){
-    this.global.navigateToNewPage('internship/'+id);
+  internship(id) {
+    this.global.navigateToNewPage('internship/' + id);
   }
 
 }

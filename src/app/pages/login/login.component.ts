@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LoginProxy } from './login.proxy';
 import { Global } from '../../common/global';
 import { MatSnackBar } from '@angular/material';
-import { SnackBarComponent } from 'src/app/components/snach-bar/sanck-bar.component';
+import { SnackBarComponent } from './../../components/snach-bar/sanck-bar.component';
 
 @Component({
     selector: 'app-login',
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(this.global.getStorageDetail('company-user')){
+        if (this.global.getStorageDetail('company-user')) {
             this.alertClass = true;
             this.message = 'Company Account already logged in please logout';
         }
@@ -60,14 +60,12 @@ export class LoginComponent implements OnInit {
     }
 
     loginFieldsData(form) {
-        console.log(this.loginData);
-        if(this.global.getStorageDetail('company-user')){
+        if (this.global.getStorageDetail('company-user')) {
             this.alertClass = true;
             this.message = 'Company Account already logged in please logout';
-        }else{
+        } else {
             this.loginProxy.loginDataService(this.loginData)
             .subscribe((success) => {
-                console.log(success);
                 if (!success.result) {
                     this.alertClass = true;
                     if (success.expired) {
@@ -81,10 +79,11 @@ export class LoginComponent implements OnInit {
                     form.reset();
                     this.alertClass = false;
                     this.global.storeDataLocal('user', success);
-                    if(this.global.getStorageDetail('internshipRedirect')){
-                        this.global.navigateToNewPage('/internship/'+this.global.getStorageDetail('internshipRedirect'));
-                    } else{
-                        this.global.navigateToNewPage('/userdashboard')
+                    if (this.global.getStorageDetail('internshipRedirect')) {
+                        this.global.navigateToNewPage('/internship/' +
+                         this.global.getStorageDetail('internshipRedirect'));
+                    } else {
+                        this.global.navigateToNewPage('/userdashboard');
                     }
                     this.openSnackBar('Welcome to Skillsgrow !!!!');
                 }
