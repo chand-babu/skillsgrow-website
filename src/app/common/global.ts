@@ -52,7 +52,8 @@ export class Global {
 
     /* clear local storage data */
     public clearLocalStorage(): void {
-        localStorage.clearAll();
+        // localStorage.clearAll();
+        localStorage.clear();
     }
 
     /*

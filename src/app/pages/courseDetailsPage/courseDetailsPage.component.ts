@@ -32,6 +32,7 @@ export class CourseDetailsPageComponent implements OnInit {
         rating: 0,
         emailId: '',
         userId: '',
+        courseId: '',//added by nandita
         status: 0
     };
     public infoMessage: boolean = true;
@@ -69,16 +70,16 @@ export class CourseDetailsPageComponent implements OnInit {
 
     courseDataById(id: any) {
         this.coursedetailspageProxy.getCourseData(id)
-        .subscribe((success: any) => {
-            this.courseDetails = success.data;
-            this.hideTheMenuBar = true;
+            .subscribe((success: any) => {
+                this.courseDetails = success.data;
+                this.hideTheMenuBar = true;
                 this.set = setInterval(this.defaultTab, 100);
                 this.editorContent = this.courseDetails[0].description;
                 this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
                 this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
                 this.checkingUserReferenceAndEnrollment();
                 this.calculationCourseTiming();
-        });
+            });
     }
 
     /* checking whether user from  SSP reference or not */
@@ -157,7 +158,7 @@ export class CourseDetailsPageComponent implements OnInit {
                 videoUrl: this.courseDetails[0].video,
                 courseChapter: this.courseDetails[0].timeline.length
             };
-           this.courseDataService.containCourseData(courseObj);
+            this.courseDataService.containCourseData(courseObj);
             this.router.navigate(['/enrollmentpage', this.courseId]);
         }
     }
@@ -167,7 +168,8 @@ export class CourseDetailsPageComponent implements OnInit {
         if (user) {
             if (this.courseDetails[0].enrolledUser.length > 0) {
                 this.courseDetails[0].enrolledUser.filter((userData) => {
-                    if (userData.userEmailId === user.data.emailId) {
+                    // if (userData.userEmailId === user.data.emailId) {
+                    if (userData.userId.emailId === user.data.emailId) {//modified by nandita
                         this.checkWhetherUserReviewOrNot(user, form);
                     }
                 });
@@ -187,7 +189,8 @@ export class CourseDetailsPageComponent implements OnInit {
     checkWhetherUserReviewOrNot(user, form) {
         if (this.courseDetails[0].courseReview.length > 0) {
             this.courseDetails[0].courseReview.filter((data) => {
-                if (data.emailId === user.data.emailId) {
+                // if (data.emailId === user.data.emailId) {
+                if (data.userId.emailId === user.data.emailId) { //modified by nandita
                     this.infoMessage = false;
                     this.errorMessage = true;
                     this.emailMatched = true;
@@ -206,6 +209,7 @@ export class CourseDetailsPageComponent implements OnInit {
         this.reviewFormObj.emailId = user.data.emailId;
         this.reviewFormObj.rating = this.currentRate;
         this.reviewFormObj.userId = user.data._id;
+        this.reviewFormObj.courseId = this.courseId; //added by nandita
         this.coursedetailspageProxy.courseReviewService(this.reviewFormObj)
             .subscribe((success: any) => {
                 form.reset();

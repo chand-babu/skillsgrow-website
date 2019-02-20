@@ -64,11 +64,11 @@ export class UserDashboardComponent implements OnInit {
             });
             activeCourseProgress = activeCourseProgress / this.activeCourses.length;
             activeCourseProgress = Math.round(activeCourseProgress);
-            console.log(activeCourseProgress);
+            // console.log(activeCourseProgress);
             this.timeTakeInCourse = this.global.getStorageDetail('timeTaken');
             this.timeTakeInCourse = this.timeTakeInCourse / 60;
             this.timeTakeInCourse = Math.round(this.timeTakeInCourse);
-            console.log(this.timeTakeInCourse);
+            // console.log(this.timeTakeInCourse);
         }
         this.progressObj = [
             {

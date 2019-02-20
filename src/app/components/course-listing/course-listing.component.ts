@@ -86,7 +86,8 @@ export class CourseListingComponent implements OnInit {
         }
         if (course.enrolledUser.length >= 1) {
           course.enrolledUser.filter((email) => {
-            if (email.userEmailId === this.user.emailId) {
+            // if (email.userEmailId === this.user.emailId) {
+            if (email.userId.emailId === this.user.emailId) {//modified by nandita
               course.enrollBtn = false;
             }
           });

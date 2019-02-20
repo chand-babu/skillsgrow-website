@@ -45,7 +45,6 @@ export class CourseTestPageComponent implements OnInit {
         }
         const user = this.global.getStorageDetail('user').data;
         this.testData = this.paramsData;
-        console.log(this.testData);
         this.seconds = 0;
         if (this.testData.questions.length >= 1) {
             this.allQuestion = this.testData.questions;
@@ -77,11 +76,9 @@ export class CourseTestPageComponent implements OnInit {
     }
 
     questionIndex(index) {
-        console.log(index);
         this.count = index;
         this.questionNumber = index;
         this.questionobj.push(this.testData.questions[index]);
-        // console.log(this.questionobj);
         this.startTimer();
     }
     startTimer() {
@@ -92,7 +89,6 @@ export class CourseTestPageComponent implements OnInit {
 
     answer(event, ans, index) {
         this.userAnswer = ans;
-        console.log(ans);
     }
 
     saveAndContinue(clicktype, index?) {
@@ -124,15 +120,12 @@ export class CourseTestPageComponent implements OnInit {
     }
 
     numberOfQuestions(courseId, questionNumber) {
-        console.log(questionNumber);
         this.selectedItem = questionNumber;
         this.questionNumber = questionNumber;
         this.saveAndContinue('normal', questionNumber);
-        console.log(this.selectedItem, this.questionWithAnswer);
         if (this.questionWithAnswer.length >= 1) {
             this.questionWithAnswer.filter((data) => {
                 if (data.id === courseId.id) {
-                    console.log(data);
                     let array = [];
                     array.push(data);
                     this.questionobj = array;
@@ -141,7 +134,6 @@ export class CourseTestPageComponent implements OnInit {
                     this.questionAnswer = '';
                     this.questionAnswer = data.userAnswer;
                     this.userAnswer = this.questionAnswer;
-                    // console.log(this.userAnswer, this.questionAnswer, data.userAnswer);
                 }
             });
         }
@@ -152,7 +144,6 @@ export class CourseTestPageComponent implements OnInit {
         let score = 0;
         let wrong = 0;
         this.questionWithAnswer.filter((data) => {
-            console.log(data);
             if (data.questionStatus === '1') {
                 data.question.filter((passageQues) => {
                     (passageQues.userAnswer !== passageQues.answer) ? wrong++ : score++;
@@ -162,7 +153,6 @@ export class CourseTestPageComponent implements OnInit {
             }
         });
         this.userScore = score;
-        console.log(score, wrong, this.noOfQuestions);
         this.submitTheMarkInDb();
     }
 
@@ -177,7 +167,6 @@ export class CourseTestPageComponent implements OnInit {
                 }
             });
             if (!noIdFind) {
-                // alert('no id');
                 this.questionobj.filter((data) => {
                     data.userAnswer = this.userAnswer;
                     data.timetaken = timetaken;
@@ -195,15 +184,23 @@ export class CourseTestPageComponent implements OnInit {
         }
         this.questionWithAnswer.filter((data) => {
             (data.userAnswer) ? this.allQuestion[data.id - 1].attendStatus = 'true' : this.allQuestion[data.id - 1].attendStatus = 'false';
-            console.log(this.allQuestion);
         });
     }
 
-    getExtension(filename) {
-        return (filename == 'png' || filename == 'jpg' || 
-        filename == 'gif' || filename == 'jpeg' || 
-        filename == 'JPG' || filename == 'PNG' || filename == undefined) ? true: false;
-    }
+    // getExtension(filename) {
+    //     return (filename == 'png' || filename == 'jpg' || 
+    //     filename == 'gif' || filename == 'jpeg' || 
+    //     filename == 'JPG' || filename == 'PNG' || filename == undefined) ? true: false;
+    // }
+
+    getExtension(questionObj) {
+        if (questionObj.imageQuestion) {
+            let fileExt = questionObj.imageQuestion.split('.')[1];
+            return (fileExt == 'png' || fileExt == 'jpg' ||
+                fileExt == 'gif' || fileExt == 'jpeg' ||
+                fileExt == 'JPG' || fileExt == 'PNG' || fileExt == undefined) ? 'image' : 'audio';
+        }
+    }//modified by nandita
 
     submitTheMarkInDb() {
         let i = 0;
@@ -215,7 +212,6 @@ export class CourseTestPageComponent implements OnInit {
                 data.timeline.filter((title) => {
                     i = i + title.topics.length;
                     data.totalTopics = i;
-                    console.log(title.title, this.paramsData);
                     if (title.title === this.paramsData.topicName) {
                         title.topics.filter((topic) => {
                             if (topic.subTopics === this.paramsData.subTopics) {
@@ -236,9 +232,7 @@ export class CourseTestPageComponent implements OnInit {
         });
         this.courseTestProxy.userScore({ userId: user.data._id, courses: user.data.courseEnrolled })
             .subscribe((success) => {
-                console.log(success);
             });
-        console.log(user);
         const userData = this.global.storeDataLocal('user', user);
         this.global.deleteLocalData('courselearn');
     }

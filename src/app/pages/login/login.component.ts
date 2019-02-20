@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
             this.global.navigateToNewPage('/userdashboard');
         }
         const url = this.global.url();
-        console.log(url);
+        // console.log(url);
     }
 
     openSnackBar(message: String) {

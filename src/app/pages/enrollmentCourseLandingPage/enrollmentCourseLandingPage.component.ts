@@ -5,6 +5,7 @@ import { Constants } from '../../common/constants';
 import { ListingCourseProxy } from '../../components/course-listing/course-listing.proxy';
 import * as html2canvas from 'html2canvas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CourseListingComponent } from 'src/app/components/all';
 
 @Component({
     selector: 'app-enrollemnt-page',
@@ -127,6 +128,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
                                 if (courseData.timeline[chapterIndex]) {
                                     if (chapter.title === courseData.timeline[chapterIndex].title) {
                                         chapter.topics.filter((topicsDescription, topicIndex) => {
+                                            // console.log("++++++---topicIndex---++++++", topicIndex,'====', courseData.timeline[chapterIndex].topics[topicIndex]) //need to check    
                                         courseData.timeline[chapterIndex].topics[topicIndex].description = topicsDescription.description;
                                         courseData.timeline[chapterIndex].topics[topicIndex].questions = topicsDescription.questions;
                                         });

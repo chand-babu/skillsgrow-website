@@ -53,10 +53,11 @@ export class EnrollmentPageComponent implements OnInit {
 
     enrollment() {
         const userEnrollmentData = {
+            userId: this.userDetails.data._id,//added by nandita
             courseId: this.courseData.courseId,
             enrolledOn: new Date(),
-            userEmailId: this.userDetails.data.emailId,
-            userName: this.userDetails.data.userName
+            userEmailId: this.userDetails.data.emailId,//comented forlocal
+            userName: this.userDetails.data.userName//comented forlocal
         };
         this.enrollmentPageProxy.courseEnrolledService(userEnrollmentData)
             .subscribe((success: any) => {

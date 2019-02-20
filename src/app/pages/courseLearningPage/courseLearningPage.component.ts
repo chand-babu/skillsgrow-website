@@ -80,7 +80,6 @@ export class CourseLearningPageComponent implements OnInit {
         }
         if (this.paramsData) {
             const topicIndex = this.paramsData.topicIndex;
-            // console.log(topicIndex);
             this.topicAccordion(topicIndex);
         } else {
             this.topicAccordion(1);
@@ -88,7 +87,7 @@ export class CourseLearningPageComponent implements OnInit {
     }
 
     topicAccordion(topicIndex) {
-        this.elementRef.nativeElement.querySelector('#defaultAccordionTitle' + topicIndex).className += ' active';
+        this.elementRef.nativeElement.querySelector('#defaultAccordionTitle' + topicIndex).className += 'active';
         this.elementRef.nativeElement.querySelector('#defaultAccordionPanel' + topicIndex).style.maxHeight = 'inherit';
         const acc: any = this.elementRef.nativeElement.querySelectorAll('.accordion');
         // console.log(acc);
@@ -108,7 +107,6 @@ export class CourseLearningPageComponent implements OnInit {
     categoryListing() {
         this.courseListingProxy.listCategoriesCourse(this.courseId)
             .subscribe((success: any) => {
-                // console.log(success);
                 const categoryData = success.data;
                 this.courseLearningData.push(categoryData);
                 if (this.innerWidth > 768) {
@@ -138,7 +136,6 @@ export class CourseLearningPageComponent implements OnInit {
             userCourse.timeline.filter((topic) => {
                 topic.topics.filter((subTopics) => {
                     if (subTopics.subTopics === data.subTopics) {
-                        // console.log(subTopics);
                         if (subTopics.allQuestionsWithAnswer) {
                             testStatus = true;
                         } else {
@@ -169,7 +166,8 @@ export class CourseLearningPageComponent implements OnInit {
         }
         this.selectsubTopic = data.subTopics;
         this.subTopicContent = data;
-        this.editorContent = data.description;
+        // this.editorContent = data.description;
+        this.editorContent = data.description ? data.description:'No data present for this course.';//modified by nandita
         this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
         const courseObj = {
             'courseId': this.courseLearningData[0]._id,

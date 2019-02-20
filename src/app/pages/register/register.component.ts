@@ -33,12 +33,12 @@ export class RegisterComponent implements OnInit {
         this.set = setInterval(this.defaultTab, 100);
         this.activateRoute.params.forEach(params => {
             this.sspId = params['id'];
-            console.log(this.sspId);
+            // console.log(this.sspId);
             if (this.sspId !== 'sign-up') {
                 this.registerProxy.getSSP()
                 .subscribe((success: any) => {
                     let sspMemberId: boolean = false;
-                    console.log(success);
+                    // console.log(success);
                     const sspMembers = success.data;
                     sspMembers.filter((data) => {
                         if (data._id === this.sspId) {
@@ -77,10 +77,10 @@ export class RegisterComponent implements OnInit {
     learnerFieldData(form) {
         if (this.learnerData.password === this.learnerData.cpassword) {
             delete this.learnerData.cpassword;
-            console.log(this.learnerData);
+            // console.log(this.learnerData);
             this.registerProxy.registerDataService(this.learnerData)
                 .subscribe((success) => {
-                    console.log(success);
+                    // console.log(success);
                     if (success.result) {
                         this.successMessage = true;
                         this.errorMessage = false;

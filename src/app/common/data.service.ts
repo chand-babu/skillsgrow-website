@@ -10,7 +10,7 @@ export class DataService {
   constructor() { }
 
   containCourseData(data: any) {
-    console.log(data);
+    // console.log(data);
     this.messageSource.next(data);
   }
 
