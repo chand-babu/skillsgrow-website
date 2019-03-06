@@ -17,12 +17,12 @@ export class HomeComponent implements OnInit {
   public courseCategoryName: any;
   public courseCategoryType: any;
   public slideConfig = {
-     slidesToShow: 6,
-     slidesToScroll: 1,
-     autoplay: true,
-     autoplaySpeed: 2000,
-     dots: true,
-     responsive: [
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    dots: true,
+    responsive: [
       {
         breakpoint: 1200,
         settings: {
@@ -34,7 +34,12 @@ export class HomeComponent implements OnInit {
           slidesToShow: 2
         }
       }]
-    };
+  };
+  public isImgLoaded: boolean = true;
+
+  onLoad() {
+    this.isImgLoaded = false;
+  }
 
   constructor(public global: Global, public homeproxy: HomeProxy,
     public router: Router) { }
@@ -48,16 +53,20 @@ export class HomeComponent implements OnInit {
 
   getCategoryType(value) {
     this.homeproxy.getCategoryName(value)
-    .subscribe((success: any) => {
-      this.courseCategoryType = success.data;
-    });
+      .subscribe((success: any) => {
+        this.courseCategoryType = success.data;
+      });
   }
 
   getCategoryName(value) {
     this.homeproxy.getCategoryName(value)
-    .subscribe((success: any) => {
-      this.courseCategoryName = success.data;
-    });
+      .subscribe((success: any) => {
+        // this.courseCategoryName = success.data;
+        success.data.map((cataegoryDetails) => {
+          cataegoryDetails.categoryNameUrl = this.global.MakeStringToDashes(cataegoryDetails.categoryName);
+        });
+        this.courseCategoryName = success.data;
+      });//modified by nandita(65-69)
   }
 
   bannerImagesList() {

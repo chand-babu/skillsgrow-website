@@ -38,6 +38,12 @@ export class UserDashboardComponent implements OnInit {
     public udf2: any;
     public service_provider = 'payu_paisa';
     public paidCertificate: boolean = false;
+    public isImgLoaded: boolean = true;
+
+    onLoad() {
+        this.isImgLoaded = false;
+    }
+
 
     constructor(public router: Router, public global: Global,
         public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal) { }
@@ -64,11 +70,11 @@ export class UserDashboardComponent implements OnInit {
             });
             activeCourseProgress = activeCourseProgress / this.activeCourses.length;
             activeCourseProgress = Math.round(activeCourseProgress);
-            console.log(activeCourseProgress);
+            // console.log(activeCourseProgress);
             this.timeTakeInCourse = this.global.getStorageDetail('timeTaken');
             this.timeTakeInCourse = this.timeTakeInCourse / 60;
             this.timeTakeInCourse = Math.round(this.timeTakeInCourse);
-            console.log(this.timeTakeInCourse);
+            // console.log(this.timeTakeInCourse);
         }
         this.progressObj = [
             {

@@ -1,82 +1,81 @@
 <div class="container cerificate-popup">
-    <div class="row">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 text-center" *ngFor="let x of progressObj">
+          <circle-progress [percent]="x.width" [title]="(x.sampleTitle) ? x.sampleTitle : '0'" [showSubtitle]="false"
+            [showUnits]="false" [radius]="80" [outerStrokeWidth]="24" [space]="-24" [innerStrokeWidth]="24"
+            [outerStrokeColor]="x.color" [innerStrokeColor]="'#f1f1f1'" [animation]="true" [titleFontSize]="44"
+            [animationDuration]="300"></circle-progress>
+          <!-- <div class="course-circle circle-one-color">04</div> -->
+          <div>
+            <b>{{x.title}}</b>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-12">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 text-center" *ngFor="let x of progressObj">
-                    <circle-progress [percent]="x.width" [title]="(x.sampleTitle) ? x.sampleTitle : '0'" [showSubtitle]="false"
-                        [showUnits]="false" [radius]="80" [outerStrokeWidth]="24" [space]="-24" [innerStrokeWidth]="24"
-                        [outerStrokeColor]="x.color" [innerStrokeColor]="'#f1f1f1'" [animation]="true" [titleFontSize]="44"
-                        [animationDuration]="300"></circle-progress>
-                    <!-- <div class="course-circle circle-one-color">04</div> -->
-                    <div>
-                        <b>{{x.title}}</b>
-                    </div>
-                </div>
+          <div *ngIf="activeCourses.length >= 1">
+            <h2 class="default-margin-top">Active Courses</h2>
+          </div>
+          <div *ngIf="activeCourses.length == 0" class="text-center default-margin-top">
+            <button routerLink="/allcourses/allCourses" class="btn view-all-courses">View Courses <i class="fa fa-arrow-right"></i></button>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6" *ngFor="let course of activeCourses">
+          <div *ngIf="course.courseProgress != 100" class="row active-courses">
+            <div class="col-5 courseimg">
+              <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + course.imageSmall" alt="courseimg">
+              <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
+              <span>{{course.courseName}}</span>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div *ngIf="activeCourses.length >= 1">
-                        <h2 class="default-margin-top">Active Courses</h2>
-                    </div>
-                    <div *ngIf="activeCourses.length == 0" class="text-center default-margin-top">
-                        <button routerLink="/allcourses/allCourses" class="btn view-all-courses">View Courses <i
-                                class="fa fa-arrow-right"></i></button>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6" *ngFor="let course of activeCourses">
-                    <div *ngIf="course.courseProgress != 100" class="row active-courses">
-                        <div class="col-5 courseimg">
-                            <img [src]="imagePath + course.imageSmall" alt="courseimg">
-                            <span>{{course.courseName}}</span>
-                        </div>
-                        <div class="col-7 progress-details">
-                            <div class="progress">
-                                <div class="progress-bar" [ngStyle]="{'background-color':'#F7941D', 'width' : course.courseProgress + '%'}">{{(course.courseProgress)
-                                    ? course.courseProgress +'%' : ''}}</div>
-                            </div>
-                            <div class="row course-status">
-                                <div class="col-6 status-title">Current Topic: </div>
-                                <div [ngStyle]="{'color': (course.currentTopic) ? '#212529' : '#bfb9b9'}" class="col-6 status-title-description"
-                                    title="{{course.currentTopic}}">{{(course.currentTopic) ? course.currentTopic : 'No
-                                    topic'}}</div>
-                            </div>
-                            <div class="row course-status">
-                                <div class="col-6 status-title">Current Score: </div>
-                                <div [ngStyle]="{'color': (course.currentScore) ? '#212529' : '#bfb9b9'}" class="col-6 status-title-description">{{(course.currentScore)
-                                    ? course.currentScore : 'No mark'}}</div>
-                            </div>
-                            <div class="text-center">
-                                <button (click)="continue(course._id)">Continue</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-7 progress-details">
+              <div class="progress">
+                <div class="progress-bar" [ngStyle]="{'background-color':'#F7941D', 'width' : course.courseProgress + '%'}">{{(course.courseProgress)
+                  ? course.courseProgress +'%' : ''}}</div>
+              </div>
+              <div class="row course-status">
+                <div class="col-6 status-title">Current Topic: </div>
+                <div [ngStyle]="{'color': (course.currentTopic) ? '#212529' : '#bfb9b9'}" class="col-6 status-title-description"
+                  title="{{course.currentTopic}}">{{(course.currentTopic) ? course.currentTopic : 'No
+                  topic'}}</div>
+              </div>
+              <div class="row course-status">
+                <div class="col-6 status-title">Current Score: </div>
+                <div [ngStyle]="{'color': (course.currentScore) ? '#212529' : '#bfb9b9'}" class="col-6 status-title-description">{{(course.currentScore)
+                  ? course.currentScore : 'No mark'}}</div>
+              </div>
+              <div class="text-center">
+                <button (click)="continue(course._id)">Continue</button>
+              </div>
             </div>
-            <div *ngIf="certificateCount" class="row">
-                <div class="col-12">
-                    <h2 class="default-margin-top">Completed Courses</h2>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 text-center d-flex" 
-                *ngFor="let certificate of activeCourses;let i = index">
-                    <div *ngIf="certificate.courseProgress == 100" class="recent-courses">
-                        <div class="courseimg">
-                            <img [src]="imagePath + certificate.imageSmall" alt="courseimg">
-                            <span>{{certificate.courseName}}</span>
-                        </div>
-                        <!-- <div class="score">91/100</div> -->
-                        <div class="border-top" *ngIf="certificate.authorDetails[0].certificatePrice != 'Free'">
-                            <button (click)="openLg(content, certificate, certificate.authorDetails[0].certificatePrice, i)" 
-                            type="submit">{{certificate.authorDetails[0].certificatePrice}}/- 
-                            <i class="fa fa-inr"></i></button>
-                        </div>
-                        <div>
-                            <button [disabled]="certificate.authorDetails[0].certificatePrice != 'Free'" 
-                            (click)="previewImage(content, certificate.courseName)">Download Certificate</button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="certificateCount" class="row">
+        <div class="col-12">
+          <h2 class="default-margin-top">Completed Courses</h2>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12 text-center d-flex" *ngFor="let certificate of activeCourses;let i = index">
+          <div *ngIf="certificate.courseProgress == 100" class="recent-courses">
+            <div class="courseimg">
+              <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + certificate.imageSmall" alt="courseimg">
+              <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
+              <span>{{certificate.courseName}}</span>
             </div>
-            <!-- <div class="row" style="margin-bottom: 20px;">
+            <!-- <div class="score">91/100</div> -->
+            <div class="border-top" *ngIf="certificate.authorDetails[0].certificatePrice != 'Free'">
+              <button (click)="openLg(content, certificate, certificate.authorDetails[0].certificatePrice, i)" type="submit">{{certificate.authorDetails[0].certificatePrice}}/-
+                <i class="fa fa-inr"></i></button>
+            </div>
+            <div>
+              <button [disabled]="certificate.authorDetails[0].certificatePrice != 'Free'" (click)="previewImage(content, certificate.courseName)">Download
+                Certificate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row" style="margin-bottom: 20px;">
                 <div class="col-12">
                     <h2 class="default-margin-top">Recommend Courses</h2>
                 </div>
@@ -118,101 +117,101 @@
                 </ng-container>
                 </ng-container>
             </div> -->
-        </div>
     </div>
-    <ng-template #content let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title">Course Certificate</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
+  </div>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Course Certificate</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div [ngStyle]="{'display': (!paidCertificate) ? 'block' : 'none'}" class="modal-body">
+      <div id="content">
+        <div id="contentToConvert">
+          <div class="username">
+            <p id="certificateUserName"></p>
+          </div>
+          <div class="certificate-course-name">
+            <q id="certificateCourseName"></q>
+            <span>course</span>
+          </div>
+          <img id="img" src="assets/image/certificate.jpg" alt="user">
         </div>
-        <div [ngStyle]="{'display': (!paidCertificate) ? 'block' : 'none'}" class="modal-body">
-            <div id="content">
-                <div id="contentToConvert">
-                    <div class="username">
-                        <p id="certificateUserName"></p>
-                    </div>
-                    <div class="certificate-course-name">
-                        <q id="certificateCourseName"></q>
-                        <span>course</span>
-                    </div>
-                    <img id="img" src="assets/image/certificate.jpg" alt="user">
-                </div>
-            </div>
-            <!-- <div class="row">
+      </div>
+      <!-- <div class="row">
                     <div class="col-12">
                         <div id="previewImage">
                         </div>
                     </div>
                 </div> -->
-            <div class="text-center">
-                <a id="btn-Convert-Html2Image" (click)="download()">Download</a>
-            </div>
-        </div>
-        <div *ngIf="paidCertificate" class="modal-body">
-            <p>Continue with payemnt...</p>
-        </div>
-        <div class="modal-footer">
-            <div *ngIf="paidCertificate">
-                <form action="https://sandboxsecure.payu.in/_payment" name="payuMoney" method="post">
-                    <div>
-                        <input type="hidden" name="key" value="2fj34Tfj" />
-                        <input type="hidden" name="hash_string" value="" />
-                        <input type="hidden" name="hash" [value]="hash" />
-                        <input type="hidden" name="txnid" [value]="txid" />
-                        <table>
-                            <tr>
-                                <td><input type="hidden" name="amount" [value]="amount" /></td>
-                                <td><input type="hidden" name="firstname" [value]="firstname" id="firstname" /></td>
-                            </tr>
-                            <tr>
-                                <td><input type="hidden" name="email" id="email" [value]="email" /></td>
-                                <td><input type="hidden" name="phone" [value]="phone" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="surl" [value]="surl" size="64" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="furl" [value]="furl" size="64" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="productinfo" [value]="productinfo" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="service_provider" [value]="service_provider" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="udf1" [value]="udf1" /></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><input type="hidden" name="udf2" [value]="udf2" /></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div style="margin-top:-15px">
-                        <button class="btn btn-success">Ok</button>
-                    </div>
-                </form>
-            </div>
-            <button type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
-        </div>
-    </ng-template>
+      <div class="text-center">
+        <a id="btn-Convert-Html2Image" (click)="download()">Download</a>
+      </div>
+    </div>
+    <div *ngIf="paidCertificate" class="modal-body">
+      <p>Continue with payemnt...</p>
+    </div>
+    <div class="modal-footer">
+      <div *ngIf="paidCertificate">
+        <form action="https://sandboxsecure.payu.in/_payment" name="payuMoney" method="post">
+          <div>
+            <input type="hidden" name="key" value="2fj34Tfj" />
+            <input type="hidden" name="hash_string" value="" />
+            <input type="hidden" name="hash" [value]="hash" />
+            <input type="hidden" name="txnid" [value]="txid" />
+            <table>
+              <tr>
+                <td><input type="hidden" name="amount" [value]="amount" /></td>
+                <td><input type="hidden" name="firstname" [value]="firstname" id="firstname" /></td>
+              </tr>
+              <tr>
+                <td><input type="hidden" name="email" id="email" [value]="email" /></td>
+                <td><input type="hidden" name="phone" [value]="phone" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="surl" [value]="surl" size="64" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="furl" [value]="furl" size="64" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="productinfo" [value]="productinfo" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="service_provider" [value]="service_provider" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="udf1" [value]="udf1" /></td>
+              </tr>
+              <tr>
+                <td colspan="3"><input type="hidden" name="udf2" [value]="udf2" /></td>
+              </tr>
+            </table>
+          </div>
+          <div style="margin-top:-15px">
+            <button class="btn btn-success">Ok</button>
+          </div>
+        </form>
+      </div>
+      <button type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
+    </div>
+  </ng-template>
 
-    <ng-template #SSPChangePassword let-c="close" let-d="dismiss">
-        <div class="modal-header">
-            <h4 class="modal-title">Change Password</h4>
-            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>Set a new password for your skillsgrow profile</p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" routerLink="/profilepage" class="btn btn-success" (click)="c('Close click')">Ok</button>
-            <button type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
-        </div>
-    </ng-template>
+  <ng-template #SSPChangePassword let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Change Password</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Set a new password for your skillsgrow profile</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" routerLink="/profilepage" class="btn btn-success" (click)="c('Close click')">Ok</button>
+      <button type="button" class="btn btn-info" (click)="c('Close click')">Cancel</button>
+    </div>
+  </ng-template>
 
 </div>

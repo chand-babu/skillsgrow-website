@@ -23,6 +23,11 @@ export class CourseListingComponent implements OnInit {
   slideConfig = { 'slidesToShow': 4, 'slidesToScroll': 4 };
   public popularCourse = [];
   public categoryName: String;
+  public isImgLoaded: boolean = true;
+
+  onLoad() {
+    this.isImgLoaded = false;
+  }
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
     public global: Global, public el: ElementRef, public courseDataService: DataService) { }
@@ -47,6 +52,8 @@ export class CourseListingComponent implements OnInit {
     this.listingCourseProxy.getTrendingCourse()
     .subscribe((success: any) => {
       this.popularCourse = success.data;
+      this.convertCourseName(this.popularCourse);
+      console.log("coming gtc", this.popularCourse)
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
@@ -56,6 +63,7 @@ export class CourseListingComponent implements OnInit {
     this.listingCourseProxy.getAllCourse()
     .subscribe((success: any) => {
       this.popularCourse = success.data;
+      console.log("coming gac")
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
@@ -63,13 +71,23 @@ export class CourseListingComponent implements OnInit {
 
   // get category based coures
   getCategoryCourses() {
-    this.listingCourseProxy.getCategoryCourses(this.categoryId)
+    // this.listingCourseProxy.getCategoryCourses(this.categoryId)
+    this.listingCourseProxy.getCategoryCoursesByName(this.categoryId) //modified by nandita
     .subscribe((success: any) => {
       this.categoryName = success.data[0].categoryName;
       this.popularCourse = success.data[0].course;
+      this.convertCourseName(this.popularCourse);
+      console.log("coming gcc", this.popularCourse)
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
+  }
+
+  convertCourseName(courses){
+    courses.map((courseDetails) => {
+      courseDetails.courseNameUrl = this.global.MakeStringToDashes(courseDetails.courseName);
+    });
+    this.popularCourse = courses;
   }
 
   afterChange(e) {
@@ -86,7 +104,8 @@ export class CourseListingComponent implements OnInit {
         }
         if (course.enrolledUser.length >= 1) {
           course.enrolledUser.filter((email) => {
-            if (email.userEmailId === this.user.emailId) {
+            // if (email.userEmailId === this.user.emailId) {
+            if (email.userId.emailId === this.user.emailId) {//modified by nandita
               course.enrollBtn = false;
             }
           });
@@ -132,8 +151,12 @@ export class CourseListingComponent implements OnInit {
     });
   }
 
-  viewDetailsCourse(id: number) {
-    this.router.navigate(['/coursedetailspage', id]);
+  // viewDetailsCourse(id: number) {
+  //   this.router.navigate(['/coursedetailspage', id]);
+  // }
+
+  viewDetailsCourse(name: string) {
+    this.router.navigate(['/coursedetailspage', name]);
   }
 
   enrollNowCourse(courseData) {

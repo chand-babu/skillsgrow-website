@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent, LoginNavigationComponent,
     PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent, ModalPopupComponent,
     ChatForumComponent, ConfirmPopupComponent } from './all';
@@ -25,7 +25,7 @@ import { SnackBarComponent } from './snach-bar/sanck-bar.component';
         MatButtonToggleModule,
         MatSnackBarModule,
         MatInputModule, MatDialogModule,
-        ShareButtonsModule
+        ShareButtonsModule,
     ],
     declarations: [NavigationComponent, BannerSliderComponent, FooterComponent, InfoBarComponent,
     LoginNavigationComponent, PageOverlayIconComponent, ProductSectionComponent, CourseListingComponent,

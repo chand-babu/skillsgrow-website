@@ -1,42 +1,49 @@
-<div class="container-fluid learning-page-container" *ngFor="let course of courseLearningData">
-    <div id="main" class="row">
-        <div id="mySidenav" class="sidenav">
-            <ng-container *ngFor="let x of course.timeline;let topicIndex = index">
-                <div class="accordion" id="defaultAccordionTitle{{topicIndex}}">
-                    <div class="accordion-title">{{x.title}}</div>
-                </div>
-                <div class="panel" id="defaultAccordionPanel{{topicIndex}}">
-                    <div *ngFor="let y of x.topics;let subTopicIndex = index" 
-                    (click)="currentTopicContent(y,false,x.title,topicIndex)" 
-                    [ngStyle]="{'color': selectsubTopic == y.subTopics ? 'white' : '#b7b7b7' }">
-                        <i class="fa fa-check"></i> {{subTopicIndex + 1}}. {{y.subTopics}}</div>
-                </div>
-            </ng-container>
-            <div class="mb-5">
-                <button (click)="chatForums()" class="btn btn-block btn-info rounded-0"><i class="fa fa-commenting" aria-hidden="true"></i> Chat Forums</button>
-            </div>
-        </div>
-        <div class="col-md-12 topic-content-container">
-            <div class="row topic-title">
-                <div (click)="openNav()" class="col-1">
-                    <i class="fa fa-bars"></i>
-                </div>
-                <div class="col-11 text-center">{{(chatForumsSection) ? 'Chat Forums' : subTopicContent.subTopics}}</div>
-            </div>
-            <div *ngIf="!chatForumsSection" class="row topic-content">
-                <div class="col-12">
-                    <div *ngIf="testBtnShow" class="text-right">
-                        <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
-                    </div>
-                    <p [innerHTML]="editorContent"></p>
-                </div>
-                <div *ngIf="testBtnShow" class="col-12 text-right">
-                    <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
-                </div>
-            </div>
-            <div *ngIf="chatForumsSection">
-                <app-chat-forum [courseId]="courseId" [courseDetails]="courseLearningData"></app-chat-forum>
-            </div>
-        </div>
+<div class="container-fluid learning-page-container" *ngFor="let courses of courseLearningData">
+  <div id="main" class="row">
+    <div id="mySidenav" class="sidenav">
+
+      <div *ngFor="let course of courses">
+        <!-- Line 5 added by nandita -->
+        <ng-container *ngFor="let x of course.timeline;let topicIndex = index">
+          <div class="accordion" id="defaultAccordionTitle{{topicIndex}}">
+            <div class="accordion-title">{{x.title}}</div>
+          </div>
+          <div class="panel" id="defaultAccordionPanel{{topicIndex}}">
+            <div *ngFor="let y of x.topics;let subTopicIndex = index" (click)="currentTopicContent(y,false,x.title,topicIndex)"
+              [ngStyle]="{'color': selectsubTopic == y.subTopics ? 'white' : '#b7b7b7' }">
+              <i class="fa fa-check"></i> {{subTopicIndex + 1}}. {{y.subTopics}}</div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="mb-5">
+        <button (click)="chatForums()" class="btn btn-block btn-info rounded-0"><i class="fa fa-commenting" aria-hidden="true"></i>
+          Chat Forums</button>
+      </div>
     </div>
+    <div class="col-md-12 topic-content-container">
+      <div class="row topic-title">
+        <div (click)="openNav()" class="col-1">
+          <i class="fa fa-bars"></i>
+        </div>
+        <div class="col-11 text-center">{{(chatForumsSection) ? 'Chat Forums' : subTopicContent.subTopics}}</div>
+      </div>
+      <div *ngIf="!chatForumsSection" class="row topic-content">
+        <!-- <div *ngIf="!editorContent && !chatForumsSection" class="row topic-content">  -->
+        <!-- Line no31 modified by nandita -->
+        <div class="col-12">
+          <div *ngIf="testBtnShow" class="text-right">
+            <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
+          </div>
+          <p [innerHTML]="editorContent">
+          </p>
+        </div>
+        <div *ngIf="testBtnShow" class="col-12 text-right">
+          <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
+        </div>
+      </div>
+      <div *ngIf="chatForumsSection">
+        <app-chat-forum [courseId]="courseId" [courseDetails]="courseLearningData"></app-chat-forum>
+      </div>
+    </div>
+  </div>
 </div>

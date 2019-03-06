@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { Global } from '../../common/global';
 import { ProfilePageProxy } from './profilePage.proxy';
 import { Constants } from '../../common/constants';
+
 
 @Component({
     selector: 'app-profile-page',

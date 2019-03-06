@@ -17,7 +17,8 @@ export class ListingCourseProxy {
     }
 
     listCategoriesCourse(id) {
-        return this.http.doGet(Constants.APIPATH + 'admin/list-categories-course/'+id, false);
+        // return this.http.doGet(Constants.APIPATH + 'admin/list-categories-course/'+id, false);
+        return this.http.doGet(Constants.APIPATH + 'admin/course/' + id, false);//modified by nandita
     }
 
     getSSP() {
@@ -39,5 +40,9 @@ export class ListingCourseProxy {
     getCategoryCourses(categoryId: any) {
         return this.http.doGet(Constants.APIPATH + 'admin/category-course-list/' + categoryId);
     }
+
+    getCategoryCoursesByName(categoryName: any) {
+        return this.http.doGet(Constants.APIPATH + 'admin/category-course-list-by-name/' + categoryName);
+    }//created by nandita
 
 }

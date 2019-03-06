@@ -1,8 +1,8 @@
 <app-navigation></app-navigation>
 <router-outlet></router-outlet>
-<ng-http-loader [backgroundColor]="'#ff0000'" [spinner]="spinkit.skThreeBounce"
- [filteredMethods]="['gEt', 'POST', 'PuT']"
- [debounceDelay]="100" [minDuration]="300">
+<ng-http-loader [backgroundColor]="'#ff0000'" [spinner]="spinkit.skThreeBounce" [debounceDelay]="100" [minDuration]="300">
 </ng-http-loader>
+<ng-progress [positionUsing]="'marginLeft'" [minimum]="0.15" [maximum]="1" [speed]="1000" [showSpinner]="false"
+ [color]="'#ff0000'" [trickleSpeed]="1000" [thick]="true" [ease]="'linear'"></ng-progress>
 <app-footer></app-footer>
 <!-- <div>Time Elapsed : {{seconds}}</div> -->

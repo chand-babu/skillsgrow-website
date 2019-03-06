@@ -24,6 +24,14 @@ app-home {
         }
         .carousel-control-prev, .carousel-control-next {
             display: none;
+             @media only screen and (max-width: 768px) {
+               display: block !important;
+               top: 75px;
+               opacity: 1.5;
+             }
+             @media all and (max-width:30em) {
+               top: 35px;
+             }
         }
         .carousel-indicators .active {
             background-color: @brand-primary;
@@ -45,7 +53,9 @@ app-home {
             cursor: pointer;
             bottom: 0;
             div {
-                margin-top: 50px;
+                margin-top: 58px;
+                // margin-top: 50px;
+
             }
         }
         .odd {
@@ -60,16 +70,52 @@ app-home {
         position: absolute;
         top: 50%;
         left: 100px;
+
+        @media all and (max-width:30em) {
+         top: 5%;
+         left: 50px;
+        line-height: 0;
+        }
+
+         @media only screen and (max-width: 768px) {
+            top: 20%;
+         }
         h3 {
             color: #012d38;
             font-weight: 700;
             font-size: 30px;
             text-transform: uppercase;
+            @media all and (max-width:30em) {
+                font-size: 12px !important;
+            }
+            @media only screen and (max-width: 768px) {
+              font-size: 20px;
+            }
+        }
+        p{
+            @media all and (max-width:30em) {
+              font-size: 10px !important;
+            }
+            @media only screen and (max-width: 768px) {
+             font-size: 10px;
+            }
         }
         button {
             background: #012d38;
             padding: 8px 15px;
             color: white;
+            @media all and (max-width:30em) {
+               padding: 1px 3px;
+               font-size: 8px !important;
+            }
+            @media only screen and (max-width: 768px) {
+              padding: 1px 3px;
+              font-size: 15px;
+            }
+            &:hover {
+              background: #ee5a72;
+              color: white;
+            }
         }
     }
 

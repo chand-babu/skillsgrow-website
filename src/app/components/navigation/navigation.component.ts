@@ -80,7 +80,14 @@ export class NavigationComponent implements OnInit {
   getCategoryName() {
     this.homeProxy.getCategoryName(0)
     .subscribe((success: any) => {
+      // this.courseCategoryName = success.data;
+      success.data.map((cataegoryDetails) => {
+        cataegoryDetails.course.map((courseDetails) => {
+          courseDetails.courseNameUrl = this.global.MakeStringToDashes(courseDetails.courseName);
+        });
+      });
       this.courseCategoryName = success.data;
+      //modified by nandita(84-87)
       this.courseObj();
     });
   }
@@ -103,8 +110,12 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  viewDetailsCourse(id: number) {
-    this.router.navigate(['/coursedetailspage', id]);
+  // viewDetailsCourse(id: number) {
+  //   this.router.navigate(['/coursedetailspage', id]);
+  // }
+
+  viewDetailsCourse(name: string) {
+    this.router.navigate(['/coursedetailspage', name]);
   }
 
   courseObj() {
@@ -120,9 +131,15 @@ export class NavigationComponent implements OnInit {
   }
 
 
-  searchOption(id: any) {
-    this.router.navigate(['/coursedetailspage', id]);
-  }
+  // searchOption(id: any) {
+  //   this.router.navigate(['/coursedetailspage', id]);
+  // }
+
+  searchOption(name: string) {
+    console.log("+++",name)
+    this.router.navigate(['/coursedetailspage', name]);
+  }//modified by nandita
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -130,8 +147,10 @@ export class NavigationComponent implements OnInit {
         : this.course.filter(v => v.courseName.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
 
-  formatter = (x: { courseName: string, _id: any }) => {
-    this.router.navigate(['/coursedetailspage', x._id]);
+  formatter = (x: { courseName: string, _id: any, courseNameUrl:string}) => {
+    // this.router.navigate(['/coursedetailspage', x._id]); 
+    this.router.navigate(['/coursedetailspage', x.courseNameUrl]); //modified by nandita
+
   }
 
 }
