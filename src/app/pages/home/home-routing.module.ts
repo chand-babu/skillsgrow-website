@@ -5,7 +5,8 @@ import { CategoryCourseListComponent } from './category-course-list/category-cou
 
 const routes:Routes=[
     {path:'',component:HomeComponent},
-    {path:'categorycourse/:categoryId',component:CategoryCourseListComponent}
+    // {path:'categorycourse/:categoryId',component:CategoryCourseListComponent},
+    { path: 'categorycourse/:categoryName', component: CategoryCourseListComponent }
 ]
 
 @NgModule({

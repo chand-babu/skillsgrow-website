@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   public showAppliedPostTable: boolean = false;
   public postForm: boolean = false
   public postEditForm: boolean = false;
+  public loader: boolean = true;//added by nandita
 
   constructor(public dashboardService: DashboardService, 
     public internshipService: InternshipService,
@@ -68,6 +69,7 @@ export class DashboardComponent implements OnInit {
     .subscribe((success : any) => {
       if(success.result){
         this.dataSource = success.data;
+        this.loader = false;
       }else{
         alert('something went wrong');
       }

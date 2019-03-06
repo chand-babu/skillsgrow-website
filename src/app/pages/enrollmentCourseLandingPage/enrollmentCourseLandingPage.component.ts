@@ -76,7 +76,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
                 title: 'Progress'
             }
         ];
-        this.accordin(event, 0);
+        this.accordin(event, 0); //need to check issue came in firefox
     }
 
     accordin(event, newValue) {
@@ -88,7 +88,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
             this.selectedItem = -1;
         }
     }
-
+    
     learningPageUrl(data, topicName, topicIndex) {
         let status: boolean;
         if (data.markScore || data.markScore === 0) {
@@ -128,7 +128,6 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
                                 if (courseData.timeline[chapterIndex]) {
                                     if (chapter.title === courseData.timeline[chapterIndex].title) {
                                         chapter.topics.filter((topicsDescription, topicIndex) => {
-                                            // console.log("++++++---topicIndex---++++++", topicIndex,'====', courseData.timeline[chapterIndex].topics[topicIndex]) //need to check    
                                         courseData.timeline[chapterIndex].topics[topicIndex].description = topicsDescription.description;
                                         courseData.timeline[chapterIndex].topics[topicIndex].questions = topicsDescription.questions;
                                         });

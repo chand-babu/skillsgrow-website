@@ -21,10 +21,14 @@ const routes: Routes = [
   {
     path: 'userdashboard', loadChildren: '../pages/userDashboard/userDashboard.module#UserDashboardModule'
   },
+  // {
+  //   path: 'coursedetailspage/:id', loadChildren: '../pages/courseDetailsPage/courseDetailsPage.module#CourseDetailsPageModule',
+  //   runGuardsAndResolvers: 'always'
+  // },
   {
-    path: 'coursedetailspage/:id', loadChildren: '../pages/courseDetailsPage/courseDetailsPage.module#CourseDetailsPageModule',
+    path: 'coursedetailspage/:name', loadChildren: '../pages/courseDetailsPage/courseDetailsPage.module#CourseDetailsPageModule',
     runGuardsAndResolvers: 'always'
-  },
+  },//modified by nandita
   {
     path: 'enrollmentpage/:id', loadChildren: '../pages/enrollmentPage/enrollmentPage.module#EnrollmentPageModule'
   },

@@ -13,6 +13,9 @@ app-course-listing {
         .course-price {
             font-size: 11px;
             margin-top: 14px;
+             @media only screen and (max-width: 573px) {
+               margin-left: auto;
+             }
         }
         button {
             background: #002d38;
@@ -20,7 +23,7 @@ app-course-listing {
             font-size: 13px;
             border-radius: 50px;
             &:hover{
-              background: #980e25;
+              background: #ee5a72;
               color: white;
             }
         }
@@ -40,6 +43,10 @@ app-course-listing {
         position: relative;
         left: -37px;
         font-size: 13px;
+         @media all and (max-width:30em) {
+          left: -28px;
+          font-size: 11px;
+         }
     }
 
     .enroll-new-btn {
@@ -47,9 +54,34 @@ app-course-listing {
         color: white;
         padding-right: 44px;
         font-size: 13px;
+        @media all and (max-width:30em) {
+          padding-right: 30px;
+          font-size: 11px;
+        }
         &:hover {
-          background: #980e25;
+          background: #ee5a72;
           color: white;
+        }
+    }
+
+    // @media all and (max-width:30em) {
+    //   .views {
+    //    position: relative !important;
+    //    left: -17%;
+    //   }
+    // }
+
+    .tred_course_h2{
+        @media all and (max-width:30em) {
+         padding-right: 132px !important;
+        }
+    }
+
+    .p-0{
+        @media only screen and (max-width: 573px) {
+           padding: 0 15px !important;
+        //    padding: 0 30px !important;
+        //    margin-left: 6px;
         }
     }
     

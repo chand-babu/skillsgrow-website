@@ -29,4 +29,8 @@ export class CourseDetailsPageProxy {
         return this.http.doGet(Constants.APIPATH + 'admin/course/' + courseId, false);
     }
 
+    getCourseDataByName(courseName) {
+        return this.http.doGet(Constants.APIPATH + 'admin/findCourseByName/' + courseName, false);
+    }//added by nandita
+
 }

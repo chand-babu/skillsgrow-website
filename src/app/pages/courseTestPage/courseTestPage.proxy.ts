@@ -14,7 +14,7 @@ export class CourseTestPageProxy {
     constructor(public http: HttpUtil, public mannualHttp: HttpClient) {}
 
     userScore(data) {
-        console.log(data);
+        // console.log(data);
         return this.http.doPost(Constants.APIPATH + 'admin/user-score', data, false);
     }
 }

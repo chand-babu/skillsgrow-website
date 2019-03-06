@@ -41,4 +41,8 @@ export class ListingCourseProxy {
         return this.http.doGet(Constants.APIPATH + 'admin/category-course-list/' + categoryId);
     }
 
+    getCategoryCoursesByName(categoryName: any) {
+        return this.http.doGet(Constants.APIPATH + 'admin/category-course-list-by-name/' + categoryName);
+    }//created by nandita
+
 }

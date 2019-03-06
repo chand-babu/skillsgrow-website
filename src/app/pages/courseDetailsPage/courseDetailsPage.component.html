@@ -35,9 +35,9 @@
 
             <ngb-rating [max]="5" [(rate)]="averageRate" [starTemplate]="t" [readonly]="true"></ngb-rating>
           </li>
-          <li>
+          <!-- <li>
             <i class="fa fa-clock-o"></i> <span>{{courseTiming}}</span>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -47,7 +47,8 @@
         </iframe>
       </div>
       <div *ngIf="!x.video" class="course-large-img">
-        <img [src]="imagePath + x.imageSmall" alt="courseImg">
+        <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + x.imageSmall" alt="courseImg">
+        <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
       </div>
       <div *ngIf="x.enrollBtn != false">
         <button class="btn btn-danger price-btn" (click)="enrollNowCourse()">

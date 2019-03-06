@@ -34,11 +34,15 @@ export class CourseTestPageComponent implements OnInit {
     public passageAnswer = [];
     public questionNumber: any;
     public count = 0;
+    public courseId: string; //added by nandita
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
         public router: Router, public courseTestProxy: CourseTestPageProxy) { }
 
     ngOnInit() {
+        this.activateRoute.params.forEach(params => {
+            this.courseId = params['id'];
+        });//added by nandita
         this.paramsData = this.global.getStorageDetail('courselearn');
         if (!this.paramsData) {
             this.global.navigateToNewPage('/home');
@@ -46,6 +50,7 @@ export class CourseTestPageComponent implements OnInit {
         const user = this.global.getStorageDetail('user').data;
         this.testData = this.paramsData;
         this.seconds = 0;
+        // console.log("+++++this.paramsData++++++", this.paramsData);
         if (this.testData.questions.length >= 1) {
             this.allQuestion = this.testData.questions;
             this.questionIndex(0);
@@ -230,6 +235,7 @@ export class CourseTestPageComponent implements OnInit {
                 });
             }
         });
+
         this.courseTestProxy.userScore({ userId: user.data._id, courses: user.data.courseEnrolled })
             .subscribe((success) => {
             });
@@ -238,7 +244,8 @@ export class CourseTestPageComponent implements OnInit {
     }
 
     goToDashboardPage() {
-        this.router.navigate(['enrollmentcourselandingpage', this.paramsData.courseId]);
+        // this.router.navigate(['enrollmentcourselandingpage', this.paramsData.courseId]);
+        this.router.navigate(['enrollmentcourselandingpage', this.courseId]);// modified by nandita
     }
 
 }

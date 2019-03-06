@@ -38,6 +38,12 @@ export class UserDashboardComponent implements OnInit {
     public udf2: any;
     public service_provider = 'payu_paisa';
     public paidCertificate: boolean = false;
+    public isImgLoaded: boolean = true;
+
+    onLoad() {
+        this.isImgLoaded = false;
+    }
+
 
     constructor(public router: Router, public global: Global,
         public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal) { }

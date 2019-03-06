@@ -1,29 +1,46 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Router, NavigationEnd, RouterEvent, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
 import { Global } from './common/global';
 import { Spinkit } from 'ng-http-loader';
 import { Meta, Title } from '@angular/platform-browser';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit  {
   public developerMode: boolean;
   public spinkit = Spinkit;
   public sampleCount: any[];
   public seconds = 0;
   public timer: any;
   public items: any[];
+  // public loader: boolean;//added by nandita
 
-  constructor(private router: Router, public global: Global,
+
+  constructor(public ngProgress: NgProgress,private router: Router, public global: Global,
     private meta: Meta, private title: Title) {
       /* this.title.setTitle('Skillsgrow a learning site');
       this.meta.addTag({ name: 'og:title', content: 'Front-end Web Development, Chewed Up' });
       this.meta.addTag({ name: 'og:description', content: 'Learn frontend web development...' });
       this.meta.addTag({ name: 'og:image', content: 'https://www.skillsgrow.com/assets/image/logo1.png' }); */
     }
+
+  ngAfterViewInit() {
+    this.router.events.subscribe((routeEvent: RouterEvent) => {
+      if (routeEvent instanceof NavigationStart) {
+        // this.loader = true;
+        this.ngProgress.start();
+      }
+      if (routeEvent instanceof NavigationEnd ||
+        routeEvent instanceof NavigationCancel || routeEvent instanceof NavigationError) {
+        // this.loader = false;
+        this.ngProgress.done();
+      }
+    });
+  }
 
   ngOnInit() {
     this.items = ['1', '2', '3', '4', '5'];

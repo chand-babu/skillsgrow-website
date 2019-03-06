@@ -58,7 +58,8 @@ export class CourseLearningPageComponent implements OnInit {
     }
 
     takeTest() {
-        this.router.navigate(['coursetestpage', this.paramsData.courseId]);
+        // this.router.navigate(['coursetestpage', this.paramsData.courseId]);
+        this.router.navigate(['coursetestpage', this.courseId]);//Modified By nandita
     }
 
     openNav() {
@@ -170,8 +171,10 @@ export class CourseLearningPageComponent implements OnInit {
         this.editorContent = data.description ? data.description:'No data present for this course.';//modified by nandita
         this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
         const courseObj = {
-            'courseId': this.courseLearningData[0]._id,
-            'courseName': this.courseLearningData[0].courseName,
+            // 'courseId': this.courseLearningData[0]._id,
+            // 'courseName': this.courseLearningData[0].courseName,
+            'courseId': (this.courseLearningData[0])[0]._id,//modified by nandita
+            'courseName': (this.courseLearningData[0])[0].courseName, //modified by nandita
             'topicIndex': (statusText) ? data.topicIndex : topicIndex,
             'topicName': (statusText) ? data.topicName : topicName,
             'subTopics': data.subTopics,

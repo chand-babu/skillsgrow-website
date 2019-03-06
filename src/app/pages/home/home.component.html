@@ -1,11 +1,11 @@
 <app-info-bar *ngIf="false"></app-info-bar>
-
 <!-- banner section -->
 <ngb-carousel *ngIf="bannerImageSection" class="banner-container" style="outline: none">
   <ng-container *ngFor="let img of listBannerImagesData">
     <ng-container *ngIf="img.status != 1">
       <ng-template ngbSlide>
-        <img [src]="imagePath + img.image" alt="Random first slide">
+        <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + img.image" alt="Random first slide">
+        <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
         <div class="background-image-cover"></div>
         <div class="content-on-banner">
           <h3>{{img.imageTitle}}</h3>
@@ -23,20 +23,21 @@
       <h2>Corporate Internship Programs</h2>
     </div>
   </div>
-  <ngx-slick class="carousel"
-  #slickModal1="slick-modal" 
-    [config]="slideConfig">
+  <ngx-slick class="carousel" #slickModal1="slick-modal" [config]="slideConfig">
     <div ngxSlickItem *ngFor="let item of courseCategoryType; let odd = odd" class="slide">
       <div style="padding: 10px;">
-          <div class="home-category-section" (click)="internship(item._id)">
-              <img [src]="imagePath + item.categoryImg" alt="categoryimg">
-              <div class="category-title" [ngClass]="{
+        <div class="home-category-section" (click)="internship(item._id)">
+          <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
+            height="150px">
+          <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" width="300px" height="150px"
+            alt="loading" />
+          <div class="category-title" [ngClass]="{
                 'odd':odd == true,
                 'even':odd == false
               }">
-              <div>{{ item.categoryName }}</div>
-              </div>
-            </div>
+            <div>{{ item.categoryName }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </ngx-slick>
@@ -48,18 +49,21 @@
       <h2>Training Programs</h2>
     </div>
   </div>
-  <ngx-slick class="carousel"
-  #slickModal2="slick-modal" 
-    [config]="slideConfig">
-    <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd"
-    [routerLink]="['/categorycourse', item._id]" class="slide">
+  <ngx-slick class="carousel" #slickModal2="slick-modal" [config]="slideConfig">
+    <!-- <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item._id]" class="slide"> -->
+<div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item.categoryNameUrl]"
+  class="slide">
       <div style="padding: 10px;">
-          <div class="home-category-section">
-              <img [src]="imagePath + item.categoryImg" alt="categoryimg">
-              <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
-              <div>{{ item.categoryName }}</div>
-              </div>
-            </div>
+        <div class="home-category-section">
+          <!-- <img [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px" height="150px"> -->
+          <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
+            height="150px" />
+          <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" width="300px" height="150px"
+            alt="loading" />
+          <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
+            <div>{{ item.categoryName }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </ngx-slick>
