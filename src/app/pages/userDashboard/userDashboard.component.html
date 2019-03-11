@@ -26,7 +26,7 @@
           <div *ngIf="course.courseProgress != 100" class="row active-courses">
             <div class="col-5 courseimg">
               <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + course.imageSmall" alt="courseimg">
-              <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
+              <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" alt="loading" />
               <span>{{course.courseName}}</span>
             </div>
             <div class="col-7 progress-details">

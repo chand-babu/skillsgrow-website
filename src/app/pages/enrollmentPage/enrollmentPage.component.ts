@@ -25,8 +25,8 @@ export class EnrollmentPageComponent implements OnInit {
     public phone: any;
     public firstname: any;
     public email: any;
-    public surl = 'https://skillsgrow.com:8080/admin/payu-response';
-    public furl = 'https://skillsgrow.com:8080/admin/payu-response';
+    public surl = Constants.APIPATH + 'admin/payu-response';
+    public furl = Constants.APIPATH + 'admin/payu-response';
     public productinfo: any;
     public udf1: any;
     public service_provider = 'payu_paisa';

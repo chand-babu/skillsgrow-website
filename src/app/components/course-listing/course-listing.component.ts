@@ -53,7 +53,7 @@ export class CourseListingComponent implements OnInit {
     .subscribe((success: any) => {
       this.popularCourse = success.data;
       this.convertCourseName(this.popularCourse);
-      console.log("coming gtc", this.popularCourse)
+      // console.log("coming gtc", this.popularCourse)
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
@@ -63,7 +63,7 @@ export class CourseListingComponent implements OnInit {
     this.listingCourseProxy.getAllCourse()
     .subscribe((success: any) => {
       this.popularCourse = success.data;
-      console.log("coming gac")
+      // console.log("coming gac")
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
@@ -77,7 +77,7 @@ export class CourseListingComponent implements OnInit {
       this.categoryName = success.data[0].categoryName;
       this.popularCourse = success.data[0].course;
       this.convertCourseName(this.popularCourse);
-      console.log("coming gcc", this.popularCourse)
+      // console.log("coming gcc", this.popularCourse)
       this.courseCalculation();
       this.convertMinuteInTime(this.popularCourse);
     });
@@ -97,11 +97,11 @@ export class CourseListingComponent implements OnInit {
   courseCalculation() {
     this.popularCourse.filter((course) => {
       if (this.user) {
-        if (course.authorDetails[0].coursePrice !== 'Free') {
-          if (this.user.referId || this.user.status === 3) {
-            course.authorDetails[0].coursePrice = course.authorDetails[0].coursePrice - course.authorDetails[0].coursePrice * 10 / 100;
-          }
-        }
+        // if (course.authorDetails[0].coursePrice !== 'Free') {
+        //   if (this.user.referId || this.user.status === 3) {
+        //     course.authorDetails[0].coursePrice = course.authorDetails[0].coursePrice - course.authorDetails[0].coursePrice * 10 / 100;
+        //   }
+        // } //commented by nandita as per client told remove 10% off on course for ssp user
         if (course.enrolledUser.length >= 1) {
           course.enrolledUser.filter((email) => {
             // if (email.userEmailId === this.user.emailId) {

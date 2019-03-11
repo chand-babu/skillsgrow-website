@@ -136,7 +136,6 @@ export class NavigationComponent implements OnInit {
   // }
 
   searchOption(name: string) {
-    console.log("+++",name)
     this.router.navigate(['/coursedetailspage', name]);
   }//modified by nandita
 

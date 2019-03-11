@@ -50,6 +50,7 @@ export class CourseDetailsPageComponent implements OnInit {
 
     public isImgLoaded: boolean = true;
 
+
     onLoad() {
         this.isImgLoaded = false;
     }
@@ -60,18 +61,26 @@ export class CourseDetailsPageComponent implements OnInit {
         public videourl: SafePipe, private elementRef: ElementRef,
         private sanitizer: DomSanitizer,
         public courseDataService: DataService) {
+        activateRoute.params.subscribe(val => {
+            // put the code from `ngOnInit` here bcz Router Navigate does not call ngOnInit when same page
+            this.user = this.global.getStorageDetail('user');
+            if (this.user) {
+                this.user = this.global.getStorageDetail('user').data;
+            }
+            this.courseDataByName(this.global.convertDashesString(val.name)); //added by nandita
+        });
     }
 
 
     ngOnInit() {
-        console.log("+++coming++")
-        this.user = this.global.getStorageDetail('user');
-        if (this.user) {
-            this.user = this.global.getStorageDetail('user').data;
-        }
+        // this.user = this.global.getStorageDetail('user');
+        // if (this.user) {
+        //     this.user = this.global.getStorageDetail('user').data;
+        // }
+        // this.courseNameUrl = this.activateRoute.snapshot.params['name'];
+        // this.courseDataByName(this.global.convertDashesString(this.courseNameUrl)); //added by nandita
+
         // this.id = this.activateRoute.snapshot.params['id'];
-        this.courseNameUrl = this.activateRoute.snapshot.params['name'];
-        this.courseDataByName(this.global.convertDashesString(this.courseNameUrl)); //added by nandita
         // this.activateRoute.params.forEach(params => {
         //     this.courseId = params['id'];
         //     this.courseDataById(this.courseId);
@@ -84,7 +93,6 @@ export class CourseDetailsPageComponent implements OnInit {
         this.coursedetailspageProxy.getCourseDataByName(name)
             .subscribe((success: any) => {
                 this.courseDetails = success.data;
-                console.log("*****", this.courseDetails[0])
                 this.courseId = this.courseDetails[0]._id;//added by nandita
                 this.hideTheMenuBar = true;
                 this.set = setInterval(this.defaultTab, 100);
@@ -100,11 +108,11 @@ export class CourseDetailsPageComponent implements OnInit {
     checkingUserReferenceAndEnrollment() {
         this.courseDetails.filter((data) => {
             if (this.user) {
-                if (this.user.referId || this.user.status === 3) {
-                    let coursePrice = data.authorDetails[0].coursePrice;
-                    coursePrice = coursePrice - coursePrice * 10 / 100;
-                    data.authorDetails[0].coursePrice = coursePrice;
-                }
+                // if (this.user.referId || this.user.status === 3) {
+                //     let coursePrice = data.authorDetails[0].coursePrice;
+                //     coursePrice = coursePrice - coursePrice * 10 / 100;
+                //     data.authorDetails[0].coursePrice = coursePrice;
+                // } //commented by nandita as per client told remove 10% off on course for ssp user
                 this.checkingUserEnrollment(data);
             }
             data.courseReview.filter((user) => {

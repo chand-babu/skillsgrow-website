@@ -5,12 +5,15 @@
     <ng-container *ngIf="img.status != 1">
       <ng-template ngbSlide>
         <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + img.image" alt="Random first slide">
-        <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" alt="loading" />
+        <div *ngIf="isImgLoaded" class="imageLoader">
+          <img src="{{imagePath}}defaultImg.gif" alt="loading" />
+        </div>
         <div class="background-image-cover"></div>
         <div class="content-on-banner">
           <h3>{{img.imageTitle}}</h3>
           <p>{{img.description}}</p>
-          <button routerLink="/register/sign-up" class="btn">Sign Up now</button>
+          <!-- <button routerLink="/register/sign-up" class="btn">Sign Up now</button> -->
+          <button routerLink="/coursedetailspage/ielts-band-7+-preparation-course" class="btn">Enroll Now</button>
         </div>
       </ng-template>
     </ng-container>
@@ -29,8 +32,7 @@
         <div class="home-category-section" (click)="internship(item._id)">
           <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
             height="150px">
-          <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" width="300px" height="150px"
-            alt="loading" />
+          <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" width="300px" height="150px" alt="loading" />
           <div class="category-title" [ngClass]="{
                 'odd':odd == true,
                 'even':odd == false
@@ -51,15 +53,14 @@
   </div>
   <ngx-slick class="carousel" #slickModal2="slick-modal" [config]="slideConfig">
     <!-- <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item._id]" class="slide"> -->
-<div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item.categoryNameUrl]"
-  class="slide">
+    <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item.categoryNameUrl]"
+      class="slide">
       <div style="padding: 10px;">
         <div class="home-category-section">
           <!-- <img [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px" height="150px"> -->
           <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
             height="150px" />
-          <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" width="300px" height="150px"
-            alt="loading" />
+          <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" width="300px" height="150px" alt="loading" />
           <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
             <div>{{ item.categoryName }}</div>
           </div>
