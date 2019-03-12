@@ -1,159 +1,203 @@
 app-course-details-page {
-    .padding-left-0 {
-        width: auto;
-        padding-left: 0;
-    }
-    .course-details-container {
-        background: linear-gradient(-90deg,  #1581c0, #0b446a);
-        color: @white;
-        padding: 30px 100px;
-        font-size: 13px;
-        .boost-text {
-            font-size: 16px;
-        }
-        img{
-            width: 250px;
-            height: 200px;
-        }
-        .price-btn {
-            width: 251px;
-            margin: 15px 0;
-            font-size: 20px;
-        }
-        .enroll-btn {
-            padding: 6px 30px;
-            font-size: 15px;
-            background:lightblue;
-            color:orange
-            i{
-                margin-left: 4px;
-            }
-        }
-        .course-description-btn {
-            background: #F7941D;
-            color: white;
-            font-size: 10px;
-            padding: 6px;
-            margin-bottom: 10px;
-            position: relative;
-            &:before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 100px;
-                width: 0;
-                height: 0;
-                border-top: 14px solid transparent;
-                border-bottom: 14px solid transparent;
-                border-left: 14px solid #f7941d;
-            }
-        }
-        ul {
-            margin: 5px 0;
-            padding: 0;
-            li {
-                display: inline-block;
-                margin-right: 15px;
-                font-size: 15px;
-                i{
-                    margin-right: 5px;
-                }
-                .star{
-                    font-size: inherit;
-                }
-            }
-        }
-    }
-    .tabcontent {
-        iframe {
-            width: 100%;
-            height: 350px;
-        }
-    }
-    .sidenav {
-        height: 100%;
-        width: 0;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: -300px;
-        background-color: #f1f1f1;
-        overflow-x: hidden;
-        transition: 0.3s;
-        padding-top: 15px;
-        ul {
-            margin: 0;
-            padding: 0;
-            li {
-                list-style-type: none;
-                padding: 15px;
-                border-bottom: 1px solid #d2d0d0;
-                font-size: 15px;
-                cursor: pointer;
-                &:hover {
-                    color: #dc3545;
-                }
-            }
-        }
-    }
-    
-    .sidenav a {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: 16px;
-        color: #dc3545;
-        display: block;
-        transition: 0.3s;
-        border-bottom: 1px solid;
+  .padding-left-0 {
+    width: auto;
+    padding-left: 0;
+  }
 
+  .course-details-container {
+    background: linear-gradient(-90deg, #1581c0, #0b446a);
+    color: @white;
+    padding: 30px 100px;
+    font-size: 13px;
+
+    .boost-text {
+      font-size: 16px;
     }
-    
-    .sidenav a:hover {
-        color: @brand-secondary;
+
+    img {
+      width: 250px;
+      height: 200px;
     }
-    
-    .sidenav .closebtn {
+
+    .price-btn {
+      width: 251px;
+      margin: 15px 0;
+      font-size: 20px;
+    }
+
+    .enroll-btn {
+      padding: 6px 30px;
+      font-size: 15px;
+      background: lightblue;
+
+      color:orange i {
+        margin-left: 4px;
+      }
+    }
+
+    .course-description-btn {
+      background: #F7941D;
+      color: white;
+      font-size: 10px;
+      padding: 6px;
+      margin-bottom: 10px;
+      position: relative;
+
+      &:before {
+        content: "";
         position: absolute;
-        top: -9px;
-        right: 10px;
-        font-size: 36px;
-        border: none;
-        padding: 0
+        top: 0;
+        left: 100px;
+        width: 0;
+        height: 0;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+        border-left: 14px solid #f7941d;
+      }
     }
-    
-    #main {
-        transition: margin-left 0.5s;
-        position: relative;
-        min-height: 450px;
-    }
-    .menu-bar-icon {
-        margin: 15px 0;
-        span {
-            font-size: 20px;
-            cursor: pointer;
-            border: 1px solid black;
-            padding: 3px 12px;
-            margin: 15px 0;
+
+    ul {
+      margin: 5px 0;
+      padding: 0;
+
+      li {
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 15px;
+
+        i {
+          margin-right: 5px;
         }
+
+        .star {
+          font-size: inherit;
+        }
+      }
+    }
+  }
+
+  .tabcontent {
+    h4 {
+      color: black;
+      font-size: 1rem;
+    }
+
+    a {
+      em {
+        text-transform: lowercase !important;
+      }
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+    }
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: -300px;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+    transition: 0.3s;
+    padding-top: 15px;
+
+    ul {
+      margin: 0;
+      padding: 0;
+
+      li {
+        list-style-type: none;
+        padding: 15px;
+        border-bottom: 1px solid #d2d0d0;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover {
+          color: #dc3545;
+        }
+      }
+    }
+  }
+
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #dc3545;
+    display: block;
+    transition: 0.3s;
+    border-bottom: 1px solid;
+
+  }
+
+  .sidenav a:hover {
+    color: @brand-secondary;
+  }
+
+  .sidenav .closebtn {
+    position: absolute;
+    top: -9px;
+    right: 10px;
+    font-size: 36px;
+    border: none;
+    padding: 0
+  }
+
+  #main {
+    transition: margin-left 0.5s;
+    position: relative;
+    min-height: 450px;
+  }
+
+  .menu-bar-icon {
+    margin: 15px 0;
+
+    span {
+      font-size: 20px;
+      cursor: pointer;
+      border: 1px solid black;
+      padding: 3px 12px;
+      margin: 15px 0;
+    }
+  }
+
+  .course-descriptions {
+    padding: 30px 100px;
+    font-family: initial;
+  }
+
+  @media screen and (max-width: 768px) {
+    .course-details-container {
+      padding: 20px;
     }
 
     .course-descriptions {
-        padding: 30px 100px;
-        font-family:initial;
+      padding: 15px;
+    }
+  }
+
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top: 15px;
     }
 
-    @media screen and (max-width: 768px) {
-        .course-details-container {
-            padding: 20px;
-        }
-        .course-descriptions {
-            padding: 15px;
-        }
-      }
-    
-    @media screen and (max-height: 450px) {
-      .sidenav {padding-top: 15px;}
-      .sidenav a {font-size: 18px;}
+    .sidenav a {
+      font-size: 18px;
     }
+  }
+
+  .ql-size-large {
+    font-weight: bold !important;
+  }
+
+  #about h4:first-child {
+    color: @brand-primary;
+    font-size: 1.5rem !important;
+  }
 
 }

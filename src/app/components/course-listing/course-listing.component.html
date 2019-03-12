@@ -23,7 +23,7 @@
           <div (click)="viewDetailsCourse(y.courseNameUrl)" title="View Course" style="cursor:pointer;">
             <img class="w-100 border-bottom" [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + y.imageSmall"
               alt="img" width="300px" height="150px" />
-            <img *ngIf="isImgLoaded" src="https://skillsgrow.com:8080/upload/defaultImg.gif" width="300px" height="150px"
+            <img *ngIf="isImgLoaded" class="w-100 border-bottom" src="{{imagePath}}defaultImg.gif" width="300px" height="150px"
               alt="loading" />
           </div>
           <div class="row m-0">
@@ -34,9 +34,12 @@
               <bar-rating [(rate)]="y.ratings" [max]="5" [readOnly]="true"></bar-rating>
             </div>
             <div class="col-4 course-price p-0 text-right pr-1">
-              <span *ngIf="y.authorDetails[0] != null">{{(y.authorDetails[0].coursePrice
-                == 'Free') ? 'Free' : y.authorDetails[0].coursePrice}}</span>
-              <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr ml-1">/-</span>
+              <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr ml-1">
+              </span>
+              <span *ngIf="y.authorDetails[0] != null">
+                {{(y.authorDetails[0].coursePrice == 'Free') ? 'Free' : y.authorDetails[0].coursePrice}}
+                {{(y.authorDetails[0].coursePrice != 'Free') ? '/-' : ''}}
+              </span>
             </div>
             <!-- <div class="col-12">
               <span style="font-size: 12px;"><i class="fa fa-clock-o"></i> {{y.timing}}</span>

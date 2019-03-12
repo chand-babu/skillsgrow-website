@@ -29,49 +29,49 @@ export class ResponseComponent implements OnInit {
             this.responseProxy.payuResponseData(id)
             .subscribe((success: any) => {
                 this.paymentResponse = success.data;
-                console.log(this.paymentResponse);
+                // console.log(this.paymentResponse);
                 if (this.paymentResponse[0].status === 'success') {
                     if (this.paymentResponse[0].udf2 === 'certificatePayment') {
-                        alert(true);
+                        // alert(true);
                         this.certificatePayment(this.paymentResponse[0].udf1);
                     } else {
-                        alert(false);
-                        // this.enrollment();
+                        // alert(false);
+                        this.enrollment(this.paymentResponse[0].udf1);
                     }
                 }
             });
         });
     }
 
-    enrollment() {
+    enrollment(courseId) {
         const userEnrollmentData = {
-            courseId: this.courseData.courseId,
+            userId: this.userDetails.data._id,
+            courseId: courseId,
             enrolledOn: new Date(),
             userEmailId: this.userDetails.data.emailId,
             userName: this.userDetails.data.userName
         };
         this.enrollmentPageProxy.courseEnrolledService(userEnrollmentData)
             .subscribe((success: any) => {
-                console.log(success);
-                this.userCourseEnrollment();
+                this.userCourseEnrollment(courseId);
             });
     }
 
-    userCourseEnrollment() {
+    userCourseEnrollment(courseId) {
         this.enrollmentPageProxy.listCategories()
             .subscribe((success: any) => {
                 const courses = success.data;
                 courses.filter((data) => {
                     data.course.filter((course) => {
-                        if (this.courseData.courseId === course._id) {
+                        if (courseId === course._id) {
                             course.userId = this.userDetails.data._id;
                             course.enrolledOn = new Date();
                             this.enrollmentPageProxy.userCourseEnrolledService(course)
                                 .subscribe((succ: any) => {
-                                    console.log(succ);
+                                    // console.log(succ);
                                     this.userDetails.data.courseEnrolled.push(course);
                                     this.global.storeDataLocal('user', this.userDetails);
-                                    // this.router.navigate(['/enrollmentcourselandingpage', course._id]);
+                                    this.router.navigate(['/enrollmentcourselandingpage', course._id]);
                                 });
                         }
                     });

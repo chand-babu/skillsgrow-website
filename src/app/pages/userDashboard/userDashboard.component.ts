@@ -31,8 +31,8 @@ export class UserDashboardComponent implements OnInit {
     public phone: any;
     public firstname: any;
     public email: any;
-    public surl = 'http://localhost:3000/admin/payu-response';
-    public furl = 'http://localhost:3000/admin/payu-response';
+    public surl = Constants.APIPATH + 'admin/payu-response';
+    public furl = Constants.APIPATH + 'admin/payu-response';
     public productinfo: any;
     public udf1: any;
     public udf2: any;
