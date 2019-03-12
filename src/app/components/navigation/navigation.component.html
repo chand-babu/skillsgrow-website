@@ -80,8 +80,8 @@
 
   <!-- dropdown for user profile -->
   <mat-menu #profile_menu="matMenu">
+    <button mat-menu-item routerLink="/userdashboard">Dashboard</button>
     <button mat-menu-item routerLink="/profilepage">Profile</button>
-<button mat-menu-item routerLink="/userdashboard">Dashboard</button>
     <button mat-menu-item (click)="logout()">logout</button>
   </mat-menu>
 

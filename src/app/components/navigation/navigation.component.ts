@@ -101,7 +101,7 @@ export class NavigationComponent implements OnInit {
       this.global.navigateToNewPage('/company/company-login');
     }
     this.logoutNavigation = false;
-    this.openSnackBar('Successfully logout!');
+    this.openSnackBar('successfully logged out !!');
   }
 
   userDashboardPath() {

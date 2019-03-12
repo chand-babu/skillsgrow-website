@@ -1,88 +1,105 @@
 app-course-listing {
 
-    .course-card-layout {
-        border: 1px solid #cacaca;
-        margin: 5px;
+  .course-card-layout {
+    border: 1px solid #cacaca;
+    margin: 5px;
 
-        .course-title {
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis
-        }
-        .course-price {
-            font-size: 11px;
-            margin-top: 14px;
-             @media only screen and (max-width: 573px) {
-               margin-left: auto;
-             }
-        }
-        button {
-            background: #002d38;
-            color: white;
-            font-size: 13px;
-            border-radius: 50px;
-            &:hover{
-              background: #ee5a72;
-              color: white;
-            }
-        }
+    .course-title {
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis
     }
 
-    .br-default .br-unit {
-        margin-right: 5px;
-        font-size: 13px !important;
-        height: 18px;
-        width: 18px;
+    .course-price {
+      font-size: 11px;
+      margin-top: 14px;
+
+      @media only screen and (max-width: 573px) {
+        margin-left: auto;
+      }
+
+      @media only screen and (max-width: 1199px) {
+        font-size: 9px;
+         margin-top: 17px;
+      }
+
+      @media all and (max-width: 30em) {
+        font-size: 11px !important;
+      }
+
     }
 
-    .enroll-new-btn-plus {
+    button {
+      background: #002d38;
+      color: white;
+      font-size: 13px;
+      border-radius: 50px;
+
+      &:hover {
         background: #ee5a72;
         color: white;
-        border-radius: 20px 4px 4px 20px;
-        position: relative;
-        left: -37px;
-        font-size: 13px;
-         @media all and (max-width:30em) {
-          left: -28px;
-          font-size: 11px;
-         }
+      }
+    }
+  }
+
+  .br-default .br-unit {
+    margin-right: 5px;
+    font-size: 13px !important;
+    height: 18px;
+    width: 18px;
+  }
+
+  .enroll-new-btn-plus {
+    background: #ee5a72;
+    color: white;
+    border-radius: 20px 4px 4px 20px;
+    position: relative;
+    left: -37px;
+    font-size: 13px;
+
+    @media all and (max-width: 30em) {
+      left: -28px;
+      font-size: 11px;
+    }
+  }
+
+  .enroll-new-btn {
+    background: #002d38;
+    color: white;
+    padding-right: 44px;
+    font-size: 13px;
+
+    @media all and (max-width: 30em) {
+      padding-right: 30px;
+      font-size: 11px;
     }
 
-    .enroll-new-btn {
-        background: #002d38;
-        color: white;
-        padding-right: 44px;
-        font-size: 13px;
-        @media all and (max-width:30em) {
-          padding-right: 30px;
-          font-size: 11px;
-        }
-        &:hover {
-          background: #ee5a72;
-          color: white;
-        }
+    &:hover {
+      background: #ee5a72;
+      color: white;
     }
+  }
 
-    // @media all and (max-width:30em) {
-    //   .views {
-    //    position: relative !important;
-    //    left: -17%;
-    //   }
-    // }
+  // @media all and (max-width:30em) {
+  //   .views {
+  //    position: relative !important;
+  //    left: -17%;
+  //   }
+  // }
 
-    .tred_course_h2{
-        @media all and (max-width:30em) {
-         padding-right: 132px !important;
-        }
+  .tred_course_h2 {
+    @media all and (max-width: 30em) {
+      padding-right: 132px !important;
     }
+  }
 
-    .p-0{
-        @media only screen and (max-width: 573px) {
-           padding: 0 15px !important;
-        //    padding: 0 30px !important;
-        //    margin-left: 6px;
-        }
+  .p-0 {
+    @media only screen and (max-width: 573px) {
+      padding: 0 15px !important;
+      //    padding: 0 30px !important;
+      //    margin-left: 6px;
     }
-    
+  }
+
 }
