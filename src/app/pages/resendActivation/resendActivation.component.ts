@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResendActivationProxy } from './resendActivation.proxy';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
     selector: 'app-reset-password',
@@ -22,10 +24,11 @@ export class ResendActivationComponent implements OnInit {
 
     constructor(public global: Global,
         public activateRoute: ActivatedRoute, public router: Router,
-        public resendActivationProxy: ResendActivationProxy) {
+        public resendActivationProxy: ResendActivationProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         this.activateRoute.params.forEach(params => {
             this.token = params['token'];
         });

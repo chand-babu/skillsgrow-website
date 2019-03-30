@@ -10,8 +10,14 @@ import { SafePipe } from './common/videourl.component';
 import { CommonComponentModule } from './components/commonComponent.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DataService } from './common/data.service';
+import { SEOService } from './common/seo.service';
 import { NgProgressModule } from 'ngx-progressbar';
 import { NgxUiLoaderModule } from  'ngx-ui-loader';
+import { CookieService } from 'ngx-cookie-service';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTPListener, HTTPStatus } from './common/interceptor';
+const RxJS_Services = [HTTPListener, HTTPStatus];
 
 @NgModule({
   declarations: [
@@ -31,8 +37,18 @@ import { NgxUiLoaderModule } from  'ngx-ui-loader';
   providers: [
     HttpUtil,
     Global,
-    DataService
+    DataService,
+    SEOService,
+    CookieService,
+    RxJS_Services,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HTTPListener,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {}
+ }

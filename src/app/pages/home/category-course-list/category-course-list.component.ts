@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Global } from 'src/app/common/global';
+import { Global } from '../../../common/global';
 
 @Component({
   selector: 'app-category-course-list',

@@ -4,6 +4,7 @@ import { CompanyLoginService } from './company-login.service';
 import { Global } from '../../../common/global';
 import { MatSnackBar } from '@angular/material';
 import { SnackBarComponent } from './../../../components/snach-bar/sanck-bar.component';
+import { SEOService } from '../../../common/seo.service';
 
 @Component({
   selector: 'app-company-login',
@@ -27,9 +28,11 @@ export class CompanyLoginComponent implements OnInit {
   public aftersendActiveLink: boolean = false;
 
   constructor(public companyLoginService: CompanyLoginService, public global: Global,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar,public seoService:SEOService) { }
 
   ngOnInit() {
+    // this.seoService.setRobots();
+    this.seoService.updateTitle("Sign In - Company");
     if (this.global.getStorageDetail('company-user')) {
       this.global.navigateToNewPage('/company/dashboard');
     }

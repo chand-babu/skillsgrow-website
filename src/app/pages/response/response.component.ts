@@ -3,6 +3,8 @@ import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseProxy } from './response.proxy';
 import { EnrollmentPageProxy } from '../enrollmentPage/enrollmentPage.proxy';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
     selector: 'app-response',
@@ -18,10 +20,11 @@ export class ResponseComponent implements OnInit {
     constructor(public global: Global,
         public activateRoute: ActivatedRoute, public router: Router,
         public responseProxy: ResponseProxy,
-        public enrollmentPageProxy: EnrollmentPageProxy) {
+        public enrollmentPageProxy: EnrollmentPageProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         this.courseData = this.global.getStorageDetail('currentCourseData');
          this.userDetails = this.global.getStorageDetail('user');
         this.activateRoute.params.forEach(params => {

@@ -1,51 +1,125 @@
+import 'reflect-metadata';
 import 'zone.js/dist/zone-node';
-import {enableProdMode} from '@angular/core';
-// Express Engine
-import {ngExpressEngine} from '@nguniversal/express-engine';
-// Import module map for lazy loading
-import {provideModuleMap} from '@nguniversal/module-map-ngfactory-loader';
-
+import { enableProdMode } from '@angular/core';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import * as compression from 'compression';
 import * as express from 'express';
-import {join} from 'path';
-import 'localstorage-polyfill';
-global['localStorage'] = localStorage;
-
-// Faster server renders w/ Prod mode (dev mode never needed)
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
+const fs = require('fs');
+const path = require('path');
+const filterEnv = require('filter-env');
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 enableProdMode();
+const dotenv = require('dotenv');
+dotenv.config();
+const config = filterEnv(/(BB_\w+)/, { json: true, freeze: true });
+import { ROUTES } from './src/routes';
+const PORT = process.env.BB_PORT || 80;
 
-// Express server
+//Added to remove server db connent issue 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+// Provide support for window on the server
+const domino = require('domino');
+const template = fs.readFileSync(path.join('dist/browser', 'index.html')).toString();
+const fetch = require('node-fetch');
+const win = domino.createWindow(template);
+
+win.fetch = fetch;
+global['window'] = win;
+Object.defineProperty(win.document.body.style, 'transform', {
+  value: () => {
+    return {
+      enumerable: true,
+      configurable: true
+    };
+  },
+});
+global['document'] = win.document;
+global['CSS'] = null;
+// global['XMLHttpRequest'] = require('xmlhttprequest').XMLHttpRequest;
+global['Prism'] = null;
+
 const app = express();
 
-const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/browser');
+// Config renderer
+try {
+  app.engine('html', (_, options, callback) => {
+    const engine = ngExpressEngine({
+      bootstrap: AppServerModuleNgFactory,
+      providers: [
+        provideModuleMap(LAZY_MODULE_MAP),
+        { provide: 'REQUEST', useFactory: () => options.req, deps: [] },
+        { provide: 'CONFIG', useFactory: () => config, deps: [] }
+      ]
+    });
+    engine(_, options, callback);
+  });
+} catch (e) {
+  console.log('error', 'there is sonme issue defining app engine ' + e);
+}
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const {AppServerModuleNgFactory, LAZY_MODULE_MAP} = require('./dist/server/main');
+// configs
+app.enable('etag');
 
-// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
-  providers: [
-    provideModuleMap(LAZY_MODULE_MAP)
-  ]
-}));
-
+// Middleware
+app.use(compression());
 app.set('view engine', 'html');
-app.set('views', DIST_FOLDER);
-
-// Example Express Rest API endpoints
-// app.get('/api/**', (req, res) => { });
-// Serve static files from /browser
-app.get('*.*', express.static(DIST_FOLDER, {
-  maxAge: '1y'
-}));
+app.set('views', 'dist/browser');
+app.set('view cache', true);
+app.use('/', express.static('dist/browser', { index: false, maxAge: 30 * 86400000 }));
 
 // All regular routes use the Universal engine
-app.get('*', (req, res) => {
-  res.render('index', { req });
+app.get('', (req, res) => {
+  res.render('index', {
+    req: req,
+    res: res,
+    preboot: true
+  });
 });
 
-// Start up the Node server
+function getAllRoute(route) {
+  try {
+    app.get(route, (req, res) => {
+      res.render('index', {
+        req,
+        res,
+        preboot: true
+      })
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function postAllRoute(route) {
+  try {
+    app.get(route, (req, res) => {
+      res.render('index', {
+        req,
+        res,
+        preboot: true
+      })
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+ROUTES.forEach((route) => {
+  try {
+    getAllRoute(route);
+    postAllRoute(route);
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+
+app.get('/env', (req, res) => {
+  res.json(process.env);
+})
+
 app.listen(PORT, () => {
-  console.log(`Node Express server listening on http://localhost:${PORT}`);
+  console.log(`we are serving the site for you at http://localhost:${PORT}!`);
 });

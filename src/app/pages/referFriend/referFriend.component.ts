@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-refer-friend',
@@ -11,10 +12,11 @@ export class ReferFriendComponent implements OnInit {
     public url = 'https://www.facebook.com/skillsgrow/';
 
     constructor(public global: Global,
-        public activateRoute: ActivatedRoute, public router: Router) {
+        public activateRoute: ActivatedRoute, public router: Router, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         const objects = document.getElementsByClassName('asyncImage');
         Array.from(objects).map((item: any) => {
             // Start loading image

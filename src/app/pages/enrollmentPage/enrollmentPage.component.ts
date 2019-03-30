@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as jsSHA from 'jssha';
 import { DataService } from './../../common/data.service';
 import { Location } from '@angular/common';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-enrollemnt-page',
@@ -34,7 +35,7 @@ export class EnrollmentPageComponent implements OnInit {
 
     constructor(public global: Global, public enrollmentPageProxy: EnrollmentPageProxy,
         public router: Router, public videourl: SafePipe, private modalService: NgbModal,
-        public courseDataService: DataService, public _location: Location) {
+        public courseDataService: DataService, public _location: Location, public seoService: SEOService) {
     }
 
     ngOnInit() {

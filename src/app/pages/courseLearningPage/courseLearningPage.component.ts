@@ -5,6 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ListingCourseProxy } from '../../components/course-listing/course-listing.proxy';
 import { CourseDetailsPageProxy } from '../courseDetailsPage/courseDetailsPage.proxy';
 import * as io from 'socket.io-client';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 
 @Component({
     selector: 'app-course-learning-page',
@@ -33,7 +35,7 @@ export class CourseLearningPageComponent implements OnInit {
     constructor(private activeRoute: ActivatedRoute, private router: Router,
         public global: Global, private sanitizer: DomSanitizer,
         private elementRef: ElementRef, public courseListingProxy: ListingCourseProxy,
-        public coursedetailspageProxy: CourseDetailsPageProxy) { }
+        public coursedetailspageProxy: CourseDetailsPageProxy, @Inject(PLATFORM_ID) private platformId: Object) { }
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
@@ -99,7 +101,10 @@ export class CourseLearningPageComponent implements OnInit {
                 if (panel.style.maxHeight) {
                     panel.style.maxHeight = null;
                 } else {
-                    panel.style.maxHeight = panel.scrollHeight + 'px';
+                    if (isPlatformBrowser(this.platformId)) {
+                        panel.style.maxHeight = panel.scrollHeight + 'px';
+                    }
+                    // panel.style.maxHeight = panel.scrollHeight + 'px';
                 }
             });
         }

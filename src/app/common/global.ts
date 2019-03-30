@@ -3,6 +3,10 @@ import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
+import * as StorageShim from 'node-storage-shim';
 
 
 @Injectable()
@@ -10,8 +14,9 @@ export class Global {
     previousUrl: string;
     currentUrl: string;
     public dataChanged = new Subject<boolean>();
+    public storage = new StorageShim();
 
-    constructor(public router: Router, public route: ActivatedRoute) {
+    constructor(public router: Router, public route: ActivatedRoute, public cookie: CookieService, @Inject(PLATFORM_ID) private platformId: Object) {
         this.router.events
             .filter((event) => event instanceof NavigationEnd)
             .subscribe(
@@ -32,16 +37,26 @@ export class Global {
      * store  data into local storage.
      */
     public storeDataLocal(key: string, data: any): void {
-        // console.log("===",key)
-        localStorage.setItem(key, JSON.stringify(data));
-        this.dataChanged.next(true);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(key, JSON.stringify(data));
+            this.dataChanged.next(true);
+        }
+        if (isPlatformServer(this.platformId)) {
+            this.storage.setItem(key, JSON.stringify(data));
+            this.dataChanged.next(true);
+        }
     }
 
     /*
      * get local storage data details.
      */
     public getStorageDetail(key: string): any {
-        return JSON.parse(localStorage.getItem(key));
+        if (isPlatformBrowser(this.platformId)) {
+            return JSON.parse(localStorage.getItem(key));
+        }
+        if (isPlatformServer(this.platformId)) {
+            return JSON.parse(this.storage.getItem(key));
+        }
     }
 
     /*
@@ -49,13 +64,23 @@ export class Global {
      */
     public deleteLocalData(key: string): void {
         // localStorage.remove(key);
-        localStorage.removeItem(key);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.removeItem(key);
+        }
+        if (isPlatformServer(this.platformId)) {
+            this.storage.removeItem(key);
+        }
     }
 
     /* clear local storage data */
     public clearLocalStorage(): void {
         // localStorage.clearAll();
-        localStorage.clear();
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.clear();
+        }
+        if (isPlatformServer(this.platformId)) {
+            this.storage.clear();
+        }
     }
 
     /*

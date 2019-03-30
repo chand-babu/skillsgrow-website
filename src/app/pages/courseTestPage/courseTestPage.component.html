@@ -29,13 +29,18 @@
       <div class="row total-questions">
         <ul *ngIf="questionobj.length > 0">
           <ng-container *ngFor="let x of allQuestion; let i = index">
+            <!-- <button [ngClass]="{
+                                'test-blue':x.attendStatus == 'false',
+                                'test-active':selectedItem == i,
+                                'test-normal':selectedItem != i,
+                                'test-green':x.saveQes == 'true'
+                              }" (click)="numberOfQuestions(x, i)" [disabled]="x.disabled">{{i+1}}</button> -->
             <li [ngClass]="{
                                 'test-blue':x.attendStatus == 'false',
                                 'test-active':selectedItem == i,
                                 'test-normal':selectedItem != i,
                                 'test-green':x.attendStatus == 'true'
-                              }"
-              (click)="numberOfQuestions(x, i)">{{i+1}}</li>
+                              }" (click)="numberOfQuestions(x, i)">{{i+1}}</li>
           </ng-container>
         </ul>
       </div>
@@ -64,7 +69,6 @@
               <source [src]="imagePath + x.imageQuestion" type="audio/mpeg">
             </audio>
           </div>
-          <!-- modify 59-66 line by nandita -->
           <!-- <div>{{x.t}}</div>
                     <div>Time Elapsed : {{timeElapsed()}}</div> -->
           <span>{{questionNumber + 1}}. </span>
@@ -77,11 +81,13 @@
             <span *ngIf="i == 4">E.</span>
             <label class="container-radio">
               <span style="position: relative;top: 5px;">{{y}}</span>
-              <input type="radio" [(ngModel)]="questionAnswer" [value]="y" name="radio" (change)="answer($event, questionAnswer)">
+              <input type="radio" [(ngModel)]="questionAnswer" [value]="y" name="radio"
+                (change)="answer($event, questionAnswer)">
               <span class="checkmark"></span>
             </label>
           </div>
         </div>
+        <div *ngIf="errorMessage" class="alert alert-danger default-margin-top">{{message}}</div>
         <div *ngIf="x.passage" class="col-12">
           <div *ngIf="x.instruction || x.passageTitle" class="alert alert-info">
             <p><b>Passage Title : </b>{{x.passageTitle}}</p>
@@ -112,7 +118,7 @@
       </div>
       <div *ngIf="questionobj.length > 0" class="row review-and-save-btn">
         <div class="col-12 text-right">
-          <button class="btn review-btn" (click)="saveAndContinue('btnClick')">Review Later</button>
+          <button class="btn review-btn" (click)="review('btnClick')">Review Later</button>
           <button class="btn save-btn" (click)="saveAndContinue('btnClick')">Save & Continue</button>
         </div>
       </div>

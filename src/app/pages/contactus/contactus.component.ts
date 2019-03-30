@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContactUsProxy } from './contactus.proxy';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
     selector: 'app-contact-us',
@@ -26,10 +28,11 @@ export class ContactUsComponent implements OnInit {
 
     constructor(public global: Global,
         public activateRoute: ActivatedRoute, public router: Router,
-        public contactusproxy: ContactUsProxy) {
+        public contactusproxy: ContactUsProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Contact Us');
     }
 
     onSubmit() {

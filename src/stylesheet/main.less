@@ -41,6 +41,7 @@
 @import './../app/pages/company/profile/profile.component.less';
 @import './../app/pages/company/dashboard/dashboard.component.less';
 @import './../app/pages/enrollmentCourseLandingPage/enrollmentCourseLandingPage.style.less';
+@import './../app/pages/courseTestPage/courseTestPage.style.less';
 
 
 body,
@@ -48,10 +49,67 @@ html {
   scroll-behavior: smooth;
   font-family: 'Merriweather';
   // font-family: 'Open Sans', sans-serif;
-  @media only screen and (max-width: 768px) {
-    overflow-x: hidden;
-  }
+  // @media only screen and (max-width: 768px) {
+  //   overflow-x: hidden;
+  // } //added to solve footer space issue
 }
+
+html {
+  height: 100%;
+}
+
+//added to solve footer space issue
+
+body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+//added to solve footer space issue
+
+body::after {
+  content: '';
+  display: block;
+  height: 100px;
+}
+
+//added to solve footer space issue
+
+// @media only screen and (max-width: 414px) {
+//   .text-right {
+//     text-align: left !important;
+//     margin-left: 69px !important;
+//   }
+
+//   .modal-footer {
+//     margin-top: -87px !important;
+//     margin-right: 79px !important;
+//   }
+// }
+
+.modal {
+  z-index: 99999999999 !important
+}
+
+
+
+/**
+ * Firefox specific rule
+ */
+
+@-moz-document url-prefix() {
+  body {
+    font-weight: 400 !important;
+    // font-weight: normal !important;
+  }
+
+  // body .with-ff-fix {
+  //   font-weight: lighter !important;
+  // }
+}
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -635,6 +693,7 @@ option[value=""] {
       text-align: center;
       font-size: 14px;
       font-weight: 600;
+      cursor: pointer;
     }
   }
 }
@@ -981,6 +1040,10 @@ tspan {
   background: green;
 }
 
+.test-saved {
+  background: green;
+}
+
 .star {
   position: relative;
   display: inline-block;
@@ -1015,9 +1078,10 @@ tspan {
     text-align: center;
     color: @brand-secondary  !important;
     padding: 10px;
-     @media only screen and (max-width: 768px) {
+
+    @media only screen and (max-width: 768px) {
       font-size: 13px;
-     }
+    }
   }
 }
 

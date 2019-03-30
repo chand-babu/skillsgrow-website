@@ -13,7 +13,7 @@
           <h3>{{img.imageTitle}}</h3>
           <p>{{img.description}}</p>
           <!-- <button routerLink="/register/sign-up" class="btn">Sign Up now</button> -->
-          <button routerLink="/coursedetailspage/ielts-band-7+-preparation-course" class="btn">Enroll Now</button>
+          <button routerLink="/course/ielts-band-7+-preparation-course" class="btn">Enroll Now</button>
         </div>
       </ng-template>
     </ng-container>
@@ -26,10 +26,12 @@
       <h2>Corporate Internship Programs</h2>
     </div>
   </div>
-  <ngx-slick class="carousel" #slickModal1="slick-modal" [config]="slideConfig">
-    <div ngxSlickItem *ngFor="let item of courseCategoryType; let odd = odd" class="slide">
+  <ngx-slick-carousel class="carousel" #slickModal1="slick-carousel" [config]="slideConfig">
+    <!-- <div ngxSlickItem *ngFor="let item of courseCategoryType; let odd = odd" class="slide"> -->
+    <a ngxSlickItem *ngFor="let item of courseCategoryType; let odd = odd" class="slide" [routerLink]="['/internship', item._id]">
       <div style="padding: 10px;">
-        <div class="home-category-section" (click)="internship(item._id)">
+        <!-- <div class="home-category-section" (click)="internship(item._id)"> -->
+        <div class="home-category-section">
           <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
             height="150px">
           <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" width="300px" height="150px" alt="loading" />
@@ -41,33 +43,28 @@
           </div>
         </div>
       </div>
-    </div>
-  </ngx-slick>
-</div>
+    </a>
+  </ngx-slick-carousel>
 
-<div class="container text-center">
-  <div class="row default-margin-top">
-    <div class="col-md-12 custom-h2-h4">
-      <h2>Training Programs</h2>
-    </div>
-  </div>
-  <ngx-slick class="carousel" #slickModal2="slick-modal" [config]="slideConfig">
-    <!-- <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item._id]" class="slide"> -->
-    <div ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item.categoryNameUrl]"
-      class="slide">
-      <div style="padding: 10px;">
-        <div class="home-category-section">
-          <!-- <img [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px" height="150px"> -->
-          <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
-            height="150px" />
-          <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" width="300px" height="150px" alt="loading" />
-          <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
-            <div>{{ item.categoryName }}</div>
-          </div>
-        </div>
+  <div class="container text-center">
+    <div class="row default-margin-top">
+      <div class="col-md-12 custom-h2-h4">
+        <h2>Training Programs</h2>
       </div>
     </div>
-  </ngx-slick>
-</div>
-
-<app-course-listing [course]="'trendingCourses'"></app-course-listing>
+    <ngx-slick-carousel class="carousel" #slickModal2="slick-carousel" [config]="slideConfig">
+      <a ngxSlickItem *ngFor="let item of courseCategoryName; let odd = odd" [routerLink]="['/categorycourse', item.categoryNameUrl]"
+        class="slide">
+        <div style="padding: 10px;">
+          <div class="home-category-section">
+            <img [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + item.categoryImg" alt="categoryimg" width="300px"
+              height="150px" />
+            <img *ngIf="isImgLoaded" src="{{imagePath}}defaultImg.gif" width="300px" height="150px" alt="loading" />
+            <div class="category-title" [ngClass]="{ 'odd': odd, 'even': !odd }">
+              <div>{{ item.categoryName }}</div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </ngx-slick-carousel>
+    <app-course-listing [course]="'trendingCourses'"></app-course-listing>

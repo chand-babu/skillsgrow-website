@@ -57,7 +57,9 @@
           <li [hidden]="logoutNavigation" class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign
             up</li>
           <li [hidden]="!logoutNavigation" class="nav-item" mat-button [matMenuTriggerFor]="profile_menu">
-            <img src="assets/image/user-icon.png" alt="user-icon" style="width: 28px">
+            <!-- <img src="assets/image/user-icon.png" alt="user-icon" style="width: 28px"> -->
+            <img [src]="(userProfilePic) ? imagePath + userProfilePic: 'assets/image/user-icon.png'" alt="user-icon"
+              style="width: 28px;height: 28px;border-radius: 50%;">
           </li>
         </ul>
       </div>
@@ -72,7 +74,7 @@
       <mat-menu #sub_menu="matMenu">
         <!-- <button *ngFor="let y of x.course" mat-menu-item [routerLink]="['coursedetailspage',y._id]">{{
           y.courseName }}</button> -->
-        <button *ngFor="let y of x.course" mat-menu-item  [routerLink]="['coursedetailspage',y.courseNameUrl]">{{
+        <button *ngFor="let y of x.course" mat-menu-item [routerLink]="['course',y.courseNameUrl]">{{
           y.courseName }}</button>
       </mat-menu>
     </ng-container>
@@ -80,8 +82,8 @@
 
   <!-- dropdown for user profile -->
   <mat-menu #profile_menu="matMenu">
+    <button mat-menu-item routerLink="/userdashboard">Dashboard</button>
     <button mat-menu-item routerLink="/profilepage">Profile</button>
-<button mat-menu-item routerLink="/userdashboard">Dashboard</button>
     <button mat-menu-item (click)="logout()">logout</button>
   </mat-menu>
 

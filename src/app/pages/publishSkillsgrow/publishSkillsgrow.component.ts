@@ -3,6 +3,7 @@ import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PublishSkillsgrowProxy } from './publishSkillsgrow.proxy';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-publish-skillsgrow',
@@ -29,10 +30,11 @@ export class PublishSkillsgrowComponent implements OnInit {
 
     constructor(public global: Global,
         public activateRoute: ActivatedRoute, public router: Router,
-        private modalService: NgbModal, public publishproxy: PublishSkillsgrowProxy) {
+        private modalService: NgbModal, public publishproxy: PublishSkillsgrowProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         const objects = document.getElementsByClassName('asyncImage');
         Array.from(objects).map((item: any) => {
             // Start loading image

@@ -4,42 +4,50 @@ import { Global } from './common/global';
 import { Spinkit } from 'ng-http-loader';
 import { Meta, Title } from '@angular/platform-browser';
 import { NgProgress } from 'ngx-progressbar';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from "@angular/common";
+import { HTTPStatus } from './common/interceptor';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
 })
 
-export class AppComponent implements OnInit, AfterViewInit  {
+export class AppComponent implements OnInit, AfterViewInit {
   public developerMode: boolean;
   public spinkit = Spinkit;
   public sampleCount: any[];
   public seconds = 0;
   public timer: any;
   public items: any[];
-  // public loader: boolean;//added by nandita
+  public HTTPActivity: boolean;//added by nandita
 
 
-  constructor(public ngProgress: NgProgress,private router: Router, public global: Global,
-    private meta: Meta, private title: Title) {
-      /* this.title.setTitle('Skillsgrow a learning site');
-      this.meta.addTag({ name: 'og:title', content: 'Front-end Web Development, Chewed Up' });
-      this.meta.addTag({ name: 'og:description', content: 'Learn frontend web development...' });
-      this.meta.addTag({ name: 'og:image', content: 'https://www.skillsgrow.com/assets/image/logo1.png' }); */
-    }
-
-  ngAfterViewInit() {
-    this.router.events.subscribe((routeEvent: RouterEvent) => {
-      if (routeEvent instanceof NavigationStart) {
-        // this.loader = true;
-        this.ngProgress.start();
+  constructor(private httpStatus: HTTPStatus,public ngProgress: NgProgress, private router: Router, public global: Global,
+    private meta: Meta, private title: Title, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.httpStatus.getHttpStatus().subscribe((status: boolean) => {
+      this.HTTPActivity = status;
+      if (this.HTTPActivity == true) {
+        this.ngProgress.start()
       }
-      if (routeEvent instanceof NavigationEnd ||
-        routeEvent instanceof NavigationCancel || routeEvent instanceof NavigationError) {
-        // this.loader = false;
+      if (this.HTTPActivity == false) {
         this.ngProgress.done();
       }
     });
+  }
+
+  ngAfterViewInit() {
+    // this.router.events.subscribe((routeEvent: RouterEvent) => {
+    //   if (routeEvent instanceof NavigationStart) {
+    //     // this.loader = true;
+    //     this.ngProgress.start();
+    //   }
+    //   if (routeEvent instanceof NavigationEnd ||
+    //     routeEvent instanceof NavigationCancel || routeEvent instanceof NavigationError) {
+    //     // this.loader = false;
+    //     this.ngProgress.done();
+    //   }
+    // });
   }
 
   ngOnInit() {
@@ -48,7 +56,9 @@ export class AppComponent implements OnInit, AfterViewInit  {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
-      window.scrollTo(0, 0);
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo(0, 0);
+      }
       if (this.router.url.split('?')[1] === 'dev=true') {
         this.developerMode = true;
         this.global.storeDataLocal('develop', this.developerMode);
@@ -84,9 +94,11 @@ export class AppComponent implements OnInit, AfterViewInit  {
     const prev = document.getElementById('prev');
     const next = document.getElementById('next');
 
-    window.addEventListener('resize', function () {
-      sliderWidth = slider.offsetWidth;
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      window.addEventListener('resize', function () {
+        sliderWidth = slider.offsetWidth;
+      });
+    }
 
     const prevSlide = function () {
       if (count > 1) {
