@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 /* import * as jsPDF from 'jspdf'; */
 import * as html2canvas from 'html2canvas';
 import * as jsSHA from 'jssha';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-user-dashboard',
@@ -46,11 +47,12 @@ export class UserDashboardComponent implements OnInit {
 
 
     constructor(public router: Router, public global: Global,
-        public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal) { }
+        public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal,public seoService:SEOService) { }
 
     @ViewChild('SSPChangePassword') SSPChangePassword: ElementRef;
 
     ngOnInit() {
+        this.seoService.updateTitle("Dashboard");
         this.userDetails = this.global.getStorageDetail('user').data;
         if (this.userDetails.loginStatus === 0) {
             setTimeout(() => {
@@ -212,9 +214,9 @@ export class UserDashboardComponent implements OnInit {
             });
     }
 
-    viewDetailsCourse(id: number) {
-        this.router.navigate(['/coursedetailspage', id]);
-    }
+    // viewDetailsCourse(id: number) {
+    //     this.router.navigate(['/coursedetailspage', id]);
+    // }
 
     enrollNowCourse() {
         if (!this.global.getStorageDetail('user')) {

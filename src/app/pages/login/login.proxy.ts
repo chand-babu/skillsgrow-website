@@ -21,4 +21,8 @@ export class LoginProxy {
         return this.http.doPut(Constants.APIPATH + 'admin/resetpassword', data, true);
     }
 
+    getUserDetails(userId) {
+        return this.http.doGet(Constants.APIPATH + 'admin/user/' + userId, false);
+    }
+
 }

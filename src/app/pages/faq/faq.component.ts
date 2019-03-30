@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaqProxy } from './faq.proxy';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
     selector: 'app-faq',
@@ -26,10 +28,11 @@ export class FAQComponent implements OnInit {
 
     constructor(public global: Global,
         public activateRoute: ActivatedRoute, public router: Router,
-        public faq: FaqProxy) {
+        public faq: FaqProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         const objects = document.getElementsByClassName('asyncImage');
         Array.from(objects).map((item: any) => {
             // Start loading image

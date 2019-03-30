@@ -26,7 +26,7 @@ const routes: Routes = [
   //   runGuardsAndResolvers: 'always'
   // },
   {
-    path: 'coursedetailspage/:name', loadChildren: '../pages/courseDetailsPage/courseDetailsPage.module#CourseDetailsPageModule',
+    path: 'course/:name', loadChildren: '../pages/courseDetailsPage/courseDetailsPage.module#CourseDetailsPageModule',
     runGuardsAndResolvers: 'always'
   },//modified by nandita
   {

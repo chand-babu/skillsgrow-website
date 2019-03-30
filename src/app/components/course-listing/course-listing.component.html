@@ -20,12 +20,14 @@
       <div class="col-lg-2 col-md-3 col-sm-4 col-12 p-0">
         <div class="course-card-layout mt-2 mb-2">
           <!-- <div (click)="viewDetailsCourse(y._id)" title="View Course" style="cursor:pointer;"> -->
-          <div (click)="viewDetailsCourse(y.courseNameUrl)" title="View Course" style="cursor:pointer;">
+          <!-- <div (click)="viewDetailsCourse(y.courseNameUrl)" title="View Course" style="cursor:pointer;"> -->
+          <a [routerLink]="['/','course',y.courseNameUrl]" title="View Course" style="cursor:pointer;">
             <img class="w-100 border-bottom" [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + y.imageSmall"
               alt="img" width="300px" height="150px" />
             <img *ngIf="isImgLoaded" class="w-100 border-bottom" src="{{imagePath}}defaultImg.gif" width="300px" height="150px"
               alt="loading" />
-          </div>
+          </a>
+          <!-- </div> -->
           <div class="row m-0">
             <div class="col-12 course-title" title="{{y.courseName}}">
               {{y.courseName}}
@@ -37,8 +39,8 @@
               <span *ngIf="y.authorDetails[0].coursePrice != 'Free'" class="fa fa-inr ml-1">
               </span>
               <span *ngIf="y.authorDetails[0] != null">
-                {{(y.authorDetails[0].coursePrice == 'Free') ? 'Free' : y.authorDetails[0].coursePrice}}
-                {{(y.authorDetails[0].coursePrice != 'Free') ? '/-' : ''}}
+                {{(y.authorDetails[0].coursePrice == 'Free') ? 'Free' :
+                y.authorDetails[0].coursePrice}}{{(y.authorDetails[0].coursePrice != 'Free') ? '/-' : ''}}
               </span>
             </div>
             <!-- <div class="col-12">

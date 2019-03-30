@@ -4,8 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CourseDetailsPageProxy } from './courseDetailsPage.proxy';
 import { Constants } from '../../common/constants';
 import { SafePipe } from '../../common/videourl.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { DataService } from './../../common/data.service';
+import { SEOService } from './../../common/seo.service';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
+
 
 
 @Component({
@@ -47,6 +51,12 @@ export class CourseDetailsPageComponent implements OnInit {
     public editorContent: any;
     panelOpenState = false;
     events: string[] = [];
+    public about: boolean = true;
+    public curriculum: boolean = false;
+    public review: boolean = false;
+    public biography: boolean = false;
+    public chatForums: boolean = false;
+    public faq: boolean = false;
 
     public isImgLoaded: boolean = true;
 
@@ -60,7 +70,7 @@ export class CourseDetailsPageComponent implements OnInit {
         public coursedetailspageProxy: CourseDetailsPageProxy,
         public videourl: SafePipe, private elementRef: ElementRef,
         private sanitizer: DomSanitizer,
-        public courseDataService: DataService) {
+        public courseDataService: DataService, public seoService: SEOService, @Inject(PLATFORM_ID) private platformId: Object) {
         activateRoute.params.subscribe(val => {
             // put the code from `ngOnInit` here bcz Router Navigate does not call ngOnInit when same page
             this.user = this.global.getStorageDetail('user');
@@ -85,6 +95,8 @@ export class CourseDetailsPageComponent implements OnInit {
         //     this.courseId = params['id'];
         //     this.courseDataById(this.courseId);
         // }); //commented by nandita
+        // this.disableTab();
+
     }
 
     // courseDataById(id: any) {
@@ -93,9 +105,17 @@ export class CourseDetailsPageComponent implements OnInit {
         this.coursedetailspageProxy.getCourseDataByName(name)
             .subscribe((success: any) => {
                 this.courseDetails = success.data;
+                // console.log("***********", this.courseDetails);
+                // this.seoService.setRobots();
+                this.seoService.updateTitle("Course - " + (this.courseDetails[0].courseName).toLowerCase());
+                this.seoService.updateKeywords(this.courseDetails[0].courseName);
+                this.seoService.updateDescription(this.courseDetails[0].shortDescription);
                 this.courseId = this.courseDetails[0]._id;//added by nandita
                 this.hideTheMenuBar = true;
-                this.set = setInterval(this.defaultTab, 100);
+                // if (isPlatformBrowser(this.platformId)) {
+                //     this.set = setInterval(this.defaultTab, 100);
+                // }
+                // this.set = setInterval(this.defaultTab, 100);
                 this.editorContent = this.courseDetails[0].description;
                 this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
                 this.courseDetails[0].video = this.videourl.transform(this.courseDetails[0].video);
@@ -148,6 +168,40 @@ export class CourseDetailsPageComponent implements OnInit {
     }
 
     aboutCourse(evt, id) {
+        switch (id) {
+            case ('about'):
+                this.about = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            case ('curriculum'):
+                this.curriculum = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            case ('review'):
+                this.review = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            case ('biography'):
+                this.biography = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            case ('chatForums'):
+                this.chatForums = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            case ('faq'):
+                this.faq = true;
+                this.aboutCourseBaseOnId(evt, id);
+                break;
+            default:
+                this.about = true;
+                this.aboutCourseBaseOnId(evt, 'about');
+                break;
+        }
+
+    }
+
+    aboutCourseBaseOnId(evt, id) {
         const form: any = this.elementRef.nativeElement.querySelectorAll('.tabcontent');
         for (let i = 0; i < form.length; i++) {
             form[i].style.display = 'none';
@@ -156,9 +210,21 @@ export class CourseDetailsPageComponent implements OnInit {
         for (let i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace('active', '');
         }
-        this.elementRef.nativeElement.querySelector('#' + id).style.display = 'block';
+        if(this.elementRef.nativeElement.querySelector('#' + id)){
+            this.elementRef.nativeElement.querySelector('#' + id).style.display = 'block';
+        }
         evt.currentTarget.className += 'active';
         clearInterval(this.set);
+    }
+
+    disableTab() {
+        const form: any = this.elementRef.nativeElement.querySelectorAll('.tabcontent');
+        console.log("++++++++++++++++", form)
+
+        for (let i = 0; i < form.length; i++) {
+            form[i].style.display = 'none';
+        }
+        // this.elementRef.nativeElement.querySelector('#about').style.display = 'block';
     }
 
     defaultTab() {

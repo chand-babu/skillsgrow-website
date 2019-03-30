@@ -4,6 +4,7 @@ import { InternshipDataModel } from '../../../interface/intership';
 import { CompanyService } from './company.service';
 import { InternshipService } from '../../internship/internship.service';
 import { NgbDateFRParserFormatter } from './dateFormate';
+import { SEOService } from '../../../common/seo.service';
 
 @Component({
   selector: 'app-company-form',
@@ -26,9 +27,11 @@ export class CompanyFormComponent implements OnInit {
   public height: number;
 
   constructor(public comapnyService: CompanyService, 
-    public internshipService: InternshipService) { }
+    public internshipService: InternshipService,public seoService:SEOService) { }
 
   ngOnInit() {
+    // this.seoService.setRobots(); 
+    this.seoService.updateTitle("Create a account - Company");
     this.personal = true;
     this.formData.qualification = '0';
     this.formData.internType = '0';

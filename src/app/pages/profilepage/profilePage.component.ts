@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { Global } from '../../common/global';
 import { ProfilePageProxy } from './profilePage.proxy';
 import { Constants } from '../../common/constants';
+import { SEOService } from './../../common/seo.service';
 
 
 @Component({
@@ -34,10 +35,11 @@ export class ProfilePageComponent implements OnInit {
     public imagePath = Constants.IMAGEPATH;
     public userPersonalDetails: any;
 
-    constructor(public global: Global, public profilePageProxy: ProfilePageProxy) {
+    constructor(public global: Global, public profilePageProxy: ProfilePageProxy,public seoService:SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle("Profile Details");
         if(this.global.getStorageDetail('company-user')){
             this.global.navigateToNewPage('/company/profile');
         }
@@ -91,6 +93,7 @@ export class ProfilePageComponent implements OnInit {
             this.profilePageProxy.userPic(formData)
                 .subscribe((success: any) => {
                     this.userDetails.profilePic = success.filename;
+                    this.updateUserDetails();
                 });
         };
     }

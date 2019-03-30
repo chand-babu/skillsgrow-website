@@ -29,6 +29,7 @@ export class NavigationComponent implements OnInit {
   public internshipSection: boolean = false;
   public courseCategoryName: Array<any> = [];
   public navbarOpen = false;
+  public userProfilePic = '';
 
   constructor(public listingCourseProxy: ListingCourseProxy, public router: Router,
     public global: Global, private _eref: ElementRef, public homeProxy: HomeProxy,
@@ -40,6 +41,7 @@ export class NavigationComponent implements OnInit {
       if (user || companyUser) {
         this.logoutNavigation = true;
         this.userData = user.data;
+        this.userProfilePic = user.data.profilePic;
       } else {
         this.logoutNavigation = false;
       }
@@ -115,7 +117,7 @@ export class NavigationComponent implements OnInit {
   // }
 
   viewDetailsCourse(name: string) {
-    this.router.navigate(['/coursedetailspage', name]);
+    this.router.navigate(['/course', name]);
   }
 
   courseObj() {
@@ -136,7 +138,7 @@ export class NavigationComponent implements OnInit {
   // }
 
   searchOption(name: string) {
-    this.router.navigate(['/coursedetailspage', name]);
+    this.router.navigate(['/course', name]);
   }//modified by nandita
 
   search = (text$: Observable<string>) =>
@@ -148,7 +150,7 @@ export class NavigationComponent implements OnInit {
 
   formatter = (x: { courseName: string, _id: any, courseNameUrl:string}) => {
     // this.router.navigate(['/coursedetailspage', x._id]); 
-    this.router.navigate(['/coursedetailspage', x.courseNameUrl]); //modified by nandita
+    this.router.navigate(['/course', x.courseNameUrl]); //modified by nandita
 
   }
 

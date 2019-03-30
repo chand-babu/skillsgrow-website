@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RegisterProxy } from './register.proxy';
 import { Global } from '../../common/global';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-register',
@@ -26,15 +27,18 @@ export class RegisterComponent implements OnInit {
     public sspId: any;
 
     constructor(public registerProxy: RegisterProxy, public global: Global,
-        public activateRoute: ActivatedRoute, public router: Router) {
+        public activateRoute: ActivatedRoute, public router: Router,public seoService:SEOService) {
     }
 
     ngOnInit() {
+        // this.seoService.setRobots();
+        this.seoService.updateTitle("Create Account");
         this.set = setInterval(this.defaultTab, 100);
         this.activateRoute.params.forEach(params => {
             this.sspId = params['id'];
-            // console.log(this.sspId);
-            if (this.sspId !== 'sign-up') {
+            console.log(typeof this.sspId);
+            // if (this.sspId !== 'sign-up') {
+            if (this.sspId !== '1') {
                 this.registerProxy.getSSP()
                 .subscribe((success: any) => {
                     let sspMemberId: boolean = false;

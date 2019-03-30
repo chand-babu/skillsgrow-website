@@ -3,6 +3,7 @@ import { LoginProxy } from './login.proxy';
 import { Global } from '../../common/global';
 import { MatSnackBar } from '@angular/material';
 import { SnackBarComponent } from './../../components/snach-bar/sanck-bar.component';
+import { SEOService } from './../../common/seo.service';
 
 @Component({
     selector: 'app-login',
@@ -27,10 +28,12 @@ export class LoginComponent implements OnInit {
     public forgotSuccessMessage: boolean = false;
 
     constructor(public loginProxy: LoginProxy, public global: Global,
-        public snackBar: MatSnackBar) {
+        public snackBar: MatSnackBar,public seoService:SEOService) {
     }
 
     ngOnInit() {
+        // this.seoService.setRobots();
+        this.seoService.updateTitle("Sign In");
         if (this.global.getStorageDetail('company-user')) {
             this.alertClass = true;
             this.message = 'Company Account already logged in please logout';
@@ -78,7 +81,8 @@ export class LoginComponent implements OnInit {
                 } else {
                     form.reset();
                     this.alertClass = false;
-                    this.global.storeDataLocal('user', success);
+                    this.global.storeDataLocal('user', success); 
+                    // this.global.storeDataLocal('user', {'userId':success.data._id});
                     if (this.global.getStorageDetail('internshipRedirect')) {
                         this.global.navigateToNewPage('/internship/' +
                          this.global.getStorageDetail('internshipRedirect'));

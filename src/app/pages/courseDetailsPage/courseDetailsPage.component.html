@@ -81,8 +81,10 @@
   </mat-sidenav-container>
 
   <div id="main" class="row course-descriptions">
+
     <div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+      <!-- <span class="closebtn" (click)="closeNav()">&times;</span> -->
+      <span class="closebtn" (click)="closeNav()">&times;</span>
       <ul>
         <li id="defaultOpen" class="tablinks " (click)="aboutCourse($event, 'about')">About Course</li>
         <li class="tablinks " (click)="aboutCourse($event, 'curriculum')">
@@ -99,6 +101,7 @@
       </ul>
     </div>
 
+
     <div class="col-12">
       <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
         <a class="close" data-dismiss="alert" aria-label="close" (click)="errorMessage = false">&times;</a>
@@ -111,11 +114,11 @@
       <div *ngIf="hideTheMenuBar" class="menu-bar-icon">
         <span (click)="openNav()">&#9776;</span>
       </div>
-      <div id="about" class="tabcontent">
+      <div  id="about" class="tabcontent">
         <h4>About Course</h4>
         <p [innerHTML]="editorContent"></p>
       </div>
-      <div id="curriculum" class="tabcontent">
+      <div *ngIf="curriculum" id="curriculum" class="tabcontent">
         <!-- expansion panel for topics -->
         <mat-accordion *ngFor="let x of topicList;let topicIndex = index">
           <mat-expansion-panel [expanded]="topicIndex == 0" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
@@ -146,7 +149,7 @@
           </div>
         </div>
       </div>
-      <div id="review" class="tabcontent">
+      <div *ngIf="review" id="review" class="tabcontent">
         <h4>Review Section</h4>
         <div *ngIf="infoMessage" class="alert alert-info">
           <strong>Info!</strong> Only Enrolled User Can Review the Course.
@@ -178,7 +181,7 @@
           </div>
         </form>
       </div>
-      <div id="biography" class="tabcontent">
+      <div *ngIf="biography" id="biography" class="tabcontent">
         <h4>About Instructor</h4>
         <div *ngIf="x.authorDetails[0] != null" class="tabel-responsive">
           <table class="table table-bordered">
@@ -203,10 +206,10 @@
           </table>
         </div>
       </div>
-      <div id="chatForums" class="tabcontent">
+      <div *ngIf="chatForums" id="chatForums" class="tabcontent">
         <app-chat-forum [courseId]="courseId" [courseDetails]="courseDetails"></app-chat-forum>
       </div>
-      <div id="faq" class="tabcontent">
+      <div *ngIf="faq" id="faq" class="tabcontent">
         <div *ngIf="x.faq" class="row">
           <div class="col-12 accordion-container" *ngFor="let faq of x.faq">
             <button class="accordion">{{faq.question}}</button>
@@ -218,5 +221,4 @@
       </div>
     </div>
   </div>
-
 </div>

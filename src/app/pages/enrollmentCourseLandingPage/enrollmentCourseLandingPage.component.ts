@@ -5,7 +5,9 @@ import { Constants } from '../../common/constants';
 import { ListingCourseProxy } from '../../components/course-listing/course-listing.proxy';
 import * as html2canvas from 'html2canvas';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CourseListingComponent } from 'src/app/components/all';
+import { CourseListingComponent } from '../../components/all';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
     selector: 'app-enrollemnt-page',
@@ -28,10 +30,11 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
         public router: Router, public courseListProxy: ListingCourseProxy,
-        private modalService: NgbModal) {
+        private modalService: NgbModal, public seoService: SEOService) {
     }
 
     ngOnInit() {
+        this.seoService.updateTitle('Skillsgrow');
         let hourSpent = this.global.getStorageDetail('timetaken');
         hourSpent = hourSpent / 60;
         hourSpent = Math.round(hourSpent);
@@ -42,6 +45,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
         this.userDetails.courseEnrolled.filter((data) => {
             if (data._id === this.courseId) {
                 this.courseListData = data;
+                this.seoService.updateTitle("Course - " + (this.courseListData.courseName).toLowerCase());
                 this.updateCourseData(this.courseId, this.courseListData);
             }
         });
@@ -88,7 +92,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
             this.selectedItem = -1;
         }
     }
-    
+
     learningPageUrl(data, topicName, topicIndex) {
         let status: boolean;
         if (data.markScore || data.markScore === 0) {
@@ -128,8 +132,8 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
                                 if (courseData.timeline[chapterIndex]) {
                                     if (chapter.title === courseData.timeline[chapterIndex].title) {
                                         chapter.topics.filter((topicsDescription, topicIndex) => {
-                                        courseData.timeline[chapterIndex].topics[topicIndex].description = topicsDescription.description;
-                                        courseData.timeline[chapterIndex].topics[topicIndex].questions = topicsDescription.questions;
+                                            courseData.timeline[chapterIndex].topics[topicIndex].description = topicsDescription.description;
+                                            courseData.timeline[chapterIndex].topics[topicIndex].questions = topicsDescription.questions;
                                         });
                                     } else {
                                         courseData.timeline.push(chapter);
@@ -145,7 +149,7 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
                                             question.questionsLength = this.findingQuestionLength(alreadyAttendQuestion);
                                         } else {
                                             const questions = question.questions;
-                                           question.questionsLength = this.findingQuestionLength(questions);
+                                            question.questionsLength = this.findingQuestionLength(questions);
                                         }
                                     });
                                 });
@@ -157,16 +161,16 @@ export class EnrollmentCourseLandingPageComponent implements OnInit {
     }
 
     // finding questions length
-  findingQuestionLength(question) {
-      this.noOfQuestions = 0;
-    if (question) {
-        question.filter((ques) => {
-            if (ques.questionStatus === '1') {
-              this.noOfQuestions = this.noOfQuestions + ques.question.length;
-            } else {
-              this.noOfQuestions++;
-            }
-          });
+    findingQuestionLength(question) {
+        this.noOfQuestions = 0;
+        if (question) {
+            question.filter((ques) => {
+                if (ques.questionStatus === '1') {
+                    this.noOfQuestions = this.noOfQuestions + ques.question.length;
+                } else {
+                    this.noOfQuestions++;
+                }
+            });
         } else {
             this.noOfQuestions = 0;
         }

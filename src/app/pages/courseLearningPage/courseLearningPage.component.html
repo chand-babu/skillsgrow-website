@@ -37,9 +37,9 @@
           <p [innerHTML]="editorContent">
           </p>
         </div>
-        <div *ngIf="testBtnShow" class="col-12 text-right">
+        <!-- <div *ngIf="testBtnShow" class="col-12 text-right">
           <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
-        </div>
+        </div> -->
       </div>
       <div *ngIf="chatForumsSection">
         <app-chat-forum [courseId]="courseId" [courseDetails]="courseLearningData"></app-chat-forum>

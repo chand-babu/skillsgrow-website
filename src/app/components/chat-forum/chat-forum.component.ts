@@ -2,6 +2,8 @@ import { Component, OnChanges, ViewChildren, Input } from '@angular/core';
 import * as io from 'socket.io-client';
 import { Constants } from '../../common/constants';
 import { Global } from '../../common/global';
+import { PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-chat-forum',
@@ -30,7 +32,7 @@ export class ChatForumComponent implements OnChanges {
       createdOn: new Date()
   };
   @ViewChildren('textarea') vc;
-  constructor(public global: Global,) { }
+    constructor(public global: Global, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnChanges() {
     if (this.courseId && this.courseId !== '') {
@@ -47,7 +49,10 @@ export class ChatForumComponent implements OnChanges {
               this.chatData = response.data;
               setTimeout(() => {
                   const messageBody = document.querySelector('#messageBody');
-                  messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                //   messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                  if (isPlatformBrowser(this.platformId)) {
+                      messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+                  }
               }, 100);
           }
       });

@@ -36,6 +36,7 @@ export class CourseTestPageComponent implements OnInit {
     public count = 0;
     public courseId: string; //added by nandita
 
+
     constructor(public global: Global, public activateRoute: ActivatedRoute,
         public router: Router, public courseTestProxy: CourseTestPageProxy) { }
 
@@ -94,17 +95,52 @@ export class CourseTestPageComponent implements OnInit {
 
     answer(event, ans, index) {
         this.userAnswer = ans;
+        this.infoMessage = false;
     }
 
     saveAndContinue(clicktype, index?) {
         const timetaken = this.timeElapsed();
         const findIndex = [];
         if (clicktype === 'btnClick') {
+            if (this.userAnswer) {
+                console.log("&&&&&", this.testData.questions.length ,'===', this.selectedItem + 1)
+                if (this.testData.questions.length === this.selectedItem + 1) {
+                    this.removeDuplicateObject(timetaken);
+                    this.questionobj = [];
+                    this.showMark = true;
+                    this.markScore();
+                } else {
+                    this.removeDuplicateObject(timetaken);
+                    this.userAnswer = '';
+                    this.questionAnswer = '';
+                    this.questionobj = [];
+                    this.count = this.count + 1;
+                    this.selectedItem = this.count;
+                    this.questionIndex(this.selectedItem);
+                }
+            } else {
+                this.infoMessage = true;
+                this.message = 'Please choose an option to continue.';
+            }
+        } else {
+            this.removeDuplicateObject(timetaken);
+            this.seconds = 0;
+            this.userAnswer = '';
+            this.questionAnswer = '';
+            this.questionobj = [];
+            this.questionIndex(index);
+        }
+    }
+
+    review(clicktype, index?) {
+        const timetaken = this.timeElapsed();
+        const findIndex = [];
+        if (clicktype === 'btnClick') {
             if (this.testData.questions.length === this.selectedItem + 1) {
                 this.removeDuplicateObject(timetaken);
-                this.questionobj = [];
-                this.showMark = true;
-                this.markScore();
+                // this.questionobj = [];
+                // this.showMark = true;
+                // this.markScore();
             } else {
                 this.removeDuplicateObject(timetaken);
                 this.userAnswer = '';
@@ -122,7 +158,7 @@ export class CourseTestPageComponent implements OnInit {
             this.questionobj = [];
             this.questionIndex(index);
         }
-    }
+    }//added by nandita
 
     numberOfQuestions(courseId, questionNumber) {
         this.selectedItem = questionNumber;
@@ -224,7 +260,7 @@ export class CourseTestPageComponent implements OnInit {
                                 data.currentScore = this.userScore + '/' + this.noOfQuestions;
                                 data.currentTopic = this.paramsData.topicName;
                                 data.questionsLength = this.noOfQuestions,
-                                topic.markScore = this.userScore;
+                                    topic.markScore = this.userScore;
                                 topic.questionsLength = this.noOfQuestions;
                                 topic.allQuestionsWithAnswer = this.questionWithAnswer;
                             }
@@ -238,6 +274,7 @@ export class CourseTestPageComponent implements OnInit {
 
         this.courseTestProxy.userScore({ userId: user.data._id, courses: user.data.courseEnrolled })
             .subscribe((success) => {
+                console.log("***********",success)
             });
         const userData = this.global.storeDataLocal('user', user);
         this.global.deleteLocalData('courselearn');

@@ -3,6 +3,8 @@ import { Global } from '../../common/global';
 import { HomeProxy } from './home.proxy';
 import { Router } from '@angular/router';
 import { Constants } from '../../common/constants';
+import { SEOService } from './../../common/seo.service';
+
 
 @Component({
   selector: 'app-home',
@@ -42,9 +44,13 @@ export class HomeComponent implements OnInit {
   }
 
   constructor(public global: Global, public homeproxy: HomeProxy,
-    public router: Router) { }
+    public router: Router, public seoService: SEOService) { }
 
   ngOnInit() {
+    // this.seoService.setRobots();
+    this.seoService.updateDescription('Home page');
+    this.seoService.updateKeywords('Home');
+    this.seoService.updateTitle('Home');
     this.bannerImagesList();
     this.imagePath = Constants.IMAGEPATH;
     this.getCategoryName(0);

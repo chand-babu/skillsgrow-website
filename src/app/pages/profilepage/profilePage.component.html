@@ -65,19 +65,25 @@
               <h3>Change Your Password</h3>
               <div class="form-group">
                 <label>Enter Old Password</label>
-                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="changePasswordObj.oldPassword">
+                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="changePasswordObj.oldPassword"
+                  #oldPassword="ngModel" required>
+                <div *ngIf="oldPassword.invalid && oldPassword.touched" class="error-message">Field is required</div>
               </div>
               <div class="form-group">
                 <label>Enter New Password</label>
-                <input type="password" class="form-control" name="password" [(ngModel)]="changePasswordObj.password">
+                <input type="password" class="form-control" name="password" [(ngModel)]="changePasswordObj.password"
+                  #password="ngModel" required>
+                <div *ngIf="password.invalid && password.touched" class="error-message">Field is required</div>
               </div>
               <div class="form-group">
                 <label>Confirm New Password</label>
-                <input type="password" class="form-control" name="cpassword" [(ngModel)]="changePasswordObj.confirmPassword" />
+                <input type="password" class="form-control" name="cpassword" [(ngModel)]="changePasswordObj.confirmPassword"
+                  #cpassword="ngModel" required>
+                <div *ngIf="cpassword.invalid && cpassword.touched" class="error-message">Field is required</div>
               </div>
               <br>
               <div class="text-right">
-                <button class="btn">Change Password</button>
+                <button class="btn" [disabled]="passwordForm.invalid">Change Password</button>
               </div>
             </form>
             <div class="profileTabContent text-center" id="logout">
