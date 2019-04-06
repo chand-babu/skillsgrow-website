@@ -14,7 +14,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const config = filterEnv(/(BB_\w+)/, { json: true, freeze: true });
 import { ROUTES } from './src/routes';
-const PORT = process.env.BB_PORT || 80;
+const PORT = process.env.BB_PORT || 443;
 
 //Added to remove server db connent issue 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -41,6 +41,14 @@ global['CSS'] = null;
 global['Prism'] = null;
 
 const app = express();
+
+var tls = require('tls');
+var https = require('https');
+var privateKey = fs.readFileSync('./../ssl/keys/random_private_key.key', 'utf8');
+var certificate = fs.readFileSync('./../ssl/certs/www_skillsgrow_com_ba552_43d23_1585495837_4543fe0fce1f2bccaac07cda2c200480.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+tls.createSecureContext({ key: privateKey, cert: certificate });
+var httpsServer = https.createServer(credentials, app);
 
 // Config renderer
 try {
@@ -120,6 +128,17 @@ app.get('/env', (req, res) => {
   res.json(process.env);
 })
 
-app.listen(PORT, () => {
+// app.listen(PORT, () => {
+//   console.log(`we are serving the site for you at http://localhost:${PORT}!`);
+// });
+
+httpsServer.listen(PORT, () => {
   console.log(`we are serving the site for you at http://localhost:${PORT}!`);
 });
+
+var http = require('http');
+
+http.createServer(function (req, res) {
+  res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.end();
+}).listen(80);

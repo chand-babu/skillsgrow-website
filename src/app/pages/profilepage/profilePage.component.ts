@@ -5,6 +5,7 @@ import { Constants } from '../../common/constants';
 import { SEOService } from './../../common/seo.service';
 
 
+
 @Component({
     selector: 'app-profile-page',
     templateUrl: './profilePage.component.html',
@@ -34,8 +35,9 @@ export class ProfilePageComponent implements OnInit {
     public _URL = window.URL;
     public imagePath = Constants.IMAGEPATH;
     public userPersonalDetails: any;
+    public showLink: boolean = false;
 
-    constructor(public global: Global, public profilePageProxy: ProfilePageProxy,public seoService:SEOService) {
+    constructor(public global: Global, public profilePageProxy: ProfilePageProxy, public seoService: SEOService) {
     }
 
     ngOnInit() {
@@ -132,7 +134,12 @@ export class ProfilePageComponent implements OnInit {
                     } else {
                         this.successMessage = false;
                         this.errorMessage = true;
-                        this.message = 'Old Password Is Incorrect';
+                        this.message = success.message;
+                        if (success.reason == 'Invalid') {
+                            this.showLink = true;
+                        }else{
+                            this.showLink = false;
+                        }
                     }
                 });
         } else {

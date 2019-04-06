@@ -25,9 +25,10 @@ export class RegisterComponent implements OnInit {
     public errorMessage: boolean = false;
     public message: any;
     public sspId: any;
+    public validEmail: boolean = false;
 
     constructor(public registerProxy: RegisterProxy, public global: Global,
-        public activateRoute: ActivatedRoute, public router: Router,public seoService:SEOService) {
+        public activateRoute: ActivatedRoute, public router: Router, public seoService: SEOService) {
     }
 
     ngOnInit() {
@@ -40,22 +41,22 @@ export class RegisterComponent implements OnInit {
             // if (this.sspId !== 'sign-up') {
             if (this.sspId !== '1') {
                 this.registerProxy.getSSP()
-                .subscribe((success: any) => {
-                    let sspMemberId: boolean = false;
-                    // console.log(success);
-                    const sspMembers = success.data;
-                    sspMembers.filter((data) => {
-                        if (data._id === this.sspId) {
-                            sspMemberId = true;
-                            this.learnerData.referId = this.sspId;
+                    .subscribe((success: any) => {
+                        let sspMemberId: boolean = false;
+                        // console.log(success);
+                        const sspMembers = success.data;
+                        sspMembers.filter((data) => {
+                            if (data._id === this.sspId) {
+                                sspMemberId = true;
+                                this.learnerData.referId = this.sspId;
+                            }
+                        });
+                        if (!sspMemberId) {
+                            this.successMessage = false;
+                            this.errorMessage = true;
+                            this.message = 'Invalid SSP coupon code';
                         }
                     });
-                    if (!sspMemberId) {
-                        this.successMessage = false;
-                        this.errorMessage = true;
-                        this.message = 'Invalid SSP coupon code';
-                    }
-                });
             }
         });
     }
@@ -84,12 +85,14 @@ export class RegisterComponent implements OnInit {
             // console.log(this.learnerData);
             this.registerProxy.registerDataService(this.learnerData)
                 .subscribe((success) => {
-                    // console.log(success);
                     if (success.result) {
                         this.successMessage = true;
                         this.errorMessage = false;
                         this.message = 'Please check your email for account activation !!!';
                         form.reset();
+                    } else {
+                        this.errorMessage = true;
+                        this.message = success.message;
                     }
                 });
         } else {
@@ -101,16 +104,19 @@ export class RegisterComponent implements OnInit {
 
     emailExistOrNot() {
         this.registerProxy.checkEmail(this.learnerData.emailId)
-        .subscribe((success: any) => {
-            if (success.result) {
-                this.errorMessage = true;
-                this.successMessage = false;
-                this.message = 'Email Already Registered';
-            } else {
-                this.errorMessage = false;
-                this.successMessage = false;
-            }
-        });
+            .subscribe((success: any) => {
+                if (success.result) {
+                    this.errorMessage = true;
+                    this.successMessage = false;
+                    this.validEmail = true;
+                    this.message = success.message;
+                } else {
+                    this.errorMessage = false;
+                    this.successMessage = false;
+                    this.message = '';
+                    this.validEmail = false;
+                }
+            });
     }
 
 }

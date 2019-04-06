@@ -58,7 +58,8 @@
                 </div>
                 <div class="col-12 col-md-6 login-field">
                     <div *ngIf="forgotErrorMessage" class="alert alert-danger">
-                        <strong>Error!</strong> {{message}}
+                        <strong>Error!</strong> {{message}} <a *ngIf="showLink" routerLink="/register/1">Resister
+                          Here</a>
                     </div>
                     <div *ngIf="forgotSuccessMessage" class="alert alert-success">
                         <strong>Success!</strong> {{message}}

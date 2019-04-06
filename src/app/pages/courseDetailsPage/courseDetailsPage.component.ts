@@ -108,7 +108,7 @@ export class CourseDetailsPageComponent implements OnInit {
                 // console.log("***********", this.courseDetails);
                 // this.seoService.setRobots();
                 this.seoService.updateTitle("Course - " + (this.courseDetails[0].courseName).toLowerCase());
-                this.seoService.updateKeywords(this.courseDetails[0].courseName);
+                this.seoService.updateKeywords(this.courseDetails[0].courseKeywords ? this.courseDetails[0].courseKeywords : this.courseDetails[0].courseName);
                 this.seoService.updateDescription(this.courseDetails[0].shortDescription);
                 this.courseId = this.courseDetails[0]._id;//added by nandita
                 this.hideTheMenuBar = true;
@@ -210,7 +210,7 @@ export class CourseDetailsPageComponent implements OnInit {
         for (let i = 0; i < tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace('active', '');
         }
-        if(this.elementRef.nativeElement.querySelector('#' + id)){
+        if (this.elementRef.nativeElement.querySelector('#' + id)) {
             this.elementRef.nativeElement.querySelector('#' + id).style.display = 'block';
         }
         evt.currentTarget.className += 'active';

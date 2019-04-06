@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     public expired: boolean = false;
     public forgotErrorMessage: boolean = false;
     public forgotSuccessMessage: boolean = false;
+    public showLink: boolean = false;
 
     constructor(public loginProxy: LoginProxy, public global: Global,
         public snackBar: MatSnackBar,public seoService:SEOService) {
@@ -99,6 +100,11 @@ export class LoginComponent implements OnInit {
         this.loginProxy.forgotPasswordService({emailId: this.forPassword})
         .subscribe((success) => {
             if (!success.result) {
+                if(success.reason == 'Invalid'){
+                    this.showLink = true;
+                }else{
+                    this.showLink = false;
+                }
                 this.forgotErrorMessage = true;
                 this.forgotSuccessMessage = false;
                 this.message = success.message;
