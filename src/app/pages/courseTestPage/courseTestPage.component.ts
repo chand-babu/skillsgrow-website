@@ -13,6 +13,7 @@ import { CourseTestPageProxy } from './courseTestPage.proxy';
 export class CourseTestPageComponent implements OnInit {
     public categoryListData: any;
     public imagePath = Constants.IMAGEPATH;
+    public alphArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     public questionobj = [];
     seconds: number;
     quesIndex: number = 1;
@@ -22,6 +23,7 @@ export class CourseTestPageComponent implements OnInit {
     userAnswer: any;
     public noOfQuestions = 0;
     userScore: any;
+    wrongAns: any;
     public previousSelectedItem = [];
     questionAnswer = '';
     public paramsData: any;
@@ -35,6 +37,9 @@ export class CourseTestPageComponent implements OnInit {
     public questionNumber: any;
     public count = 0;
     public courseId: string; //added by nandita
+    public allqusAndans = [];
+    public writingTypedQes: boolean = false;
+
 
 
     constructor(public global: Global, public activateRoute: ActivatedRoute,
@@ -103,7 +108,6 @@ export class CourseTestPageComponent implements OnInit {
         const findIndex = [];
         if (clicktype === 'btnClick') {
             if (this.userAnswer) {
-                console.log("&&&&&", this.testData.questions.length ,'===', this.selectedItem + 1)
                 if (this.testData.questions.length === this.selectedItem + 1) {
                     this.removeDuplicateObject(timetaken);
                     this.questionobj = [];
@@ -120,7 +124,7 @@ export class CourseTestPageComponent implements OnInit {
                 }
             } else {
                 this.infoMessage = true;
-                this.message = 'Please choose an option to continue.';
+                this.message = 'Please give answer to continue.';
             }
         } else {
             this.removeDuplicateObject(timetaken);
@@ -189,13 +193,25 @@ export class CourseTestPageComponent implements OnInit {
                 data.question.filter((passageQues) => {
                     (passageQues.userAnswer !== passageQues.answer) ? wrong++ : score++;
                 });
+            } else if (data.questionStatus === '4') {
+                this.writingTypedQes = true;
+                let wordLength = data.userAnswer.split(' ')
+                    .filter(function (n) { return n != '' })
+                    .length;
+                if (wordLength >= 40) {
+                    score++
+                } else {
+                    wrong++
+                }
             } else {
                 (data.userAnswer !== data.answer) ? wrong++ : score++;
             }
         });
         this.userScore = score;
+        this.wrongAns = this.noOfQuestions - this.userScore;
         this.submitTheMarkInDb();
     }
+
 
     removeDuplicateObject(timetaken) {
         if (this.questionWithAnswer.length >= 1) {
@@ -247,7 +263,10 @@ export class CourseTestPageComponent implements OnInit {
         let i = 0;
         this.testData.markScore = this.userScore;
         this.testData.allQuestionsWithAnswer = this.questionWithAnswer;
+
         const user = this.global.getStorageDetail('user');
+        // console.log("++++++++user.data.courseEnrolled+++++++++++", user.data.courseEnrolled)
+
         user.data.courseEnrolled.filter((data) => {
             if (data._id === this.paramsData.courseId) {
                 data.timeline.filter((title) => {
@@ -274,7 +293,7 @@ export class CourseTestPageComponent implements OnInit {
 
         this.courseTestProxy.userScore({ userId: user.data._id, courses: user.data.courseEnrolled })
             .subscribe((success) => {
-                console.log("***********",success)
+                // console.log("***********",success)
             });
         const userData = this.global.storeDataLocal('user', user);
         this.global.deleteLocalData('courselearn');

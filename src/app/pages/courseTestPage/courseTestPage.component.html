@@ -74,11 +74,12 @@
           <span>{{questionNumber + 1}}. </span>
           <span>{{x.question}}</span>
           <div class="col-12 align-to-left" *ngFor="let y of x.options;let i = index">
-            <span *ngIf="i == 0">A.</span>
+            <!-- <span *ngIf="i == 0">A.</span>
             <span *ngIf="i == 1">B.</span>
             <span *ngIf="i == 2">C.</span>
             <span *ngIf="i == 3">D.</span>
-            <span *ngIf="i == 4">E.</span>
+            <span *ngIf="i == 4">E.</span> -->
+            <span>{{alphArray[i]}}.</span>
             <label class="container-radio">
               <span style="position: relative;top: 5px;">{{y}}</span>
               <input type="radio" [(ngModel)]="questionAnswer" [value]="y" name="radio"
@@ -86,6 +87,12 @@
               <span class="checkmark"></span>
             </label>
           </div>
+
+          <div class="col-12 align-to-left" *ngIf="x.questionStatus == 4">
+            <textarea class="form-control border-color noresize" type="text" placeholder="Write your answer"
+              name="userWriteAnswer" [(ngModel)]="userAnswer" #userWriteAnswer="ngModel"></textarea>
+          </div>
+
         </div>
         <div *ngIf="errorMessage" class="alert alert-danger default-margin-top">{{message}}</div>
         <div *ngIf="x.passage" class="col-12">
@@ -99,14 +106,15 @@
           <div class="default-margin-top" *ngFor="let y of x.question; let q = index"><b><span>{{q+1}}.</span>
               {{y.question}}</b>
             <form class="col-12 align-to-left" *ngFor="let z of y.options;let ind = index">
-              <span *ngIf="ind == 0">A.</span>
+              <!-- <span *ngIf="ind == 0">A.</span>
               <span *ngIf="ind == 1">B.</span>
               <span *ngIf="ind == 2">C.</span>
               <span *ngIf="ind == 3">D.</span>
               <span *ngIf="ind == 4">E.</span>
               <span *ngIf="ind == 5">F.</span>
               <span *ngIf="ind == 6">G.</span>
-              <span *ngIf="ind == 7">H.</span>
+              <span *ngIf="ind == 7">H.</span> -->
+              <span>{{alphArray[ind]}}.</span>
               <label class="container-radio">
                 <span style="position: relative;top: 5px;">{{z}}</span>
                 <input type="radio" [(ngModel)]="y.userAnswer" [value]="z" name="radio" (change)="answer($event,z)">
@@ -122,16 +130,114 @@
           <button class="btn save-btn" (click)="saveAndContinue('btnClick')">Save & Continue</button>
         </div>
       </div>
-      <div *ngIf="showMark" class="col-6 offset-3 text-center score-card">
-        <h1>Score Card</h1>
-        <div class="form-group">
-          <i class="fa fa-trophy fa-4x"></i>{{userScore}}/{{noOfQuestions}}</div>
-        <div>
-          <button (click)="goToDashboardPage()" class="btn btn-success">Go TO Dashboard Page
-            <i class="fa fa-arrow-right"></i>
-          </button>
+
+
+      <!-- Showing results of all questions -->
+      <div class="question" *ngIf="showMark && !writingTypedQes">
+        <h2>Results:</h2>
+        <div class="form-group align-to-left">
+          <b>Right answers: </b><span>{{userScore}}</span>
+          <br>
+          <b>Wrong answers: </b><span>{{wrongAns}}</span>
+        </div>
+        <h2>Answers:</h2>
+        <div *ngFor="let x of questionWithAnswer;let qIndex = index">
+
+          <div *ngIf="!x.passage && x.questionStatus != '4'">
+            <span>{{qIndex + 1}}. </span>
+            <span>{{x.question}}</span>
+            <div class="col-12 align-to-left" *ngFor="let optn of x.options;let i = index">
+              <span>{{alphArray[i]}}.</span>
+              <label class="container-radio">
+                <span style="position: relative;top: 5px;">{{optn}}
+                  <span *ngIf="x.userAnswer == optn && x.userAnswer!= x.answer" style="color:red">&#10008;</span>
+                  <span *ngIf="x.answer == optn" style="color:green">&#10004;</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+
+          <div *ngIf="x.passage && x.questionStatus != '4'">
+            <div class="default-margin-top" *ngFor="let queObj of x.question; let q = index"><b><span>{{q+1}}.</span>
+                {{queObj.question}}</b>
+              <!-- <br> -->
+              <div class="col-12 align-to-left" *ngFor="let optn of queObj.options;let ind = index">
+                <span>{{alphArray[ind]}}.</span>
+                <label class="container-radio">
+                  <span style="position: relative;top: 5px;">{{optn}}
+                    <span *ngIf="queObj.userAnswer == optn && queObj.userAnswer!=queObj.answer"
+                      style="color:red">&#10008;</span>
+                    <span *ngIf="queObj.answer == optn" style="color:green">&#10004;</span>
+                  </span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <div *ngIf="x.questionStatus == '4'">
+            <span>{{qIndex + 1}}. </span>
+            <span>{{x.question}}</span>
+            <h5>Your Answer:</h5>
+            <p>{{x.userAnswer}}</p>
+            <h5>For your Reference:</h5>
+            <p>{{x.answer}}</p>
+          </div>
+
+        </div>
+
+        
+
+        <!-- <div *ngFor="let qus of questionWithAnswer;let qIndex = index">
+          <div class="col-12 align-to-left" *ngFor="let optn of qus.options;let oIndex = index">
+            <span>{{alphArray[oIndex]}}</span>
+            <label class="container-radio">
+              <span style="position: relative;top: 5px;">{{optn}} 
+                <span *ngIf="qus.answer == optn" style="color:green">&#10004;</span>
+                <span *ngIf="userAnswer == optn" style="color:red">&#10008;</span>
+              </span>
+            </label>
+          </div>
+        </div> -->
+
+
+
+        <div class="col-6 offset-3 text-center score-card">
+          <!-- <div class="col-6 offset-3 text-center score-card"> -->
+          <h1>Score Card</h1>
+          <div class="form-group">
+            <i class="fa fa-trophy fa-4x"></i>{{userScore}}/{{noOfQuestions}}</div>
+          <div>
+            <button (click)="goToDashboardPage()" class="btn btn-success">Go TO Dashboard Page
+              <i class="fa fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
       </div>
+
+      <div class="question" *ngIf="showMark && writingTypedQes">
+         <h2>Answers:</h2>
+         <div *ngFor="let x of questionWithAnswer;let qIndex = index">
+           <div *ngIf="x.questionStatus == '4'">
+             <span>{{qIndex + 1}}. </span>
+             <span>{{x.question}}</span>
+             <h5>Your Answer:</h5>
+             <p>{{x.userAnswer}}</p>
+             <h5>For your Reference:</h5>
+             <p>{{x.answer}}</p>
+           </div>
+         </div>
+
+         <div class="col-6 offset-3 text-center">
+             <button (click)="goToDashboardPage()" class="btn btn-success">Go TO Dashboard Page
+               <i class="fa fa-arrow-right"></i>
+             </button>
+         </div>
+         
+         
+      </div>
+
     </div>
   </div>
 </div>

@@ -145,7 +145,7 @@ export class CourseDetailsPageComponent implements OnInit {
     checkingUserEnrollment(data: any) {
         if (data.enrolledUser.length >= 1) {
             data.enrolledUser.filter((email) => {
-                if (email.userEmailId === this.user.emailId) {
+                if (email.userId.emailId === this.user.emailId) {
                     data.enrollBtn = false;
                 }
             });
@@ -219,7 +219,7 @@ export class CourseDetailsPageComponent implements OnInit {
 
     disableTab() {
         const form: any = this.elementRef.nativeElement.querySelectorAll('.tabcontent');
-        console.log("++++++++++++++++", form)
+        // console.log("++++++++++++++++", form)
 
         for (let i = 0; i < form.length; i++) {
             form[i].style.display = 'none';

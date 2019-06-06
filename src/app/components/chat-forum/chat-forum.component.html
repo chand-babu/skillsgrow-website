@@ -1,50 +1,55 @@
 <h4>Discussion Forums</h4>
-  <div class="row">
-      <div class="col-12">
-          <div class="chat-forums" id="messageBody">
-              <ng-container *ngIf="chatData.length >= 1">
-                  <div class="message-container row" *ngFor="let message of chatData">
-                      <div class="col-md-2">
-                          <img src="assets/image/dummyuser.png" alt="Avatar">
-                      </div>
-                      <div class="col-md-10">
-                          <p>{{message.chatMessage}}</p>
-                      </div>
-                      <div class="col-md-6">{{message.userName}}</div>
-                      <div class="col-md-6 text-right">
-                          <span class="reply-link" (click)="chatReplyLink(message._id,message.userName)">Reply</span>
-                          <span class="time-right">{{message.createdOn | date:'medium'}}</span>
-                      </div>
-                      <ng-container *ngIf="message.replyMessage?.length >= 1">
-                          <div class="message-container darker row w-100" *ngFor="let x of message.replyMessage">
-                              <div class="col-md-10">
-                                  <p>{{x.replyMessage}}</p>
-                              </div>
-                              <div class="col-md-2">
-                                  <img src="assets/image/dummyuser.png" alt="Avatar" class="right">
-                              </div>
-                              <div class="col-md-6">
-                                  <span class="time-right">{{x.createdOn | date:'medium'}}</span>
-                              </div>
-                              <div class="col-md-6 text-right">{{x.userName}}</div>
-                          </div>
-                      </ng-container>
-                  </div>
-              </ng-container>
+<div class="row">
+  <div class="col-12">
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+      <a class="close" data-dismiss="alert" aria-label="close" (click)="errorMessage = false">&times;</a>
+      <strong>Error!</strong> {{message}}
+    </div>
+    <div class="chat-forums" id="messageBody">
+      <ng-container *ngIf="chatData.length >= 1">
+        <div class="message-container row" *ngFor="let message of chatData">
+          <div class="col-md-2">
+            <img src="assets/image/dummyuser.png" alt="Avatar">
           </div>
-          <form class="row pt-2 chat-input-message" autocomplete="off" #chatForm="ngForm" (ngSubmit)="sendUserMessage();chatForm.reset()">
-              <div class="col-12 chat-forum-field">
-                  <div class="input-group">
-                      <div *ngIf="replayUserName" class="input-group-prepend">
-                          <span class="input-group-text">@{{username}}</span>
-                      </div>
-                      <textarea #textarea class="form-control" placeholder="Ask question related to this course"
-                          name="message" [(ngModel)]="chatMessage" required></textarea>
-                      <div class="chat-forum-icon input-group-append">
-                          <button [disabled]="chatForm.invalid" class="btn"><i class="fa fa-paper-plane"></i></button>
-                      </div>
-                  </div>
+          <div class="col-md-10">
+            <p>{{message.chatMessage}}</p>
+          </div>
+          <div class="col-md-6">{{message.userName}}</div>
+          <div class="col-md-6 text-right">
+            <span class="reply-link" (click)="chatReplyLink(message._id,message.userName)">Reply</span>
+            <span class="time-right">{{message.createdOn | date:'medium'}}</span>
+          </div>
+          <ng-container *ngIf="message.replyMessage?.length >= 1">
+            <div class="message-container darker row w-100" *ngFor="let x of message.replyMessage">
+              <div class="col-md-10">
+                <p>{{x.replyMessage}}</p>
               </div>
-          </form>
+              <div class="col-md-2">
+                <img src="assets/image/dummyuser.png" alt="Avatar" class="right">
+              </div>
+              <div class="col-md-6">
+                <span class="time-right">{{x.createdOn | date:'medium'}}</span>
+              </div>
+              <div class="col-md-6 text-right">{{x.userName}}</div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+    <form class="row pt-2 chat-input-message" autocomplete="off" #chatForm="ngForm"
+      (ngSubmit)="sendUserMessage();chatForm.reset()">
+      <div class="col-12 chat-forum-field">
+        <div class="input-group">
+          <div *ngIf="replayUserName" class="input-group-prepend">
+            <span class="input-group-text">@{{username}}</span>
+          </div>
+          <textarea #textarea class="form-control" placeholder="Ask question related to this course" name="message"
+            [(ngModel)]="chatMessage" required></textarea>
+          <div class="chat-forum-icon input-group-append">
+            <button [disabled]="chatForm.invalid" class="btn"><i class="fa fa-paper-plane"></i></button>
+          </div>
+        </div>
       </div>
+    </form>
   </div>
+</div>

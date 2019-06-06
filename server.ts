@@ -129,11 +129,11 @@ app.get('/env', (req, res) => {
 })
 
 // app.listen(PORT, () => {
-//   console.log(`we are serving the site for you at http://localhost:${PORT}!`);
+//   console.log(`we are serving the site for you on port:${PORT}!`);
 // });
 
 httpsServer.listen(PORT, () => {
-  console.log(`we are serving the site for you at http://localhost:${PORT}!`);
+   console.log(`we are serving the site for you on port:${PORT}!`);
 });
 
 var http = require('http');

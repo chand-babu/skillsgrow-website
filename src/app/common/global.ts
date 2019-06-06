@@ -16,6 +16,7 @@ export class Global {
     public dataChanged = new Subject<boolean>();
     public storage = new StorageShim();
 
+
     constructor(public router: Router, public route: ActivatedRoute, public cookie: CookieService, @Inject(PLATFORM_ID) private platformId: Object) {
         this.router.events
             .filter((event) => event instanceof NavigationEnd)

@@ -36,14 +36,15 @@
           <li class="nav-item">
             <div class="text-right animated-search">
               <form>
-                <input id="typeahead-template" type="text" name="search" placeholder="Search Course" class="form-control"
-                  [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" />
+                <input id="typeahead-template" type="text" name="search" placeholder="Search Course"
+                  class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+                  [inputFormatter]="formatter" />
                 <!-- <i class="fa fa-search" (click)="searchOption(model._id)"></i> -->
                 <i class="fa fa-search" (click)="searchOption(model.courseNameUrl)"></i>
               </form>
             </div>
           </li>
-          <li class="nav-item" [routerLink]="['/']">Home</li>
+          <li class="nav-item" (click)="toggleNavbar()" [routerLink]="['/']">Home</li>
           <!-- <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['company/company-login']">Hire
             Interns</li> -->
           <!-- <li class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['contactus']">Contact
@@ -54,8 +55,17 @@
             Courses
             <i class="fa fa-angle-down"></i>
           </li>
-          <li [hidden]="logoutNavigation" class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign
-            up</li>
+          <!-- <li [hidden]="logoutNavigation" class="nav-item" [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login/Sign
+            up</li> -->
+          <li class="nav-item" (click)="toggleNavbar()" [routerLinkActive]="['active-naviagtion']"
+            [routerLink]="['blog']">Blog</li>
+          <li [hidden]="logoutNavigation" class="nav-item" (click)="toggleNavbar()"
+            [routerLinkActive]="['active-naviagtion']" [routerLink]="['login']">Login</li>
+          <li [hidden]="logoutNavigation" class="nav-item" (click)="toggleNavbar()"
+            [routerLinkActive]="['active-naviagtion']">
+            <button type="submit" [routerLink]="['register/1']" class="btn">Sign
+              Up</button>
+          </li>
           <li [hidden]="!logoutNavigation" class="nav-item" mat-button [matMenuTriggerFor]="profile_menu">
             <!-- <img src="assets/image/user-icon.png" alt="user-icon" style="width: 28px"> -->
             <img [src]="(userProfilePic) ? imagePath + userProfilePic: 'assets/image/user-icon.png'" alt="user-icon"
@@ -74,7 +84,7 @@
       <mat-menu #sub_menu="matMenu">
         <!-- <button *ngFor="let y of x.course" mat-menu-item [routerLink]="['coursedetailspage',y._id]">{{
           y.courseName }}</button> -->
-        <button *ngFor="let y of x.course" mat-menu-item [routerLink]="['course',y.courseNameUrl]">{{
+        <button *ngFor="let y of x.course" mat-menu-item (click)="toggleNavbar()" [routerLink]="['course',y.courseNameUrl]">{{
           y.courseName }}</button>
       </mat-menu>
     </ng-container>
@@ -82,8 +92,8 @@
 
   <!-- dropdown for user profile -->
   <mat-menu #profile_menu="matMenu">
-    <button mat-menu-item routerLink="/userdashboard">Dashboard</button>
-    <button mat-menu-item routerLink="/profilepage">Profile</button>
+    <button mat-menu-item (click)="toggleNavbar()" routerLink="/userdashboard">Dashboard</button>
+    <button mat-menu-item (click)="toggleNavbar()" routerLink="/profilepage">Profile</button>
     <button mat-menu-item (click)="logout()">logout</button>
   </mat-menu>
 

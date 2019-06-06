@@ -8,11 +8,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as html2canvas from 'html2canvas';
 import * as jsSHA from 'jssha';
 import { SEOService } from './../../common/seo.service';
+import { CourseDetailsPageProxy } from '../courseDetailsPage/courseDetailsPage.proxy';
+
 
 @Component({
     selector: 'app-user-dashboard',
     templateUrl: './userDashboard.component.html',
-    providers: [ListingCourseProxy]
+    providers: [ListingCourseProxy, CourseDetailsPageProxy]
 })
 
 export class UserDashboardComponent implements OnInit {
@@ -40,71 +42,269 @@ export class UserDashboardComponent implements OnInit {
     public service_provider = 'payu_paisa';
     public paidCertificate: boolean = false;
     public isImgLoaded: boolean = true;
+    public activeCourseIds = [];
+    public totalHourSpentInAllActiveCourse = 0;
+    public noOfQuestions = 0;
+    public user: any;
 
     onLoad() {
         this.isImgLoaded = false;
     }
 
 
-    constructor(public router: Router, public global: Global,
-        public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal,public seoService:SEOService) { }
+    constructor(public coursedetailspageProxy: CourseDetailsPageProxy, public router: Router, public global: Global,
+        public listingCourseProxy: ListingCourseProxy, private modalService: NgbModal, public seoService: SEOService) { }
 
     @ViewChild('SSPChangePassword') SSPChangePassword: ElementRef;
 
     ngOnInit() {
-        this.seoService.updateTitle("Dashboard");
-        this.userDetails = this.global.getStorageDetail('user').data;
-        if (this.userDetails.loginStatus === 0) {
-            setTimeout(() => {
-                this.modalService.open(this.SSPChangePassword);
-            }, 2000);
+        this.user = this.global.getStorageDetail('user');
+        if (this.user) {
+            this.user = this.global.getStorageDetail('user').data;
+
+            this.seoService.updateTitle("Dashboard");
+            this.userDetails = this.global.getStorageDetail('user').data;
+            if (this.userDetails.loginStatus === 0) {
+                setTimeout(() => {
+                    this.modalService.open(this.SSPChangePassword);
+                }, 2000);
+            }
+            this.activeCourses = this.userDetails.courseEnrolled;
+            // console.log('this.activeCourses', this.activeCourses)
+            let activeCourseProgress = 0;
+            // if (this.activeCourses.length >= 1) {
+            //     this.activeCourses.filter((data) => {
+            //         this.activeCourseIds.push(data._id);
+            //         activeCourseProgress = (data.courseProgress) ? data.courseProgress + activeCourseProgress : activeCourseProgress + 0;
+            //         if (data.courseProgress === 100) {
+            //             this.certificateCount++;
+            //         } else {
+            //             this.activeCoursesCount++;
+            //         }
+            //     });
+            //     activeCourseProgress = activeCourseProgress / this.activeCourses.length;
+            //     activeCourseProgress = Math.round(activeCourseProgress);
+            //     // activeCourseProgress = this.activeCoursesCount * 100 / this.activeCourses.length;
+            //     // activeCourseProgress = Math.round(activeCourseProgress);
+            //     // console.log(activeCourseProgress);
+            //     this.timeTakeInCourse = this.global.getStorageDetail('timeTaken');
+            //     this.timeTakeInCourse = this.timeTakeInCourse / 60;
+            //     this.timeTakeInCourse = Math.round(this.timeTakeInCourse);
+            // console.log(this.timeTakeInCourse);
+            // }
+            //===========================
+            if (this.activeCourses.length >= 1) {
+                this.activeCourses.filter((activeCourseData) => {
+                    this.updateCourseData(activeCourseData._id, activeCourseData);
+                    this.activeCourseIds.push(activeCourseData._id);
+                    activeCourseProgress = (activeCourseData.courseProgress) ? activeCourseData.courseProgress + activeCourseProgress : activeCourseProgress + 0;
+                    if (activeCourseData.courseProgress === 100) {
+                        this.certificateCount++;
+                    } else {
+                        this.activeCoursesCount++;
+                    }
+                });
+
+                // activeCourseProgress = activeCourseProgress / this.activeCourses.length;
+                // activeCourseProgress = Math.round(activeCourseProgress);
+
+            }
+
+
+            //hour spent code
+            let info = {
+                userId: this.global.getStorageDetail('user').data._id,
+                courseIds: this.activeCourseIds
+            }
+
+            this.coursedetailspageProxy.getHourSpendAllactiveCourse(info)
+                .subscribe((success: any) => {
+                    // console.log("=======findHourSpendPerCourse=====", typeof success.data.totalSpentHours, typeof success.data.totalCourseHours)
+                    if (success.data.totalSpentHours > 0 || success.data.totalCourseHours > 0) {
+                        this.totalHourSpentInAllActiveCourse = ((success.data.totalSpentHours / 60) * 100) / success.data.totalCourseHours;
+                        this.totalHourSpentInAllActiveCourse = Math.round(this.totalHourSpentInAllActiveCourse);
+                        // console.log('this.activeCourses.length', this.activeCourses.length)
+                        // console.log('this.activeCoursesCount', this.activeCoursesCount)
+                    }
+
+
+                    this.progressObj = [
+                        {
+                            width: '100',
+                            color: '#0d88aa',
+                            // title: 'Courses',
+                            title: 'Courses Enrolled',
+                            sampleTitle: (this.activeCourses.length).toString()
+                        },
+                        {
+                            width: '100',
+                            // width: activeCourseProgress,
+                            color: '#F7941D',
+                            title: 'Active Courses',
+                            sampleTitle: (this.activeCoursesCount).toString()// activeCourseProgress
+                        },
+                        {
+                            width: '100',
+                            color: '#38baae',
+                            title: 'Certificates',
+                            sampleTitle: (this.certificateCount) ? this.certificateCount : '0'
+                        },
+                        {
+                            // width: '100',
+                            width: this.totalHourSpentInAllActiveCourse,
+                            color: '#ff505d',
+                            title: 'Total Hours',
+                            // sampleTitle: '0' // (this.timeTakeInCourse === undefined) ? '0' : this.timeTakeInCourse + 'min'
+                        }
+                    ];
+                });
+
+
+
+
+
+
+            // this.progressObj = [
+            //     {
+            //         width: '100',
+            //         color: '#38baae',
+            //         title: 'Certificates',
+            //         sampleTitle: (this.certificateCount) ? this.certificateCount : '0'
+            //     },
+            //     {
+            //         width: '100',
+            //         color: '#0d88aa',
+            //         title: 'Courses',
+            //         sampleTitle: this.activeCourses.length
+            //     },
+            //     {
+            //         width: '100',
+            //         // width: activeCourseProgress,
+            //         color: '#F7941D',
+            //         title: 'Active Courses',
+            //         sampleTitle: this.activeCoursesCount// activeCourseProgress
+            //     },
+            //     {
+            //         width: '100',
+            //         color: '#ff505d',
+            //         title: 'Total Hours',
+            //         sampleTitle: '0' // (this.timeTakeInCourse === undefined) ? '0' : this.timeTakeInCourse + 'min'
+            //     }
+            // ];
+
+            this.SSPMembers();
+        }else{
+            this.global.navigateToNewPage('/login');
         }
-        this.activeCourses = this.userDetails.courseEnrolled;
-        let activeCourseProgress = 0;
-        if (this.activeCourses.length >= 1) {
-            this.activeCourses.filter((data) => {
-                activeCourseProgress = (data.courseProgress) ? data.courseProgress + activeCourseProgress : activeCourseProgress + 0;
-                if (data.courseProgress === 100) {
-                    this.certificateCount++;
-                } else {
-                    this.activeCoursesCount++;
+    }
+
+    updateCourseData(activeCourseId, activeCourseData) {
+        let totalQuesLengthOfCourse = 0;
+        this.listingCourseProxy.listCategories()
+            .subscribe((success: any) => {
+                const categoryData = success.data;
+                categoryData.filter((allCourse) => {
+                    allCourse.course.filter((course) => {
+                        if (activeCourseId === course._id) {
+                            // console.log("++++++++++++courseId============", activeCourseId);
+                            activeCourseData.imageLarge = course.imageLarge;
+                            activeCourseData.imageSmall = course.imageSmall;
+                            activeCourseData.video = course.video;
+                            activeCourseData.courseName = course.courseName;
+
+                            course.timeline.filter((chapter, chapterIndex) => {
+                                let finalTimelineLength = 0;
+                                if (course.timeline.length > activeCourseData.timeline.length) {
+                                    finalTimelineLength = course.timeline.length;
+                                } else {
+                                    finalTimelineLength = activeCourseData.timeline.length;
+                                }
+                                let j = 0;
+                                for (let i = 0; i < finalTimelineLength; i++) {
+                                    let k = 0;
+                                    if (finalTimelineLength == course.timeline.length) {
+                                        k = chapterIndex;
+                                    } else {
+                                        k = i - j;
+                                    }
+                                    if (activeCourseData.timeline[k]) {
+                                        if (chapter.title === activeCourseData.timeline[k].title) {
+                                            chapter.topics.filter((topicsDescription, topicIndex) => {
+                                                activeCourseData.timeline[k].topics[topicIndex].description = topicsDescription.description;
+                                                activeCourseData.timeline[k].topics[topicIndex].questions = topicsDescription.questions;
+                                            });
+                                        } else {
+                                            if (chapterIndex == i) {
+                                                activeCourseData.timeline.push(chapter);
+                                            }
+                                            activeCourseData.timeline.splice(k, 1);
+                                        }
+                                    } else {
+                                        activeCourseData.timeline.push(chapter);
+                                    }
+
+                                    activeCourseData.timeline.map((topic) => {
+                                        topic.topics.filter((question) => {
+                                            const alreadyAttendQuestion = question.allQuestionsWithAnswer;
+                                            if (alreadyAttendQuestion) {
+                                                question.questionsLength = this.findingQuestionLength(alreadyAttendQuestion);
+                                            } else {
+                                                const questions = question.questions;
+                                                question.questionsLength = this.findingQuestionLength(questions);
+                                            }
+                                        });
+                                    });
+                                    j++;
+                                }
+                            });
+                        }
+                    });
+                });
+                activeCourseData.timeline.map((topic) => {
+                    topic.topics.filter((subTopicsData) => {
+                        //=================
+                        if (subTopicsData.subTopics === activeCourseData.currentTopic) {
+                            activeCourseData.currentTopic = activeCourseData.currentTopic;
+                            activeCourseData.currentScore = activeCourseData.currentScore;
+                        } else {
+                            activeCourseData.currentTopic = '';
+                            activeCourseData.currentScore = '';
+                        }
+                        //==================
+                        if (subTopicsData.questions) {
+                            subTopicsData.questions.filter((singleQuestion) => {
+                                if (singleQuestion.questionStatus == '1') {
+                                    totalQuesLengthOfCourse += (singleQuestion) ? singleQuestion.question.length : 0;
+                                } else {
+                                    totalQuesLengthOfCourse++;
+                                }
+                            });
+                        }
+                        //===================
+                    })
+                });
+                activeCourseData.totalQuesLengthOfCourse = totalQuesLengthOfCourse;
+                if (activeCourseData.totalQuesLengthOfCourse == 0) {
+                    activeCourseData.courseProgress = 0;
                 }
             });
-            activeCourseProgress = activeCourseProgress / this.activeCourses.length;
-            activeCourseProgress = Math.round(activeCourseProgress);
-            // console.log(activeCourseProgress);
-            this.timeTakeInCourse = this.global.getStorageDetail('timeTaken');
-            this.timeTakeInCourse = this.timeTakeInCourse / 60;
-            this.timeTakeInCourse = Math.round(this.timeTakeInCourse);
-            // console.log(this.timeTakeInCourse);
+    }
+
+    // finding questions length
+    findingQuestionLength(question) {
+        this.noOfQuestions = 0;
+        if (question) {
+            question.filter((ques) => {
+                if (ques.questionStatus === '1') {
+                    this.noOfQuestions = this.noOfQuestions + ques.question.length;
+                } else {
+                    this.noOfQuestions++;
+                }
+            });
+        } else {
+            this.noOfQuestions = 0;
         }
-        this.progressObj = [
-            {
-                width: '100',
-                color: '#38baae',
-                title: 'Certificates',
-                sampleTitle: (this.certificateCount) ? this.certificateCount : '0'
-            },
-            {
-                width: '100',
-                color: '#0d88aa',
-                title: 'Courses',
-                sampleTitle: this.activeCourses.length
-            },
-            {
-                width: '100',
-                color: '#F7941D',
-                title: 'Active Courses',
-                sampleTitle: this.activeCoursesCount// activeCourseProgress
-            },
-            {
-                width: '100',
-                color: '#ff505d',
-                title: 'Total Hours',
-                sampleTitle: '0' // (this.timeTakeInCourse === undefined) ? '0' : this.timeTakeInCourse + 'min'
-            }
-        ];
-        this.SSPMembers();
+        return this.noOfQuestions;
     }
 
     categoryListingCourse() {
@@ -274,7 +474,8 @@ export class UserDashboardComponent implements OnInit {
         this.modalService.open(content);
         this.random = new Date();
         this.txid = this.random.valueOf();
-        this.amount = 100; // amount;
+        // this.amount = 100; // amount;
+        this.amount = amount; // amount;
         this.firstname = this.userDetails.userName;
         this.phone = this.userDetails.phone;
         this.email = this.userDetails.emailId;

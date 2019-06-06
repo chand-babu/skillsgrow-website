@@ -1,0 +1,128 @@
+<div class="blog-section">
+  <!-- <div data-src="assets/image/blog_img.jpg" class="blog-img asyncImage">
+    <div class="blog-title">
+      <h1>Blogs</h1>
+      <h2>Educational & Motivational blogs</h2>
+    </div>
+  </div> -->
+  <div class="container">
+    <div class="row blog-content">
+      <div class="col-12" *ngIf='blogName'>
+        <h6> Blog/{{categoryName}}/{{blogName}}</h6>
+      </div>
+      <div class="col-md-8 col-sm-12 blog-page">
+        <div class="blogDetails" *ngFor="let blogData of blogDetails;let blogIndex = index">
+          <img class="blogImage" [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + blogData.blogImage"
+            alt="blogImg">
+          <img *ngIf="isImgLoaded" class="blogImage" src="{{imagePath}}defaultImg.gif" alt="loading" />
+          <div class="blogDesc moreSpaceAfter">
+            <span class="blogTitle" [routerLink]="['blogPage',blogData.blogName]">
+              <b>
+                <h4>{{blogData.blogName}}</h4>
+              </b>
+            </span>
+            <p [innerHTML]="blogData.description"></p>
+          </div>
+        </div>
+        <div class="blogDiscussionorums" *ngIf="!isImgLoaded">
+          <h5 class="commentTestColor">Post your comment:</h5>
+          <form #blogForm="ngForm" (ngSubmit)="onSubmitCommentForm();blogForm.reset()">
+            <div *ngIf="replayUserName" class="input-group-prepend">
+              <span class="input-group-text">Reply @{{parentUserName}}</span>
+            </div>
+            <div class="row">
+              <div class="default-margin-top col-md-5">
+                <div class="form-group">
+                  <input type="text" placeholder="Name*" class="form-control border-color" name="userName"
+                    [(ngModel)]="blogMessageForm.userName" #userName="ngModel" required />
+                  <div class="error-message" *ngIf="userName.invalid && userName.touched">Field is required</div>
+                </div>
+                <div class="form-group">
+                  <input type="email" placeholder="Email*" class="form-control border-color" name="userEmail"
+                    [(ngModel)]="blogMessageForm.userEmail" #userEmail="ngModel" required email />
+                  <div class="error-message" *ngIf="userEmail.errors?.required && userEmail.touched">
+                    Field is required</div>
+                  <div class="error-message" *ngIf="userEmail.errors?.email && userEmail.touched">Enter a
+                    valid email Id</div>
+                </div>
+                <!-- <div class="form-group">
+                  <input type="text" placeholder="Website" class="form-control border-color" name="userWebsiteUrl"
+                    [(ngModel)]="blogMessageForm.userWebsiteUrl" #userWebsiteUrl="ngModel">
+                </div> -->
+              </div>
+              <div class="default-margin-top col-md-7">
+                <div class="form-group">
+                  <textarea #textarea class="form-control border-color noresize" type="text"
+                    placeholder="Your Comment" name="userMessage" [(ngModel)]="blogMessageForm.userMessage"
+                    #userMessage="ngModel"></textarea>
+                </div>
+                <div class="submitBtn">
+                  <button type="submit" class="btn border-color pull-right" [disabled]="blogForm.invalid">Post
+                    Comment</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="commentSections" *ngIf="commentsOfThisBlog.length >= 1">
+          <h5>Recent Comments:</h5>
+          <ng-template #recursiveList let-commentsOfThisBlog>
+            <div #commentForum *ngIf="commentsOfThisBlog.length >= 1">
+              <div class="row" *ngFor="let messageData of commentsOfThisBlog;let messageIndex = index">
+                <!-- <div data-src="assets/image/default_user.jpg" class="blog-img asyncImage  col-md-1"> -->
+                  <!-- <img src="assets/image/default_user.jpg" class="default-user"> -->
+               <!-- </div> -->
+                <div class="default-margin-top col-md-12">
+                  <div class="parentMessage">
+                    <div>
+                      <!-- <a href="{{messageData.userWebsiteUrl}}" target="_blank"> <b>{{messageData.userName}}</b></a> -->
+                        <span class="userName"><b>{{messageData.userName}}</b></span>
+                        <span class="commentDate">{{messageData.createdOn | date:'medium'}}</span>
+                    </div>
+                    <!-- <div class="commentDate">
+                      {{messageData.createdOn | date:'medium'}}
+                    </div> -->
+                    <div class="userMessage">
+                      {{messageData.chatMessage}}
+                    </div>
+                    <div class="replyOfParentMessage">
+                      <span (click)="chatReplyLink(messageData._id,messageData.userName)">Reply</span>
+                    </div>
+                  </div>
+                  <!-- child daat -->
+                  <ul class="childMessage" *ngIf="messageData.children.length > 0">
+                    <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: messageData.children }">
+                    </ng-container>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: commentsOfThisBlog }"></ng-container>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-12 blog-categories">
+        <form id="search">
+          <input id="typeahead-template" type="search" name="search" placeholder="Search Articles"
+            class="form-control searchBtn" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" />
+          <!-- <i class="fa fa-search" (click)="searchOption(model.blogNameUrl)"></i> -->
+        </form>
+        <ng-template #rt let-r="result" let-t="term">
+          <div (click)="searchOption(r.blogNameUrl)">{{r.blogName}}</div>
+          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+        </ng-template>
+        <br>
+        <div class="articles-categories" *ngIf="blogTitles.length >= 1">
+          <div class="categories smallSpcesAfter">
+            <h5>Similar Articles:</h5>
+          </div>
+          <div class="blog-articles-title smallSpcesAfter"
+            *ngFor="let blogTitleData of blogTitles;let blogTitleIndex = index" [innerHTML]="blogTitleData.blogName"
+            [routerLink]="['/','blog',blogTitleData.blogNameUrl]">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

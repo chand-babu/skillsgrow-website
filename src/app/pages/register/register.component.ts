@@ -27,6 +27,10 @@ export class RegisterComponent implements OnInit {
     public sspId: any;
     public validEmail: boolean = false;
 
+    public learner: boolean = true;
+    public institute: boolean = false;
+    public author: boolean = false;
+
     constructor(public registerProxy: RegisterProxy, public global: Global,
         public activateRoute: ActivatedRoute, public router: Router, public seoService: SEOService) {
     }
@@ -34,7 +38,7 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
         // this.seoService.setRobots();
         this.seoService.updateTitle("Create Account");
-        this.set = setInterval(this.defaultTab, 100);
+        // this.set = setInterval(this.defaultTab, 100);
         this.activateRoute.params.forEach(params => {
             this.sspId = params['id'];
             console.log(typeof this.sspId);
@@ -62,6 +66,27 @@ export class RegisterComponent implements OnInit {
     }
 
     tabFunction(evt, value) {
+        switch (value) {
+            case ('Learner'):
+                this.learner = true;
+                this.tabFunctionBasedOnTab(evt, value);
+                break;
+            case ('Institute'):
+                this.institute = true;
+                this.tabFunctionBasedOnTab(evt, value);
+                break;
+            case ('Author'):
+                this.author = true;
+                this.tabFunctionBasedOnTab(evt, value);
+                break;
+            default:
+                this.learner = true;
+                this.tabFunctionBasedOnTab(evt, value);
+                break;
+        }
+    }
+
+    tabFunctionBasedOnTab(evt,value){
         const form: any = document.getElementsByClassName('tabcontent');
         for (let i = 0; i < form.length; i++) {
             form[i].style.display = 'none';
@@ -70,7 +95,9 @@ export class RegisterComponent implements OnInit {
         for (let i = 0; i < docs.length; i++) {
             docs[i].className = docs[i].className.replace('active', '');
         }
-        document.getElementById(value).style.display = 'block';
+        if (document.getElementById(value)){
+            document.getElementById(value).style.display = 'block';
+        }
         evt.currentTarget.className += 'active';
         clearInterval(this.set);
     }

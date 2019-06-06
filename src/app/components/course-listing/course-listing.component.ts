@@ -44,10 +44,13 @@ export class CourseListingComponent implements OnInit {
     }
     // checking for trending and all Courses
     if (this.course === 'trendingCourses') {
+      // console.log("============this.getTrendingCourse()==========")
       this.getTrendingCourse();
     } else if (this.course === 'categoryCourse') {
+      // console.log("============this.getCategoryCourses()==========")
       this.getCategoryCourses();
     } else {
+      // console.log("============this.getAllCourses()==========")
       this.getAllCourses();
     }
   }

@@ -109,6 +109,12 @@ const routes: Routes = [
     path: 'internship/:id', loadChildren: '../pages/internship/internship.module#InternshipModule'
   },
   {
+    path: 'blog', loadChildren: '../pages/blog/blog.module#BlogModule'
+  },//Added by nandita
+  {
+    path: 'blog/:name', loadChildren: '../pages/blogDetailsPage/blogDetailsPage.module#BlogDetailsPageModule'
+  },//Added by nandita
+  {
     path: '**', redirectTo: '/errorpage', pathMatch: 'full'
   },
 ];

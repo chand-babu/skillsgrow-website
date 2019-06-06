@@ -1,0 +1,169 @@
+app-blog-details-page {
+  .blog-section {
+    .blog-img {
+      background: url(./../../../assets/image/blank.jpg) no-repeat;
+      background-size: 100% 100%;
+      height: 294px;
+      margin-bottom: 15px;
+
+      @media only screen and (max-width: 555px) {
+        height: 130px;
+      }
+    }
+
+    .blog-title {
+      text-align: center;
+      color: white;
+      position: absolute;
+      width: 100%;
+      margin-top: 7%;
+    }
+
+    .redColor {
+      color: red;
+    }
+
+    .userName {
+      a {
+        color: @brand-secondary  !important;
+      }
+
+    }
+
+    .replyOfParentMessage {
+      span {
+        color: #aaa;
+        cursor: pointer;
+      }
+    }
+
+    .blog-articles-title {
+      cursor: pointer;
+    }
+
+    .col-md-1 {
+      flex: 0 0 0.333333% !important;
+    }
+
+    .commentDate {
+      // margin-left: -7%;
+      color: #aaa;
+      padding: 10px;
+    }
+
+    .commentTestColor {
+      // color: @brand-secondary;
+      // color: #4883c3;
+      color: #186c81;
+    }
+
+    .default-user {
+      width: 100%;
+    }
+
+    .submitBtn {
+      button {
+        background-color: #186c81;
+        color: white;
+      }
+    }
+
+    input::placeholder {
+      color: #ced4da;
+    }
+    textarea::placeholder {
+      color: #ced4da;
+    }
+
+    .blog-content {
+      margin: 15px 0;
+    }
+
+    // .blogDetails {
+    //   background: #f8f8f8;
+    // }
+
+    .smallSpcesAfter {
+      -webkit-margin-after: 0.5em;
+    }
+
+    .moreSpaceAfter {
+      -webkit-margin-after: 1em;
+    }
+
+    .blogImage {
+      width: 100%;
+      height: 250px;
+    }
+
+    .blogDesc {
+      background: #f8f8f8;
+      padding: 15px;
+      font-family: initial;
+    }
+
+    .left-side {
+      float: left;
+    }
+
+    .right-side {
+      float: right;
+    }
+
+    .margin {
+      margin-top: 5px;
+    }
+
+    textarea {
+      min-height: 93px;
+    }
+
+    .noresize {
+      resize: none;
+    }
+
+    #search input[type=search].filled {
+      // width: 400px;
+      padding-left: 32px;
+      // color: #4a83c0;
+      border-radius: 50px;
+      background-color: #fff;
+      cursor: auto;
+    }
+
+    .border-color {
+      border-color: #000000;
+    }
+
+    .searchBtn {
+      border-radius: 50px;
+      border-color: #000000;
+
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+
+
+    .fa {
+      padding: 3%;
+      width: 20%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .categories {
+      // width: 145%;
+      border-bottom: 2px solid #535456;
+    }
+
+    .blogTitle {
+      cursor: pointer;
+    }
+
+  }
+}

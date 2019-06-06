@@ -3,13 +3,19 @@ app-footer {
   bottom: 0;
   width: 100%;
   height: 100px;
- //added(2-5) to solve footer space issue
+
+  //added(2-5) to solve footer space issue
   .container-fluid {
     background-color: #012d38;
     color: @white;
     padding: 15px;
 
     .content-container {
+      a {
+        text-transform: none !important;
+        color: white !important;
+      }
+
       ul {
         list-style: none;
         margin: 0px;

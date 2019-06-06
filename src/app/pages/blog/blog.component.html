@@ -1,0 +1,75 @@
+<div class="blog-section">
+  <!-- <div data-src="assets/image/blog_img.jpg" class="blog-img asyncImage">
+    <div class="blog-title">
+      <h1>Blogs</h1>
+      <h2>Educational & Motivational blogs</h2>
+    </div>
+  </div> -->
+
+  <div class="background">
+    <div class="layer">
+      <div class="blog-title">
+        <h1>Skillsgrow Blog</h1>
+        <span>Learning Tracks</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row blog-content">
+      <div *ngIf="!displayCategoryTitle" class="col-12">
+        <h3>Latest Posts</h3>
+      </div>
+      <div *ngIf="displayCategoryTitle" class="col-12">
+        <h3>{{categoryName}} Posts</h3>
+      </div>
+      <div class="col-md-8 col-sm-12 blog-page">
+        <div *ngIf="blogDetails.length == 0 && displayCategoryTitle" class="blogDetails moreSpaceAfter">
+          <h5>No Posts of this category.</h5>
+        </div>
+        <div class="blogDetails moreSpaceAfter"
+          *ngFor="let blogData of blogDetails | paginate: config;let blogIndex = index">
+          <img class="blogImage" [hidden]="isImgLoaded" (load)="onLoad()" [src]="imagePath + blogData.blogImage"
+            alt="blogImg">
+          <img *ngIf="isImgLoaded" class="blogImage" src="{{imagePath}}defaultImg.gif" alt="loading" />
+          <div class="blogDesc">
+            <span class="blogTitle" [routerLink]="['/','blog',blogData.blogNameUrl]">
+              <b>
+                <h4>{{blogData.blogName}}</h4>
+              </b>
+            </span>
+            <span *ngIf="blogData.shortDescription" class="shortBlogDescription">
+              {{blogData.shortDescription}}<span class="dot">...</span>
+              <a [routerLink]="['/','blog',blogData.blogNameUrl]">See More</a>
+            </span>
+          </div>
+        </div>
+        <pagination-controls (pageChange)="pageChange($event)" class="my-pagination"></pagination-controls>
+      </div>
+      <div class="col-md-4 col-sm-12 blog-categories">
+        <form id="search">
+          <input id="typeahead-template" type="search" name="search" placeholder="Search Articles"
+            class="form-control searchBtn" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" />
+          <!-- <i class="fa fa-search" (click)="searchOption(model.blogNameUrl)"></i> -->
+        </form>
+        <br>
+        <ng-template #rt let-r="result" let-t="term">
+          <div (click)="searchOption(r.blogNameUrl)">{{r.blogName}}</div>
+          <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+        </ng-template>
+
+        <div class="course-categories">
+          <div class="categories smallSpcesAfter">
+            <h5>Categories:</h5>
+          </div>
+          <div class="course-categories-title smallSpcesAfter"
+            *ngFor="let categoryData of categoriesTitle;let categoryIndex = index"
+            [innerHTML]="categoryData.categoryName"
+            (click)="showCategoryBlogData(categoryData._id,categoryData.categoryName)">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

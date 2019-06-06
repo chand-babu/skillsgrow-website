@@ -32,6 +32,7 @@
         <!-- Line no31 modified by nandita -->
         <div class="col-12">
           <div *ngIf="testBtnShow" class="text-right">
+          <!-- <div  class="text-right"> -->
             <button (click)="takeTest()" class="btn btn-danger">Take Test</button>
           </div>
           <p [innerHTML]="editorContent">
@@ -42,7 +43,7 @@
         </div> -->
       </div>
       <div *ngIf="chatForumsSection">
-        <app-chat-forum [courseId]="courseId" [courseDetails]="courseLearningData"></app-chat-forum>
+        <app-chat-forum [courseId]="courseId" [courseDetails]="courseLearningData[0]"></app-chat-forum>
       </div>
     </div>
   </div>

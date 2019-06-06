@@ -80,6 +80,8 @@ export class EnrollmentPageComponent implements OnInit {
             this.udf1 = this.courseData.courseId;
             const hashkey = '2fj34Tfj|' + this.txid + '|' + this.amount + '|' + this.productinfo + '|' + this.firstname + '|' + this.email
                 + '|' + this.udf1 + '||||||||||BwAIZab6ag';
+            // const hashkey = 'rjQUPktU|' + this.txid + '|' + this.amount + '|' + this.productinfo + '|' + this.firstname + '|' + this.email
+            //     + '|' + this.udf1 + '||||||||||e5iIg1jwi8';
             const key = new jsSHA('SHA-512', 'TEXT');
             key.update(hashkey);
             this.hash = key.getHash('HEX');

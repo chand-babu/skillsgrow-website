@@ -49,8 +49,10 @@
         <div class="modal-footer">
             <div *ngIf="courseData.courseFee != 'Free'">
                 <form action="https://secure.payu.in/_payment" name="payuMoney" method="post">
+                <!-- <form action="https://test.payu.in/_payment" name="payuMoney" method="post"> -->
                     <div>
                         <input type="hidden" name="key" value="2fj34Tfj" />
+                        <!-- <input type="hidden" name="key" value="rjQUPktU" /> -->
                         <input type="hidden" name="hash_string" value="" />
                         <input type="hidden" name="hash" [value]="hash" />
                         <input type="hidden" name="txnid" [value]="txid" />
