@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, HostListener } from '@angular/core';
 import { ActivatedRoute, Router, Params, NavigationExtras } from '@angular/router';
 import { Global } from '../../common/global';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,7 +14,7 @@ import { isPlatformServer, isPlatformBrowser } from '@angular/common';
     providers: [ListingCourseProxy, CourseDetailsPageProxy]
 })
 
-export class CourseLearningPageComponent implements OnInit {
+export class CourseLearningPageComponent implements OnInit, OnDestroy {
     public paramsData: any;
     public editorContent: any;
     public sideNavStatus: boolean = true;
@@ -31,6 +31,10 @@ export class CourseLearningPageComponent implements OnInit {
     };
     public innerWidth: any;
     public courseId: string;
+    public userId :any;
+
+    public seconds = 0;
+    public timer: any;
 
     constructor(private activeRoute: ActivatedRoute, private router: Router,
         public global: Global, private sanitizer: DomSanitizer,
@@ -52,12 +56,41 @@ export class CourseLearningPageComponent implements OnInit {
 
     ngOnInit() {
         this.innerWidth = window.innerWidth;
+        this.userId = this.global.getStorageDetail('user').data._id;
         this.paramsData = this.global.getStorageDetail('courselearn');
+        // console.log("++++++couser learning data++++++", this.paramsData)
         this.activeRoute.params.forEach(params => {
             this.courseId = params['id'];
             this.categoryListing();
         });
+        //==========below modified for hour spent========
+        this.startTimer();
     }
+
+    startTimer() {
+        this.timer = setInterval(() => {
+            this.seconds++;
+        }, 1000);
+    }
+
+
+    ngOnDestroy() {
+        // clearInterval(this.timer);
+        let info = {
+            userId: this.userId,
+            courseId: this.courseId,
+            hourSpent: this.seconds
+        }
+        this.coursedetailspageProxy.updateHourSpendPerCourse(info)
+            .subscribe((success: any) => {
+                if (success.result == true){
+                    // console.log('time updated')
+                }
+            });
+    }
+
+
+
 
     takeTest() {
         // this.router.navigate(['coursetestpage', this.paramsData.courseId]);
@@ -140,15 +173,17 @@ export class CourseLearningPageComponent implements OnInit {
         const user = this.global.getStorageDetail('user').data;
         user.courseEnrolled.filter((userCourse) => {
             userCourse.timeline.filter((topic) => {
-                topic.topics.filter((subTopics) => {
-                    if (subTopics.subTopics === data.subTopics) {
-                        if (subTopics.allQuestionsWithAnswer) {
-                            testStatus = true;
-                        } else {
-                            testStatus = false;
+                if (topic.title === data.topicName) { //added by nandita bcz after complete test in one topic its show again
+                    topic.topics.filter((subTopics) => {
+                        if (subTopics.subTopics === data.subTopics) {
+                            if (subTopics.allQuestionsWithAnswer) {
+                                testStatus = true;
+                            } else {
+                                testStatus = false;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         });
         if (data.questions) {
@@ -173,7 +208,7 @@ export class CourseLearningPageComponent implements OnInit {
         this.selectsubTopic = data.subTopics;
         this.subTopicContent = data;
         // this.editorContent = data.description;
-        this.editorContent = data.description ? data.description:'No data present for this course.';//modified by nandita
+        this.editorContent = data.description ? data.description : 'No data present for this course.';//modified by nandita
         this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
         const courseObj = {
             // 'courseId': this.courseLearningData[0]._id,

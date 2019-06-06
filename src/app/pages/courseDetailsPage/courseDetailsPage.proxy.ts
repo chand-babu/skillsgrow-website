@@ -33,4 +33,20 @@ export class CourseDetailsPageProxy {
         return this.http.doGet(Constants.APIPATH + 'admin/findCourseByName/' + courseName, false);
     }//added by nandita
 
+    updateHourSpendPerCourse(data){
+        return this.http.doPost(Constants.APIPATH + 'admin/storeSpendTimePerCourse', data, false);
+    }
+
+    findHourSpendPerCourse(data) {
+        return this.http.doPost(Constants.APIPATH + 'admin/getSpendTimePerCourse', data, false);
+    }
+
+    getbestScoreBasedonCourseId(courseId){
+        return this.http.doGet(Constants.APIPATH + 'admin/findBestScoreBaseOnCourseId/' + courseId, false);
+    }
+
+    getHourSpendAllactiveCourse(data){
+        return this.http.doPost(Constants.APIPATH + 'admin/getSpendTimeOfactiveCourse', data, false);
+    }
+
 }

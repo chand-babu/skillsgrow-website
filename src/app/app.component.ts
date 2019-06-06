@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   public HTTPActivity: boolean;//added by nandita
 
 
-  constructor(private httpStatus: HTTPStatus,public ngProgress: NgProgress, private router: Router, public global: Global,
+  constructor(private httpStatus: HTTPStatus, public ngProgress: NgProgress, private router: Router, public global: Global,
     private meta: Meta, private title: Title, @Inject(PLATFORM_ID) private platformId: Object) {
     this.httpStatus.getHttpStatus().subscribe((status: boolean) => {
       this.HTTPActivity = status;
@@ -67,9 +67,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.global.deleteLocalData('develop');
       }
 
-      if (this.router.url.split('?')[0] === '/courselearningpage') {
+
+      // if (this.router.url.split('?')[0] === '/courselearningpage') {
+      if (this.router.url.split('/')[1] === 'courselearningpage') {
+        // console.log("++++++courselearningpage++++++")
         this.startTimer();
       } else {
+        // console.log("++++++this.seconds++++++", this.seconds)
         this.global.storeDataLocal('timeTaken', this.seconds);
         clearInterval(this.timer);
         this.seconds = 0;

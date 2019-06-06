@@ -3,9 +3,11 @@ export const ROUTES: string[] = [
     '/login',
     '/register/:id',
     '/company',
-    'allcourses',
-    '/userdashboard',
+    '/allcourses',
+    // '/userdashboard',
     '/course/:name',
+    '/blog',
+    '/blog/:name',
     '/enrollmentpage/:id',
     '/enrollmentcourselandingpage/:id',
     '/courselearningpage/:id',
@@ -38,5 +40,5 @@ export const ROUTES: string[] = [
     '/company/dashboard',
     '/company/profile',
     '/company/activate/:id',
-    '/errorpage'
+    '**'
 ]

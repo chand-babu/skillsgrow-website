@@ -1,0 +1,116 @@
+app-blog {
+  .blog-section {
+    .blog-img {
+      background: url(./../../../assets/image/blank.jpg) no-repeat;
+      background-size: 100% 100%;
+      height: 294px;
+      margin-bottom: 15px;
+
+      @media only screen and (max-width: 555px) {
+        height: 130px;
+      }
+    }
+
+
+    .background {
+      background: url('./../../../assets/image/blog_img.jpg');
+      position: relative;
+      background-size: 100% 100%;
+      height: 294px;
+      margin-bottom: 15px;
+    }
+
+    .layer {
+      background-color: #2c2828e6;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .blog-title {
+      text-align: center;
+      color: white;
+      margin-top: 7%;
+       @media all and (max-width:30em) {
+         margin-top: 26% !important;
+       }
+        @media only screen and (max-width: 768px) {
+          margin-top: 13% !important;
+        }
+    }
+
+    .blog-content {
+      margin: 15px 0;
+    }
+
+    .blogDetails {
+      background: #f8f8f8;
+    }
+
+    .smallSpcesAfter {
+      -webkit-margin-after: 0.5em;
+    }
+
+    .moreSpaceAfter {
+      -webkit-margin-after: 1em;
+    }
+
+    .shortBlogDescription{
+      a{
+        color: #26839a !important;
+      }
+    }
+    .blogImage {
+      width: 100%;
+      height: 250px;
+    }
+
+    .blogDesc {
+      padding: 15px;
+      font-family: initial;
+    }
+
+    #search input[type=search].filled {
+      // width: 400px;
+      padding-left: 32px;
+      // color: #4a83c0;
+      border-radius: 50px;
+      background-color: #fff;
+      cursor: auto;
+    }
+
+    .searchBtn {
+      border-radius: 50px;
+      border-color: #000000;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .course-categories-title{
+      cursor: pointer;
+    }
+
+    .fa{
+      padding: 3%;
+      width: 20%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-align: center;
+    }
+
+    .categories {
+      // width: 145%;
+      border-bottom: 2px solid #535456;
+    }
+
+    .blogTitle {
+      cursor: pointer;
+    }
+
+  }
+}
